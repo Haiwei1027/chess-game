@@ -1,0 +1,37 @@
+package me.haiwei;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+public class ResourceLoader {
+
+    public static ResourceLoader instance;
+    BufferedImage whitePieces,blackPieces,board;
+
+    public ResourceLoader(){
+        instance = this;
+
+        try{
+            try {
+                whitePieces = ImageIO.read(getClass().getResource("/WhitePieces.png"));
+                blackPieces = ImageIO.read(getClass().getResource("/BlackPieces.png"));
+                board = ImageIO.read(getClass().getResource("/board_plain_04.png"));
+            } catch (IOException e) {
+                throw new RuntimeException("oops");
+            }
+        }
+        catch (IllegalArgumentException e){
+            throw new RuntimeException("no");
+        }
+    }
+
+    public BufferedImage getPiece(int id, int side) {
+        if (id < 0){
+            return null;
+        }
+        if (side == 0){
+            return whitePieces.getSubimage(id * 16,0,16,16);
+        }
+        return blackPieces.getSubimage(id * 16,0,16,16);
+    }
+}
