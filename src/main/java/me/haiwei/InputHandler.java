@@ -27,14 +27,12 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 	}
 
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		Point boardPosition = main.boardRenderer.transformPoint(e.getPoint());
 		main.board.selectPiece(boardPosition);
 
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
 		Point boardPosition = main.boardRenderer.transformPoint(e.getPoint());
 		main.board.movePiece(boardPosition);
 
@@ -51,7 +49,6 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		// TODO Auto-generated method stub
 		mousePosition.x = e.getPoint().x;
 		mousePosition.y = e.getPoint().y;
 	}
@@ -63,22 +60,18 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		
 
 	}
 
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 }

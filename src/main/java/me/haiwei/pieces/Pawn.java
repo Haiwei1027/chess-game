@@ -11,9 +11,17 @@ public class Pawn extends ChessPiece {
 
 	@Override
 	public boolean isMoveValid(int x, int y, int dx, int dy, int side) {
-		int direction = side * 2 - 1;
-		boolean canCapture = board.getPiece(x + 1, y + direction) >= 0 || board.getPiece(x - 1, y + direction) >= 0;
-		boolean blocked = board.getPiece(x, y + direction) >= 0;
-		return dy == direction && (dx == 0 && !blocked || canCapture);
+		int step = side * 2 - 1;
+		boolean leap = dy == step * 2 && y == ((1-side) * 5 + 1);
+		boolean canEnPassant = (y == 3 + side) && (board.getEnPassantFile() == x + dx);
+		boolean canCapture = false;
+		if (board.getPiece(x + 1, y + step) >= 0 && dx == 1){
+			canCapture = true;
+		}
+		else if (board.getPiece(x - 1, y + step) >= 0 && dx == -1){
+			canCapture = true;
+		}
+		boolean blocked = board.getPiece(x, y + step) >= 0;
+		return ((dy == step) || leap) && ((dx == 0 && !blocked) || (canCapture || canEnPassant));
 	}
 }

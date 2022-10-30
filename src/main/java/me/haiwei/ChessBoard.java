@@ -6,17 +6,19 @@ import java.awt.image.BufferedImage;
 import me.haiwei.pieces.*;
 
 public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, black
-	ChessPiece[] pieceTypes;
-	int[][] board;
-	int row, col;
-
-	private Main main;
-	
-	private Point selected;
 
 	public BufferedImage image;
 
+	private ChessPiece[] pieceTypes;
+	private int[][] board;
+	private int row, col;
+
+	private Main main;
+	private Point selected;
+
 	private int nextSideToMove = 0;
+	private int sideWon = -1;
+	private int enPassantFile = -1;
 
 	public ChessBoard(Main main, int row, int col) {
 		this.main = main;
@@ -34,6 +36,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 		resetBoard();
 		paint();
+	}
+
+	public int getEnPassantFile(){
+		return enPassantFile;
 	}
 
 	public void resetBoard(){
@@ -81,11 +87,17 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			return -5; //missing piece
 		}
 		if (p1 / 6 != nextSideToMove){
-			return -4; //wrong side
+			return -4; //not ur piece
 		}
 
 		if (!pieceTypes[p1 % 6].isMoveValid(x1, y1, x2 - x1, y2 - y1, p1 / 6))
 			return -3; //invalid move
+
+		if (p1 % 6 == 0 && (y2 > y1 ? y2 - y1: y1 - y2) == 2){
+			enPassantFile = x1; //log en passant
+		}else{
+			enPassantFile = -1;
+		}
 
 		int p2 = getPiece(x2, y2);
 		if (p2 > -1) {
@@ -96,8 +108,27 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		setPiece(x2, y2, p1);
 		setPiece(x1, y1, -1);
 
-		nextSideToMove = 1-nextSideToMove;
+		//did u take en passant
+		if (p1 % 6 == 0){
+			if (p2 == -1){
+				if (x1 != x2){
+					System.out.println("u used en passant");
+					p2 = getPiece(x2,y1);
+					setPiece(x2,y1,-1);
+				}
+			}
+		}
+
+		nextSideToMove = 1 - nextSideToMove;
+		if (p2 % 6 == 4){
+			//wow u killed the king, nice
+			sideWon = 1-(p2/6);
+		}
 		return p2; //piece that's been taken, -1 if empty
+	}
+
+	public int getSideWon(){
+		return sideWon;
 	}
 
 	public void selectPiece(Point boardPosition) {
@@ -133,7 +164,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		Graphics g = image.getGraphics();
 		g.drawImage(ResourceLoader.instance.board, 0, 0, null);
 		g.setColor(Color.GREEN);
-		g.fillRoundRect(8,nextSideToMove*ResourceLoader.instance.board.getHeight()-16 + 8,ResourceLoader.instance.board.getWidth()-8,4-nextSideToMove*8,2,2);
+		g.fillRect(7,141-nextSideToMove*141,8*16,1);
 		for (int x = 0; x < row; x++) {
 			for (int y = 0; y < col; y++) {
 				
