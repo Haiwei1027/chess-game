@@ -30,9 +30,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 				board[x][y] = -1;
 			}
 		}
-
-		pieceTypes = new ChessPiece[] { new Pawn(this), new Knight(this), new Rook(this), new Bishop(this),
-				new King(this), new Queen(this) };
+		Bishop bishop = new Bishop(this);
+		Rook rook = new Rook(this);
+		pieceTypes = new ChessPiece[] { new Pawn(this), new Knight(this), rook, bishop,
+				new King(this), new Queen(this, bishop, rook) };
 
 		resetBoard();
 		paint();
@@ -123,6 +124,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		if (p2 % 6 == 4){
 			//wow u killed the king, nice
 			sideWon = 1-(p2/6);
+			System.out.println(sideWon);
 		}
 		return p2; //piece that's been taken, -1 if empty
 	}
