@@ -1,9 +1,10 @@
 package me.haiwei;
 import javax.swing.JFrame;
+import java.awt.*;
 
 public class Main extends JFrame implements Runnable{
 
-    Renderer panel;
+    BoardRenderer boardRenderer;
     InputHandler inputHandler;
 
     Thread mainLoop;
@@ -17,20 +18,20 @@ public class Main extends JFrame implements Runnable{
     public Main(){
         super("hello ");
 
-        setSize(1024,1024);
-        setLocation(32,32);
+        setSize(142 * 7,142 * 7);
+        setLocation(16,16);
         setUndecorated(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
 
         new ResourceLoader();
         board = new ChessBoard(this, 8,8);
-        panel = new Renderer(board, 1024, 1024);
+        boardRenderer = new BoardRenderer(this, 142*6, 142*6);
         inputHandler = new InputHandler(this);
         addKeyListener(inputHandler);
-        panel.addMouseListener(inputHandler);
-        panel.addMouseMotionListener(inputHandler);
-        setContentPane(panel);
+        boardRenderer.addMouseListener(inputHandler);
+        boardRenderer.addMouseMotionListener(inputHandler);
+        setContentPane(boardRenderer);
         setVisible(true);
 
 
@@ -39,10 +40,10 @@ public class Main extends JFrame implements Runnable{
         mainLoop.start();
     }
 
-	public void run() {
+    public void run() {
 		while (true){
           long frameTime = System.currentTimeMillis();
-          panel.repaint();
+          boardRenderer.repaint();
           frameTime = System.currentTimeMillis() - frameTime;
           try{
               if (frameTime < 8) {

@@ -4,8 +4,6 @@ import me.haiwei.ChessBoard;
 
 public class Pawn extends ChessPiece {
 
-	public final int id = 0;
-
 	public Pawn(ChessBoard board) {
 		super(board);
 		// TODO Auto-generated constructor stub

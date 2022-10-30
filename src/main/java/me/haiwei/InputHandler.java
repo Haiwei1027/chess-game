@@ -28,16 +28,14 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println(main.board.getPiece(e.getPoint()));
-		Point boardPosition = main.board.transformPoint(e.getPoint());
+		Point boardPosition = main.boardRenderer.transformPoint(e.getPoint());
 		main.board.selectPiece(boardPosition);
 
 	}
 
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println(main.board.getPiece(e.getPoint()));
-		Point boardPosition = main.board.transformPoint(e.getPoint());
+		Point boardPosition = main.boardRenderer.transformPoint(e.getPoint());
 		main.board.movePiece(boardPosition);
 
 	}

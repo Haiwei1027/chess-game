@@ -4,7 +4,6 @@ import me.haiwei.ChessBoard;
 
 public abstract class ChessPiece {
 
-    protected int id;
     protected ChessBoard board;
 
     public ChessPiece(ChessBoard board) {

@@ -16,6 +16,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public BufferedImage image;
 
+	private int nextSideToMove = 0;
+
 	public ChessBoard(Main main, int row, int col) {
 		this.main = main;
 		this.row = row;
@@ -30,12 +32,25 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		pieceTypes = new ChessPiece[] { new Pawn(this), new Knight(this), new Rook(this), new Bishop(this),
 				new King(this), new Queen(this) };
 
-		for (int i = 0; i < 6; i++) {
-			board[i][3] = i;
+		resetBoard();
+		paint();
+	}
+
+	public void resetBoard(){
+		for (int i = 0; i < 8; i++) {
+			board[i][6] = 0;
+			board[i][1] = 6;
 			// pieces[i][1] = i+6;
 		}
-		move(0, 0, 0, 1);
-		paint();
+		for (int i = 0; i < 2; i++){
+			for (int j = 0; j < 2; j++) {
+				board[j*7][7-i*7] = 2 + i*6;
+				board[1+j*5][7-i*7] = 1 + i*6;
+				board[2+j*3][7-i*7] = 3 + i*6;
+			}
+			board[3][7-i*7] = 5 + i*6;
+			board[4][7-i*7] = 4 + i*6;
+		}
 	}
 
 	public boolean onBoard(int x, int y) {
@@ -57,41 +72,32 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		return board[x][y];
 	}
 
-	public int getPiece(Point point) {
-		transformPoint(point, true);
-		return getPiece(point.x, point.y);
-	}
-
-	public Point transformPoint(Point point) {
-		int x, y;
-		x = ((int) (point.x * (142f / 1024f)) - 7) / 16;
-		y = ((int) (point.y * (142f / 1024f)) - 7) / 16;
-		return new Point(x, y);
-	}
-
-	public void transformPoint(Point point, boolean byRef) {
-		if (!byRef)
-			return;
-		point.x = ((int) (point.x * (142f / 1024f)) - 7) / 16;
-		point.y = ((int) (point.y * (142f / 1024f)) - 7) / 16;
-	}
-
 	public int move(int x1, int y1, int x2, int y2) {
 		if (!onBoard(x1, y1) || !onBoard(x2, y2) || (x1 == x2 && y1 == y2)) {
-			return -2;
+			return -6; //outta the board
 		}
 		int p1 = getPiece(x1, y1);
 		if (p1 == -1) {
-			return -2;
+			return -5; //missing piece
+		}
+		if (p1 / 6 != nextSideToMove){
+			return -4; //wrong side
 		}
 
 		if (!pieceTypes[p1 % 6].isMoveValid(x1, y1, x2 - x1, y2 - y1, p1 / 6))
-			return -1;
+			return -3; //invalid move
 
 		int p2 = getPiece(x2, y2);
+		if (p2 > -1) {
+			if (p2 / 6 == p1 / 6) {
+				return -2; //cant take ur own pieces
+			}
+		}
 		setPiece(x2, y2, p1);
 		setPiece(x1, y1, -1);
-		return p2;
+
+		nextSideToMove = 1-nextSideToMove;
+		return p2; //piece that's been taken, -1 if empty
 	}
 
 	public void selectPiece(Point boardPosition) {
@@ -100,7 +106,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			selected = boardPosition;
 		}
 		paint();
-		main.panel.enterDrag(getSelectedSprite());
+		main.boardRenderer.enterDrag(getSelectedSprite());
 	}
 
 	public void movePiece(Point boardPosition) {
@@ -108,7 +114,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		move(selected.x, selected.y, boardPosition.x, boardPosition.y);
 		selected = null;
 		paint();
-		main.panel.exitDrag();
+		main.boardRenderer.exitDrag();
 	}
 	
 	public BufferedImage getSelectedSprite() {
@@ -126,6 +132,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		}
 		Graphics g = image.getGraphics();
 		g.drawImage(ResourceLoader.instance.board, 0, 0, null);
+		g.setColor(Color.GREEN);
+		g.fillRoundRect(8,nextSideToMove*ResourceLoader.instance.board.getHeight()-16 + 8,ResourceLoader.instance.board.getWidth()-8,4-nextSideToMove*8,2,2);
 		for (int x = 0; x < row; x++) {
 			for (int y = 0; y < col; y++) {
 				
