@@ -17,15 +17,15 @@ public class Main extends JFrame implements Runnable{
     public Main(){
         super("hello ");
 
-        setSize(1024,1024);
-        setLocation(32,32);
+        setSize(142*6,142*6);
+        setLocation(16,16);
         setUndecorated(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
+        setResizable(true);
 
         new ResourceLoader();
         board = new ChessBoard(this, 8,8);
-        boardPanel = new BoardRenderer(this, 1024, 1024);
+        boardPanel = new BoardRenderer(this, 142*5, 142*5);
         inputHandler = new InputHandler(this);
         addKeyListener(inputHandler);
         boardPanel.addMouseListener(inputHandler);
