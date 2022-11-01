@@ -22,6 +22,7 @@ public class Pawn extends ChessPiece {
 			canCapture = true;
 		}
 		boolean blocked = board.getPiece(x, y + step) >= 0;
-		return ((dy == step) || leap) && ((dx == 0 && !blocked) || (canCapture || canEnPassant));
+		boolean leapBlocked = board.getPiece(x, y + step * 2) >= 0;
+		return ((dy == step) || (leap && !leapBlocked)) && ((dx == 0 && !blocked) || (canCapture || canEnPassant));
 	}
 }
