@@ -93,7 +93,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 					int cy = j / row;
 					if (getPiece(cx,cy) < 0) continue;
 					if (getPiece(cx,cy) / 6 != getPiece(kx,ky) / 6){
-						System.out.println(getPiece(cx,cy));
 						if (pieceTypes[getPiece(cx,cy) % 6].isMoveValid(cx,cy,kx-cx,ky-cy,getPiece(cx,cy) / 6)){
 							sideChecked = getPiece(kx,ky) / 6;
 
@@ -113,8 +112,35 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		if (p1 == -1) {
 			return -5; //missing piece
 		}
-		if (p1 / 6 != nextSideToMove){
-			return -4; //not ur piece
+
+		int p2 = getPiece(x2, y2);
+		if (p2 > -1) {
+			if (p2 / 6 == p1 / 6) {//cant take ur own pieces
+				//unless its castling
+				if (p1 % 6 == KING && p2 % 6 == ROOK){
+					System.out.println("oh?");
+					if (x1 == 4 && (x2 == 0 || x2 == 7) && y1 == (1-nextSideToMove) * 7 && y1 == y2){
+						System.out.println("castle?");
+						boolean blocked = false;
+						for (int i = x1; i < x2; i+= x2 > x1 ? 1 : -1) {
+							if (i==x1) continue;
+							if (getPiece(i,y1) > -1) blocked = true;
+						}
+						System.out.println(blocked);
+						if (!blocked){
+							setPiece(x1, y1, -1);
+							setPiece(x1 + (x2 > x1 ? 2: -2), y1, p1);
+							setPiece(x2,y2,-1);
+							setPiece(x1 + (x2 > x1 ? 1 : -1),y1,p2);
+
+							nextSideToMove = 1 - nextSideToMove;
+
+							return -69;
+						}
+					}
+				}
+				return -2;
+			}
 		}
 
 		if (!pieceTypes[p1 % 6].isMoveValid(x1, y1, x2 - x1, y2 - y1, p1 / 6))
@@ -126,12 +152,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			enPassantFile = -1;
 		}
 
-		int p2 = getPiece(x2, y2);
-		if (p2 > -1) {
-			if (p2 / 6 == p1 / 6) {
-				return -2; //cant take ur own pieces
-			}
-		}
+
 
 
 
