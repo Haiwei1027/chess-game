@@ -7,6 +7,8 @@ import me.haiwei.pieces.*;
 
 public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, black
 
+	public final int PAWN=0,KNIGHT=1,ROOK=2,BISHOP=3,KING=4,QUEEN=5;
+	public final int WHITE=0,BLACK=1;
 	public BufferedImage image;
 
 	private ChessPiece[] pieceTypes;
@@ -16,11 +18,12 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	private Main main;
 	private Point selected;
 
-	private int nextSideToMove = 0;
+	private int nextSideToMove = WHITE;
 	private int sideWon = -1;
 	private int enPassantFile = -1;
+	private int sideChecked = -1;
 
-	public ChessBoard(Main main, int row, int col) {
+	public ChessBoard(Main main,int row,int col) {
 		this.main = main;
 		this.row = row;
 		this.col = col;
@@ -45,18 +48,18 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public void resetBoard(){
 		for (int i = 0; i < 8; i++) {
-			board[i][6] = 0;
-			board[i][1] = 6;
+			board[i][6] = PAWN;
+			board[i][1] = PAWN+6;
 			// pieces[i][1] = i+6;
 		}
 		for (int i = 0; i < 2; i++){
 			for (int j = 0; j < 2; j++) {
-				board[j*7][7-i*7] = 2 + i*6;
-				board[1+j*5][7-i*7] = 1 + i*6;
-				board[2+j*3][7-i*7] = 3 + i*6;
+				board[j*7][7-i*7] = ROOK + i*6;
+				board[1+j*5][7-i*7] = KNIGHT + i*6;
+				board[2+j*3][7-i*7] = BISHOP + i*6;
 			}
-			board[3][7-i*7] = 5 + i*6;
-			board[4][7-i*7] = 4 + i*6;
+			board[3][7-i*7] = QUEEN + i*6;
+			board[4][7-i*7] = KING + i*6;
 		}
 	}
 
@@ -79,6 +82,29 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		return board[x][y];
 	}
 
+	private void checkCheck(){
+		sideChecked = -1;
+		for (int i = 0; i < row * col; i++) {
+			int kx = i % row;
+			int ky = i / row;
+			if (getPiece(kx,ky) % 6 == KING){
+				for (int j = 0; j < row * col; j++) {
+					int cx = j % row;
+					int cy = j / row;
+					if (getPiece(cx,cy) < 0) continue;
+					if (getPiece(cx,cy) / 6 != getPiece(kx,ky) / 6){
+						System.out.println(getPiece(cx,cy));
+						if (pieceTypes[getPiece(cx,cy) % 6].isMoveValid(cx,cy,kx-cx,ky-cy,getPiece(cx,cy) / 6)){
+							sideChecked = getPiece(kx,ky) / 6;
+
+						}
+					}
+				}
+			}
+		}
+
+	}
+
 	public int move(int x1, int y1, int x2, int y2) {
 		if (!onBoard(x1, y1) || !onBoard(x2, y2) || (x1 == x2 && y1 == y2)) {
 			return -6; //outta the board
@@ -94,7 +120,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		if (!pieceTypes[p1 % 6].isMoveValid(x1, y1, x2 - x1, y2 - y1, p1 / 6))
 			return -3; //invalid move
 
-		if (p1 % 6 == 0 && (y2 > y1 ? y2 - y1: y1 - y2) == 2){
+		if (p1 % 6 == PAWN && (y2 > y1 ? y2 - y1: y1 - y2) == 2){
 			enPassantFile = x1; //log en passant
 		}else{
 			enPassantFile = -1;
@@ -106,11 +132,20 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 				return -2; //cant take ur own pieces
 			}
 		}
+
+
+
 		setPiece(x2, y2, p1);
 		setPiece(x1, y1, -1);
+		checkCheck();
+		if (sideChecked == nextSideToMove){
+			setPiece(x1, y1, p1);
+			setPiece(x2, y2, p2);
+			return -1;
+		}
 
 		//did u take en passant
-		if (p1 % 6 == 0){
+		if (p1 % 6 == PAWN){
 			if (p2 == -1){
 				if (x1 != x2){
 					System.out.println("u used en passant");
@@ -121,11 +156,12 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		}
 
 		nextSideToMove = 1 - nextSideToMove;
-		if (p2 % 6 == 4){
+		if (p2 % 6 == KING){
 			//wow u killed the king, nice
 			sideWon = 1-(p2/6);
 			System.out.println(sideWon);
 		}
+		checkCheck();
 		return p2; //piece that's been taken, -1 if empty
 	}
 
@@ -134,12 +170,13 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 
 	public void selectPiece(Point boardPosition) {
-		if (getPiece(boardPosition.x, boardPosition.y) < 0) return;
+		int piece = getPiece(boardPosition.x, boardPosition.y);
+		if (piece < 0 || piece / 6 != nextSideToMove) return;
 		if (selected == null) {
 			selected = boardPosition;
 		}
 		paint();
-		main.boardRenderer.enterDrag(getSelectedSprite());
+		main.boardPanel.enterDrag(getSelectedSprite());
 	}
 
 	public void movePiece(Point boardPosition) {
@@ -147,7 +184,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		move(selected.x, selected.y, boardPosition.x, boardPosition.y);
 		selected = null;
 		paint();
-		main.boardRenderer.exitDrag();
+		main.boardPanel.exitDrag();
 	}
 	
 	public BufferedImage getSelectedSprite() {
