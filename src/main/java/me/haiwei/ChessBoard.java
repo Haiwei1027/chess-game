@@ -23,6 +23,9 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	private int enPassantFile = -1;
 	private int sideChecked = -1;
 
+	private int whiteCastleDir = 0, blackCastleDir = 0;
+	private Color checkColor = new Color(255,0,0,100);
+
 	public ChessBoard(Main main,int row,int col) {
 		this.main = main;
 		this.row = row;
@@ -40,6 +43,14 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 		resetBoard();
 		paint();
+	}
+
+	public boolean canWhiteCastle(int dir){
+		return whiteCastleDir == dir || whiteCastleDir == 0;
+	}
+
+	public boolean canBlackCastle(int dir){
+		return blackCastleDir == dir || blackCastleDir == 0;
 	}
 
 	public int getEnPassantFile(){
@@ -106,48 +117,25 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public int move(int x1, int y1, int x2, int y2) {
 		if (!onBoard(x1, y1) || !onBoard(x2, y2) || (x1 == x2 && y1 == y2)) {
-			return -6; //outta the board
+			return -1; //outta the board
 		}
 		int p1 = getPiece(x1, y1);
 		if (p1 == -1) {
-			return -5; //missing piece
+			return -1; //missing piece
 		}
 
 		int p2 = getPiece(x2, y2);
 		if (p2 > -1) {
 			if (p2 / 6 == p1 / 6) {//cant take ur own pieces
-				//unless its castling
-				if (p1 % 6 == KING && p2 % 6 == ROOK){
-					System.out.println("oh?");
-					if (x1 == 4 && (x2 == 0 || x2 == 7) && y1 == (1-nextSideToMove) * 7 && y1 == y2){
-						System.out.println("castle?");
-						boolean blocked = false;
-						for (int i = x1; i < x2; i+= x2 > x1 ? 1 : -1) {
-							if (i==x1) continue;
-							if (getPiece(i,y1) > -1) blocked = true;
-						}
-						System.out.println(blocked);
-						if (!blocked){
-							setPiece(x1, y1, -1);
-							setPiece(x1 + (x2 > x1 ? 2: -2), y1, p1);
-							setPiece(x2,y2,-1);
-							setPiece(x1 + (x2 > x1 ? 1 : -1),y1,p2);
-
-							nextSideToMove = 1 - nextSideToMove;
-
-							return -69;
-						}
-					}
-				}
-				return -2;
+				return -1;
 			}
 		}
 
 		if (!pieceTypes[p1 % 6].isMoveValid(x1, y1, x2 - x1, y2 - y1, p1 / 6))
-			return -3; //invalid move
+			return -1; //invalid move
 
 		if (p1 % 6 == PAWN && (y2 > y1 ? y2 - y1: y1 - y2) == 2){
-			enPassantFile = x1; //log en passant
+			enPassantFile = x1; //log pawn leap
 		}else{
 			enPassantFile = -1;
 		}
@@ -159,7 +147,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		setPiece(x2, y2, p1);
 		setPiece(x1, y1, -1);
 		checkCheck();
-		if (sideChecked == nextSideToMove){
+		if (sideChecked == nextSideToMove){ //check not putting self at check
 			setPiece(x1, y1, p1);
 			setPiece(x2, y2, p2);
 			return -1;
@@ -176,13 +164,53 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			}
 		}
 
+		else if (p1 % 6 == KING){ //did u castle
+			if (x2 - x1 == 2 || x2 - x1 == -2){
+				setPiece(((x2 - x1) / 2 + 1 ) * 7,y1,-1);
+			}
+		}
+
+		if (p1 % 6 == KING){ //log if king or rook moved
+			if (p1 / 6 == 0){
+				whiteCastleDir = -2;
+			}
+			else{
+				blackCastleDir = -2;
+			}
+		} else if (p1 % 6 == ROOK) {
+			if (p1 / 6 == 0){
+				if (x1 == 0){
+					if (whiteCastleDir == 0) whiteCastleDir = 1;
+					else if (whiteCastleDir == -1) whiteCastleDir = -2;
+				}
+				else if (x1 == 7){
+					if (whiteCastleDir == 0) whiteCastleDir = -1;
+					else if (whiteCastleDir == 1) whiteCastleDir = -2;
+				}
+			}else{
+				if (x1 == 0){
+					if (blackCastleDir == 0) blackCastleDir = 1;
+					else if (blackCastleDir == -1) blackCastleDir = -2;
+				}
+				else if (x1 == 7){
+					if (blackCastleDir == 0) blackCastleDir = -1;
+					else if (blackCastleDir == 1) blackCastleDir = -2;
+				}
+			}
+		}
+		if (p1 % 6 == KING){
+			if ((x2 > x1 ? x2-x1 : x1 - x2) > 1){
+				System.out.println("castle?");
+			}
+		}
+
 		nextSideToMove = 1 - nextSideToMove;
+
 		if (p2 % 6 == KING){
 			//wow u killed the king, nice
 			sideWon = 1-(p2/6);
 			System.out.println(sideWon);
 		}
-		checkCheck();
 		return p2; //piece that's been taken, -1 if empty
 	}
 
@@ -233,10 +261,12 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 				sprite = ResourceLoader.instance.getPiece(piece % 6, piece / 6);
 				if (selected != null) {
 					if (x == selected.x && y == selected.y) {
-						g.drawImage(sprite, (int)(InputHandler.getMousePoint().x / (142f / 1024f)), 
-								(int)(InputHandler.getMousePoint().y/(142f / 1024f)), null);
 						continue;
 					}
+				}
+				if (sideChecked == nextSideToMove && piece % 6 == KING && piece / 6 == nextSideToMove){
+					g.setColor(checkColor);
+					g.fillRect(x*16+7,y*16+7,16,16);
 				}
 				g.drawImage(sprite, x * 16 + 7, y * 16 + 7, null);
 			}

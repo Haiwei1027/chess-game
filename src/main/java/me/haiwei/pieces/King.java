@@ -11,9 +11,23 @@ public class King extends ChessPiece{
 
 	@Override
 	public boolean isMoveValid(int x, int y, int dx, int dy, int side) {
-		if (dx < 0) dx = -dx;
-		if (dy < 0) dy = -dy;
-		return dx <= 1 && dy <= 1;
+		if (dx <= 1 && dx >= -1 && dy <= 1 && dy >= -1) return true;
+		if (dx == 2 || dx == -2){
+			System.out.println("oh?");
+			if (side == 0 ? board.canWhiteCastle(dx / 2) : board.canBlackCastle(dx / 2)){
+				System.out.println("nice");
+				boolean blocked = false;
+				for (int i = x; i != 0 && i != 7; i+= dx / 2) {
+					if (i==x)continue;
+					if (board.getPiece(i,y) > -1) blocked = true;
+				}
+				System.out.println(blocked);
+				if (!blocked){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }
