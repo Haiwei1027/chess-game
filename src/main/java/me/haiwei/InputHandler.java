@@ -27,15 +27,9 @@ public class InputHandler implements MouseListener, MouseMotionListener, KeyList
 	}
 
 	public void mousePressed(MouseEvent e) {
-		Point boardPosition = main.boardPanel.transformPoint(e.getPoint());
-		main.board.selectPiece(boardPosition);
-
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		Point boardPosition = main.boardPanel.transformPoint(e.getPoint());
-		main.board.movePiece(boardPosition);
-
 	}
 
 	public void mouseEntered(MouseEvent e) {
