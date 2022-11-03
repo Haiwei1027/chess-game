@@ -12,7 +12,7 @@ public class King extends ChessPiece{
 	}
 
 	@Override
-	public boolean isMoveValid(int x, int y, int dx, int dy, int side) {
+	public boolean isMoveValid(int x, int y, int dx, int dy) {
 		return false;
 
 	}
