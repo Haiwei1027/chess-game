@@ -194,10 +194,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 //		return p2; //piece that's been taken, -1 if empty
 //	}
 
-	public int getSideWon(){
-		return sideWon;
-	}
-
 //	public void selectPiece(Point boardPosition) {
 //		int piece = getPiece(boardPosition.x, boardPosition.y);
 //		if (piece < 0 || piece / 6 != nextSideToMove) return;
@@ -219,7 +215,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	public BufferedImage getSelectedSprite() {
 		ChessPiece piece = board[selected.x][selected.y];
 		BufferedImage sprite;
-		sprite = ResourceLoader.instance.getPiece(piece.id, piece.side);
+		sprite = ResourceLoader.instance.getPiece(piece.getId(), piece.getSide());
     	return sprite;
     }
 
@@ -233,18 +229,18 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		g.drawImage(ResourceLoader.instance.board, 0, 0, null);
 		g.setColor(Color.GREEN);
 		g.fillRect(7,141-nextSideToMove*141,8*16,1);
-		for (int x = 0; x < row; x++) {
-			for (int y = 0; y < col; y++) {
+		for (int x = 0; x < getSize(); x++) {
+			for (int y = 0; y < getSize(); y++) {
 				
 				ChessPiece piece = board[x][y];
 				BufferedImage sprite;
-				sprite = ResourceLoader.instance.getPiece(piece.getID(), piece.side);
+				sprite = ResourceLoader.instance.getPiece(piece.getId(), piece.getSide());
 				if (selected != null) {
 					if (x == selected.x && y == selected.y) {
 						continue;
 					}
 				}
-				if (sideChecked == nextSideToMove && piece.id == KING && piece.side == nextSideToMove){
+				if (sideChecked == nextSideToMove && piece.getId() == KING && piece.getSide() == nextSideToMove){
 					g.setColor(checkColor);
 					g.fillRect(x*16+7,y*16+7,16,16);
 				}
