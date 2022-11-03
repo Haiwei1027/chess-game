@@ -42,7 +42,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	public void resetBoard(){
 		for (int i = 0; i < 8; i++) {
 			board[i][1] = new Pawn(this, true);
-			board[i][7] = new Pawn(this, false);
+			board[i][6] = new Pawn(this, false);
 		}
 		board[0][0] = new Rook(this, true);
 		board[7][0] = new Rook(this, true);
@@ -99,21 +99,17 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		Graphics g = image.getGraphics();
 		g.drawImage(ResourceLoader.instance.board, 0, 0, null);
 		g.setColor(Color.GREEN);
-		g.fillRect(7,141-nextSideToMove*141,8*16,1);
+		g.fillRect(7,141-(nextSideToMove?1:0)*141,8*16,1);
 		for (int x = 0; x < getSize(); x++) {
 			for (int y = 0; y < getSize(); y++) {
 				
 				ChessPiece piece = board[x][y];
 				BufferedImage sprite;
-				sprite = ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite());
+				sprite = piece != null ? ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite()) : null;
 				if (selected != null) {
 					if (x == selected.x && y == selected.y) {
 						continue;
 					}
-				}
-				if (sideChecked == nextSideToMove && piece.getId() == KING && piece.isWhite() == nextSideToMove){
-					g.setColor(checkColor);
-					g.fillRect(x*16+7,y*16+7,16,16);
 				}
 				g.drawImage(sprite, x * 16 + 7, y * 16 + 7, null);
 			}
