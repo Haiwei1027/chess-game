@@ -4,9 +4,9 @@ import me.haiwei.ChessBoard;
 
 public class Pawn extends ChessPiece {
 
-	public Pawn(ChessBoard board) {
-		super(board);
-		// TODO Auto-generated constructor stub
+	public Pawn(ChessBoard board, int x, int y, boolean white) {
+		super(board, x, y, white);
+		this.id = board.PAWN;
 	}
 
 	@Override

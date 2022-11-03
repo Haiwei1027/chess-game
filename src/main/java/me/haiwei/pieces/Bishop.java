@@ -4,9 +4,9 @@ import me.haiwei.ChessBoard;
 
 public class Bishop extends ChessPiece{
 
-	public Bishop(ChessBoard board) {
-		super(board);
-		// TODO Auto-generated constructor stub
+	public Bishop(ChessBoard board, int x, int y, boolean white) {
+		super(board, x, y, white);
+		this.id = board.BISHOP;
 	}
 
 	@Override
