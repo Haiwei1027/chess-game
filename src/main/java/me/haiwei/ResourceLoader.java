@@ -25,11 +25,11 @@ public class ResourceLoader {
         }
     }
 
-    public BufferedImage getPiece(int id, int side) {
+    public BufferedImage getPiece(int id, boolean side) {
         if (id < 0){
             return null;
         }
-        if (side == 0){
+        if (side){
             return whitePieces.getSubimage(id * 16,0,16,16);
         }
         return blackPieces.getSubimage(id * 16,0,16,16);
