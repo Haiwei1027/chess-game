@@ -4,8 +4,8 @@ import me.haiwei.ChessBoard;
 
 public class Rook extends ChessPiece{
 
-	public Rook(ChessBoard board, int x, int y, boolean white) {
-		super(board, white);
+	public Rook(ChessBoard board, boolean isWhite) {
+		super(board, isWhite);
 		this.id = board.ROOK;
 	}
 

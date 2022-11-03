@@ -4,8 +4,8 @@ import me.haiwei.ChessBoard;
 
 public class Knight extends ChessPiece{
 
-	public Knight(ChessBoard board, int x, int y, boolean white) {
-		super(board, white);
+	public Knight(ChessBoard board, boolean isWhite) {
+		super(board, isWhite);
 		this.id = board.KNIGHT;
 	}
 
