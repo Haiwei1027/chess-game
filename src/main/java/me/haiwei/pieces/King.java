@@ -4,6 +4,8 @@ import me.haiwei.ChessBoard;
 
 public class King extends ChessPiece{
 
+	private boolean hasMoved = false;
+
 	public King(ChessBoard board) {
 		super(board);
 		// TODO Auto-generated constructor stub
