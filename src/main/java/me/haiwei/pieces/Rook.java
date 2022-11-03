@@ -4,9 +4,9 @@ import me.haiwei.ChessBoard;
 
 public class Rook extends ChessPiece{
 
-	public Rook(ChessBoard board) {
-		super(board);
-		// TODO Auto-generated constructor stub
+	public Rook(ChessBoard board, int x, int y, boolean white) {
+		super(board, x, y, white);
+		this.id = board.ROOK;
 	}
 
 	@Override

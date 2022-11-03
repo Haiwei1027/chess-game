@@ -7,15 +7,13 @@ public class Queen extends ChessPiece{
 	private Rook rook;
 	private Bishop bishop;
 
-	public Queen(ChessBoard board, Bishop bishop, Rook rook) {
-		super(board);
-		this.rook = rook;
-		this.bishop = bishop;
+	public Queen(ChessBoard board, int x, int y, boolean white) {
+		super(board, x, y, white);
+		this.id = board.QUEEN;q
 	}
-
 	@Override
 	public boolean isMoveValid(int x, int y, int dx, int dy, int side) {
-		return bishop.isMoveValid(x,y,dx,dy,side) || rook.isMoveValid(x,y,dx,dy,side);
+		// TODO Auto-generated method stub
 	}
 
 }

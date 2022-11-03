@@ -4,9 +4,12 @@ import me.haiwei.ChessBoard;
 
 public class King extends ChessPiece{
 
-	public King(ChessBoard board) {
-		super(board);
-		// TODO Auto-generated constructor stub
+	private boolean hasMoved = false;
+	private int x, y;
+
+	public King(ChessBoard board, int x, int y, boolean white) {
+		super(board, x, y, white);
+		this.id = board.KING;
 	}
 
 	@Override
