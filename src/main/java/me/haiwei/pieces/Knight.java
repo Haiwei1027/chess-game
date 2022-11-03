@@ -11,6 +11,7 @@ public class Knight extends ChessPiece{
 
 	@Override
 	public boolean isMoveValid(int x, int y, int dx, int dy) {
+
 		return false;
 	}
 

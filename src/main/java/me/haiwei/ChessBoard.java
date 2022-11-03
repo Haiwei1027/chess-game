@@ -27,7 +27,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	private int sideChecked = -1;
 
 	private int whiteCastleDir = 0, blackCastleDir = 0;
-	private Color checkColor = new Color(255,0,0,100);
 
 	public ChessBoard(Main main) {
 		this.main = main;
@@ -83,150 +82,11 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		}
 		return board[x][y];
 	}
-
-//	private void checkCheck(){
-//		sideChecked = -1;
-//		for (int i = 0; i < getSize() * getSize(); i++) {
-//			int kx = i % getSize();
-//			int ky = i / getSize();
-//			if (getPiece(kx,ky) == KING){
-//				for (int j = 0; j < getSize() * getSize(); j++) {
-//					int cx = j % getSize();
-//					int cy = j / getSize();
-//					if (getPiece(cx,cy) < 0) continue;
-//					if (getPiece(cx,cy) / 6 != getPiece(kx,ky) / 6){
-//						if (pieceTypes[getPiece(cx,cy) % 6].isMoveValid(cx,cy,kx-cx,ky-cy,getPiece(cx,cy) / 6)){
-//							sideChecked = getPiece(kx,ky) / 6;
-//
-//						}
-//					}
-//				}
-//			}
-//		}
-//
-//	}
-
-//	public int move(int x1, int y1, int x2, int y2) {
-//		if (!onBoard(x1, y1) || !onBoard(x2, y2) || (x1 == x2 && y1 == y2)) {
-//			return -1; //outta the board
-//		}
-//		int p1 = getPiece(x1, y1);
-//		if (p1 == -1) {
-//			return -1; //missing piece
-//		}
-//
-//		int p2 = getPiece(x2, y2);
-//		if (p2 > -1) {
-//			if (p2 / 6 == p1 / 6) {//cant take ur own pieces
-//				return -1;
-//			}
-//		}
-//
-//		if (!pieceTypes[p1 % 6].isMoveValid(x1, y1, x2 - x1, y2 - y1, p1 / 6))
-//			return -1; //invalid move
-//
-//		if (p1 % 6 == PAWN && (y2 > y1 ? y2 - y1: y1 - y2) == 2){
-//			enPassantFile = x1; //log pawn leap
-//		}else{
-//			enPassantFile = -1;
-//		}
-//
-//
-//
-//
-//
-//		setPiece(x2, y2, p1);
-//		setPiece(x1, y1, -1);
-//		checkCheck();
-//		if (sideChecked == nextSideToMove){ //check not putting self at check
-//			setPiece(x1, y1, p1);
-//			setPiece(x2, y2, p2);
-//			return -1;
-//		}
-//
-//		//did u take en passant
-//		if (p1 % 6 == PAWN){
-//			if (p2 == -1){
-//				if (x1 != x2){
-//					System.out.println("u used en passant");
-//					p2 = getPiece(x2,y1);
-//					setPiece(x2,y1,-1);
-//				}
-//			}
-//		}
-//
-//		else if (p1 % 6 == KING){ //did u castle
-//			if (x2 - x1 == 2 || x2 - x1 == -2){
-//				setPiece(((x2 - x1) / 2 + 1 ) * 7,y1,-1);
-//			}
-//		}
-//
-//		if (p1 % 6 == KING){ //log if king or rook moved
-//			if (p1 / 6 == 0){
-//				whiteCastleDir = -2;
-//			}
-//			else{
-//				blackCastleDir = -2;
-//			}
-//		} else if (p1 % 6 == ROOK) {
-//			if (p1 / 6 == 0){
-//				if (x1 == 0){
-//					if (whiteCastleDir == 0) whiteCastleDir = 1;
-//					else if (whiteCastleDir == -1) whiteCastleDir = -2;
-//				}
-//				else if (x1 == 7){
-//					if (whiteCastleDir == 0) whiteCastleDir = -1;
-//					else if (whiteCastleDir == 1) whiteCastleDir = -2;
-//				}
-//			}else{
-//				if (x1 == 0){
-//					if (blackCastleDir == 0) blackCastleDir = 1;
-//					else if (blackCastleDir == -1) blackCastleDir = -2;
-//				}
-//				else if (x1 == 7){
-//					if (blackCastleDir == 0) blackCastleDir = -1;
-//					else if (blackCastleDir == 1) blackCastleDir = -2;
-//				}
-//			}
-//		}
-//		if (p1 % 6 == KING){
-//			if ((x2 > x1 ? x2-x1 : x1 - x2) > 1){
-//				System.out.println("castle?");
-//			}
-//		}
-//
-//		nextSideToMove = 1 - nextSideToMove;
-//
-//		if (p2 % 6 == KING){
-//			//wow u killed the king, nice
-//			sideWon = 1-(p2/6);
-//			System.out.println(sideWon);
-//		}
-//		return p2; //piece that's been taken, -1 if empty
-//	}
-
-//	public void selectPiece(Point boardPosition) {
-//		int piece = getPiece(boardPosition.x, boardPosition.y);
-//		if (piece < 0 || piece / 6 != nextSideToMove) return;
-//		if (selected == null) {
-//			selected = boardPosition;
-//		}
-//		paint();
-//		main.boardPanel.enterDrag(getSelectedSprite());
-//	}
-
-//	public void movePiece(Point boardPosition) {
-//		if (selected == null) return;
-//		move(selected.x, selected.y, boardPosition.x, boardPosition.y);
-//		selected = null;
-//		paint();
-//		main.boardPanel.exitDrag();
-//	}
 	
 	public BufferedImage getSelectedSprite() {
 		ChessPiece piece = board[selected.x][selected.y];
 		BufferedImage sprite;
-		sprite = ResourceLoader.instance.getPiece(piece.getId(), piece.getSide());
+		sprite = ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite());
     	return sprite;
     }
 

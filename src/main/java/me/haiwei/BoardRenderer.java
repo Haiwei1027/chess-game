@@ -55,10 +55,6 @@ public class BoardRenderer extends JPanel {
         }
     }
 
-    /*public void drawPiece(Graphics g, int id, int side, int x, int y) {
-        g.drawImage(ResourceLoader.instance.pieces, x, y,
-                x + 128, y + 128, 0 + 135 * id, 0 + side * 128, 135 * id + 128, 128 + side * 135, null);
-    }*/
 
     public Point transformPoint(Point point) { //screen pos to chess coord
         Point newPoint = new Point(point.x, point.y);

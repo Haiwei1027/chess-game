@@ -21,12 +21,9 @@ public abstract class ChessPiece {
 
     public abstract boolean isMoveValid(int to_x, int to_y, int from_x, int from_y);
 
-    public boolean movePiece(ChessPiece piece, int x, int y, int dx, int dy, int side){
-        // Check peice is not taking its own side
-        if (board.getPiece((x + dx), (y + dy)).getSide() == side) return false;
-
+    public boolean movePiece(ChessPiece piece, int x, int y, int dx, int dy){
         // Check if move is valid
-        if (!(piece.isMoveValid(x, y, dx, dy, side))) return false;
+        if (!(piece.isMoveValid(x + dx, y + dy, x, y))) return false;
 
         // Do move two cases taking piece and not
         board.setPiece(x + dx, y + dy, piece);
