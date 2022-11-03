@@ -5,13 +5,13 @@ import me.haiwei.ChessBoard;
 public abstract class ChessPiece {
 
     protected int id;
-    private boolean white;
+    private boolean isWhite;
 
     protected ChessBoard board;
 
-    public ChessPiece(ChessBoard board, boolean white) {
+    public ChessPiece(ChessBoard board, boolean isWhite) {
         this.board = board;
-        this.white = white;
+        this.isWhite = isWhite;
     }
 
     // Get id
@@ -19,7 +19,7 @@ public abstract class ChessPiece {
         return id;
     }
 
-    public abstract boolean isMoveValid(int x, int y, int dx, int dy, int side);
+    public abstract boolean isMoveValid(int x, int y);
 
     public boolean movePiece(ChessPiece piece, int x, int y, int dx, int dy, int side){
         // Check peice is not taking its own side
@@ -35,7 +35,7 @@ public abstract class ChessPiece {
     }
 
     public int getSide(){
-        return white ? 0 : 1;
+        return isWhite ? 0 : 1;
     }
 
 }
