@@ -24,7 +24,7 @@ public class Main extends JFrame implements Runnable{
         setResizable(true);
 
         new ResourceLoader();
-        board = new ChessBoard(this, 8,8);
+        board = new ChessBoard(this);
         boardPanel = new BoardRenderer(this, 142*5, 142*5);
         inputHandler = new InputHandler(this);
         addKeyListener(inputHandler);
