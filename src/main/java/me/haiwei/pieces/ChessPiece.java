@@ -14,6 +14,11 @@ public abstract class ChessPiece {
         this.white = white;
     }
 
+    // Get id
+    public int getId() {
+        return id;
+    }
+
     public abstract boolean isMoveValid(int x, int y, int dx, int dy, int side);
 
     public boolean movePiece(ChessPiece piece, int x, int y, int dx, int dy, int side){
