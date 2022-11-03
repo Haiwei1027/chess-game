@@ -12,7 +12,7 @@ public class Queen extends ChessPiece{
 		this.id = board.QUEEN;
 	}
 	@Override
-	public boolean isMoveValid(int from_x, int from_y, int to_x, int to_y) {
+	public boolean isMoveValid(int x, int y, int dx, int dy, int side) {
 		// Make sure that queen is in positions from
 		if (board.getPiece(from_x, from_y).getId() != id) return false;
 
