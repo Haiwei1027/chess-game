@@ -5,7 +5,7 @@ import me.haiwei.ChessBoard;
 public abstract class ChessPiece {
 
     protected int id;
-    private boolean isWhite;
+    protected boolean isWhite;
 
     protected ChessBoard board;
 

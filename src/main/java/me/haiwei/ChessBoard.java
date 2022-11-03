@@ -42,18 +42,27 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public void resetBoard(){
 		for (int i = 0; i < 8; i++) {
-			board[i][1] = new Pawn(this, i, 1, true);
-			board[i][7] = new Pawn(this, true);
+			board[i][1] = new Pawn(this, true);
+			board[i][7] = new Pawn(this, false);
 		}
-		for (int i = 0; i < 2; i++){
-			for (int j = 0; j < 2; j++) {
-				board[j*7][7-i*7] = new Rook(board,j*7,7-i*7,);
-				board[1+j*5][7-i*7] = KNIGHT + i*6;
-				board[2+j*3][7-i*7] = BISHOP + i*6;
-			}
-			board[3][7-i*7] = QUEEN + i*6;
-			board[4][7-i*7] = KING + i*6;
-		}
+		board[0][0] = new Rook(this, true);
+		board[7][0] = new Rook(this, true);
+		board[1][0] = new Knight(this, true);
+		board[6][0] = new Knight(this, true);
+		board[2][0] = new Bishop(this, true);
+		board[5][0] = new Bishop(this, true);
+		board[3][0] = new Queen(this, true);
+		board[4][0] = new King(this, true);
+
+		board[0][7] = new Rook(this, false);
+		board[7][7] = new Rook(this, false);
+		board[1][7] = new Knight(this, false);
+		board[6][7] = new Knight(this, false);
+		board[2][7] = new Bishop(this, false);
+		board[5][7] = new Bishop(this, false);
+		board[3][7] = new Queen(this, false);
+		board[4][7] = new King(this, false);
+
 	}
 
 	public boolean onBoard(int x, int y) {
