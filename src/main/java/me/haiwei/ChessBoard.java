@@ -21,7 +21,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	private Main main;
 	private Point selected;
 
-	private int nextSideToMove = WHITE;
+	private boolean nextSideToMove = true;
 	private int sideWon = -1;
 	private int enPassantFile = -1;
 	private int sideChecked = -1;
@@ -66,7 +66,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 
 	public boolean onBoard(int x, int y) {
-		return x >= 0 && x < row && y >= 0 && y < col;
+		return x >= 0 && x < getSize() && y >= 0 && y < getSize();
 	}
 
 	public void setPiece(int x, int y, ChessPiece piece) {
@@ -245,13 +245,13 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 				
 				ChessPiece piece = board[x][y];
 				BufferedImage sprite;
-				sprite = ResourceLoader.instance.getPiece(piece.getId(), piece.getSide());
+				sprite = ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite());
 				if (selected != null) {
 					if (x == selected.x && y == selected.y) {
 						continue;
 					}
 				}
-				if (sideChecked == nextSideToMove && piece.getId() == KING && piece.getSide() == nextSideToMove){
+				if (sideChecked == nextSideToMove && piece.getId() == KING && piece.isWhite() == nextSideToMove){
 					g.setColor(checkColor);
 					g.fillRect(x*16+7,y*16+7,16,16);
 				}
