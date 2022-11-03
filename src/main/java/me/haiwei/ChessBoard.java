@@ -42,7 +42,9 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public void resetBoard(){
 		for (int i = 0; i < 8; i++) {
-			board[i][1] = new Pawn(board,i,1,true);
+			board[i][1] = new Pawn(this, i, 1, true);
+			board[i][7] = new Pawn(this, true);
+		}
 		for (int i = 0; i < 2; i++){
 			for (int j = 0; j < 2; j++) {
 				board[j*7][7-i*7] = new Rook(board,j*7,7-i*7,);

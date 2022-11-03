@@ -4,8 +4,8 @@ import me.haiwei.ChessBoard;
 
 public class Bishop extends ChessPiece{
 
-	public Bishop(ChessBoard board, int x, int y, boolean white) {
-		super(board, x, y, white);
+	public Bishop(ChessBoard board, boolean isWhite) {
+		super(board, isWhite);
 		this.id = board.BISHOP;
 	}
 

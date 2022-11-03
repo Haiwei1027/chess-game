@@ -4,7 +4,7 @@ import me.haiwei.ChessBoard;
 
 public class Pawn extends ChessPiece {
 
-	public Pawn(ChessBoard board, int x, int y, boolean isWhite) {
+	public Pawn(ChessBoard board, boolean isWhite) {
 		super(board, isWhite);
 		this.id = board.PAWN;
 	}
