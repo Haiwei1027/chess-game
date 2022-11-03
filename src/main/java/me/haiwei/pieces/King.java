@@ -6,8 +6,8 @@ public class King extends ChessPiece{
 
 	private boolean hasMoved = false;
 
-	public King(ChessBoard board, boolean white) {
-		super(board, white);
+	public King(ChessBoard board, boolean isWhite) {
+		super(board, isWhite);
 		this.id = board.KING;
 	}
 
