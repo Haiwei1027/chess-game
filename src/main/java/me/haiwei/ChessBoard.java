@@ -32,12 +32,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	public ChessBoard(Main main) {
 		this.main = main;
 		board = new ChessPiece[getSize()][getSize()];
-
-		Bishop bishop = new Bishop(this);
-		Rook rook = new Rook(this);
-		pieceTypes = new ChessPiece[] { new Pawn(this), new Knight(this), rook, bishop,
-				new King(this), new Queen(this, bishop, rook) };
-
 		resetBoard();
 		paint();
 	}
@@ -48,9 +42,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public void resetBoard(){
 		for (int i = 0; i < 8; i++) {
-			board[i][6] = new Pawn(board,i,6,side);
-			board[i][1] = new Pawn(board,i,1,side);
-		}
+			board[i][1] = new Pawn(board,i,1,true);
 		for (int i = 0; i < 2; i++){
 			for (int j = 0; j < 2; j++) {
 				board[j*7][7-i*7] = new Rook(board,j*7,7-i*7,);
