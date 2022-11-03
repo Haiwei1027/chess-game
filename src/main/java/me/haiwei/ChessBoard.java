@@ -227,7 +227,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	public BufferedImage getSelectedSprite() {
 		ChessPiece piece = board[selected.x][selected.y];
 		BufferedImage sprite;
-		sprite = ResourceLoader.instance.getPiece(piece .id, piece.side);
+		sprite = ResourceLoader.instance.getPiece(piece.id, piece.side);
     	return sprite;
     }
 
@@ -244,15 +244,15 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		for (int x = 0; x < row; x++) {
 			for (int y = 0; y < col; y++) {
 				
-				int piece = board[x][y];
+				ChessPiece piece = board[x][y];
 				BufferedImage sprite;
-				sprite = ResourceLoader.instance.getPiece(piece % 6, piece / 6);
+				sprite = ResourceLoader.instance.getPiece(piece.getID(), piece.side);
 				if (selected != null) {
 					if (x == selected.x && y == selected.y) {
 						continue;
 					}
 				}
-				if (sideChecked == nextSideToMove && piece % 6 == KING && piece / 6 == nextSideToMove){
+				if (sideChecked == nextSideToMove && piece.id == KING && piece.side == nextSideToMove){
 					g.setColor(checkColor);
 					g.fillRect(x*16+7,y*16+7,16,16);
 				}
