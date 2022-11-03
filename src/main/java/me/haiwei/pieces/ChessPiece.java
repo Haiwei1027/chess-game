@@ -34,8 +34,8 @@ public abstract class ChessPiece {
         return true;
     }
 
-    public int getSide(){
-        return isWhite ? 0 : 1;
+    public boolean isWhite(){
+        return isWhite;
     }
 
 }
