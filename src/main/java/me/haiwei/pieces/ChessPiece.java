@@ -19,7 +19,7 @@ public abstract class ChessPiece {
         return id;
     }
 
-    public abstract boolean isMoveValid(int x, int y);
+    public abstract boolean isMoveValid(int to_x, int to_y, int from_x, int from_y);
 
     public boolean movePiece(ChessPiece piece, int x, int y, int dx, int dy, int side){
         // Check peice is not taking its own side

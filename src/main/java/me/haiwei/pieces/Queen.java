@@ -4,12 +4,12 @@ import me.haiwei.ChessBoard;
 
 public class Queen extends ChessPiece{
 
-	public Queen(ChessBoard board, int x, int y, boolean white) {
+	public Queen(ChessBoard board, boolean white) {
 		super(board, white);
 		this.id = board.QUEEN;
 	}
 	@Override
-	public boolean isMoveValid(int to_x, int to_y, int from_x, int from_y, int side) {
+	public boolean isMoveValid(int to_x, int to_y, int from_x, int from_y) {
 		// Make sure that queen is in positions from
 		if (board.getPiece(from_x, from_y).getId() != id) return false;
 
@@ -39,7 +39,7 @@ public class Queen extends ChessPiece{
 		}
 
 		// Make sure that the queen is not moving to a position with a piece of the same color
-		if (board.getPiece(to_x, to_y).isWhite() == this.white) return false;
+		if (board.getPiece(to_x, to_y).isWhite() == this.isWhite()) return false;
 
 		return true;
 	}
