@@ -13,8 +13,22 @@ public class Pawn extends ChessPiece {
 	@Override
 	public boolean isMoveValid(int to_x, int to_y, int from_x, int from_y) {
 
+		int dx = to_x - from_x, dy = to_y - from_y;
 
-		return to_x == from_x;
+
+		return true;
+	}
+
+	@Override
+	public boolean movePiece(int to_x, int to_y, int from_x, int from_y)
+	{
+		if (super.movePiece(to_x,to_y,from_x,from_y))
+		{
+			hasMoved = true;
+			System.out.println("Pawn has moved!");
+			return true;
+		}
+		return false;
 	}
 
 	public boolean canEnPassant(int x, int y, int dx, int dy){
