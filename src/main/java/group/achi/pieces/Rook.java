@@ -37,10 +37,6 @@ public class Rook extends ChessPiece{
 				i += dx > 0 ? 1 : -1;
 			}
 		}
-
-		// Make sure that the rook is not moving to a position with a piece of the same color
-		if (board.getPiece(to_x, to_y).isWhite() == this.isWhite()) return false;
-
 		return true;
 	}
 

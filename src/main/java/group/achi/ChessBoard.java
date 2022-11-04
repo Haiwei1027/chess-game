@@ -1,10 +1,11 @@
 package group.achi;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import group.achi.pieces.*;
-import me.haiwei.pieces.*;
 
 public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, black
 

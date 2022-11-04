@@ -21,8 +21,7 @@ public class Knight extends ChessPiece{
 		// Make sure that the knight is moving in an L shape
 		if (!((dx == 2 && dy == 1) || (dx == 1 && dy == 2) || (dx == -2 && dy == 1) || (dx == -1 && dy == 2) || (dx == 2 && dy == -1) || (dx == 1 && dy == -2) || (dx == -2 && dy == -1) || (dx == -1 && dy == -2))) return false;
 
-		// Make sure that the knight is not moving to a position with a piece of the same color
-		if (board.getPiece(to_x, to_y).isWhite() == this.isWhite()) return false;
+
 		return true;
 	}
 

@@ -39,8 +39,6 @@ public class Bishop extends ChessPiece{
 			}
 		}
 
-		// Make sure that the bishop is not moving to a position with a piece of the same color
-		if (board.getPiece(to_x, to_y).isWhite() == this.isWhite()) return false;
 		return true;
 	}
 
