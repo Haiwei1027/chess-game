@@ -25,7 +25,9 @@ public abstract class ChessPiece {
         // Check if move is valid
 
         // Make sure that the knight is not moving to a position with a piece of the same color
-        if (board.getPiece(to_x, to_y).isWhite() == this.isWhite()) return false;
+        if (board.getPiece(to_x, to_y) != null) {
+            if (board.getPiece(to_x, to_y).isWhite() == this.isWhite()) return false;
+        }
 
         // Check the move fits the piece move pattern
         if (!(isMoveValid(to_x, to_y, from_x, from_y)) || (to_x == from_x && to_y == from_y)) return false;

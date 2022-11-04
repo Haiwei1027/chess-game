@@ -71,7 +71,8 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
     
     public void drawDraggedPiece(Graphics g) {
     	//System.out.printf("%d, %d \n", InputHandler.getMousePoint().x, InputHandler.getMousePoint().y);
-    	g.drawImage(board.getSelectedSprite(), mousePosition.x - pieceWidth / 2, mousePosition.y - pieceHeight / 2, pieceWidth, pieceHeight, null);
+        int draggedSize = (int)(pieceHeight * 1.3);
+    	g.drawImage(board.getSelectedSprite(), mousePosition.x - draggedSize / 2, mousePosition.y - draggedSize / 2, draggedSize, draggedSize, null);
     }
 
     //input handlers
