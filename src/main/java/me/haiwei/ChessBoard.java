@@ -43,7 +43,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 	private void selectPiece(Point location){
 		System.out.printf("pick up at %d, %d \n",location.x,location.y);
-
+		if (getPiece(location.x,location.y) == null) return;
 		selected = location;
 
 		paint();
@@ -103,6 +103,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 	public BufferedImage getSelectedSprite() {
 		ChessPiece piece = board[selected.x][selected.y];
+		if (piece == null) return null;
 		BufferedImage sprite;
 		sprite = ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite());
     	return sprite;

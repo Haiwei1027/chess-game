@@ -23,7 +23,7 @@ public abstract class ChessPiece {
 
     public boolean movePiece(int to_x, int to_y, int from_x, int from_y){
         // Check if move is valid
-        if (!(isMoveValid(to_x, to_y, from_x, from_y))) return false;
+        if (!(isMoveValid(to_x, to_y, from_x, from_y)) || (to_x == from_x && to_y == from_y)) return false;
 
         // Do move two cases taking piece and not
         board.setPiece(to_x, to_y, this);
