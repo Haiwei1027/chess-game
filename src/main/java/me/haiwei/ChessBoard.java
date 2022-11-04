@@ -15,14 +15,11 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	public BufferedImage image;
 
 	private ChessPiece[][] board;
-
-	private Main main;
 	private Point selected;
 
 	private boolean nextSideToMove = true;
 
-	public ChessBoard(Main main) {
-		this.main = main;
+	public ChessBoard() {
 		board = new ChessPiece[getSize()][getSize()];
 		resetBoard();
 		paint();
@@ -31,6 +28,38 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	public int getSize(){
 		return size;
 	}
+
+	public void mouseUp(Point location){
+		if (location.equals(selected) || selected == null) return;
+		dropPiece(location);
+	}
+	public void mouseDown(Point location){
+		if (selected == null){
+			selectPiece(location);
+		}
+		else{
+			dropPiece(location);
+		}
+	}
+	private void selectPiece(Point location){
+		System.out.printf("pick up at %d, %d \n",location.x,location.y);
+
+		selected = location;
+
+		paint();
+	}
+
+	private void dropPiece(Point location){
+		System.out.printf("dropped at %s %s \n",location.x,location.y);
+
+		System.out.println(getPiece(selected.x,selected.y).movePiece(location.x,location.y,selected.x,selected.y));
+
+		selected = null;
+
+		paint();
+	}
+
+
 
 	public void resetBoard(){
 		for (int i = 0; i < 8; i++) {
@@ -68,7 +97,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		}
 		return board[x][y];
 	}
-	
+
+	public boolean hasSelected(){
+		return selected != null;
+	}
 	public BufferedImage getSelectedSprite() {
 		ChessPiece piece = board[selected.x][selected.y];
 		BufferedImage sprite;
@@ -88,7 +120,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		g.fillRect(7,141-(nextSideToMove?1:0)*141,8*16,1);
 		for (int x = 0; x < getSize(); x++) {
 			for (int y = 0; y < getSize(); y++) {
-				
 				ChessPiece piece = board[x][y];
 				BufferedImage sprite;
 				sprite = piece != null ? ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite()) : null;

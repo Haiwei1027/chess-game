@@ -11,7 +11,7 @@ public class Pawn extends ChessPiece {
 	}
 
 	@Override
-	public boolean isMoveValid(int x, int y, int dx, int dy) {
+	public boolean isMoveValid(int to_x, int to_y, int from_x, int from_y) {
 
 
 		return false;
