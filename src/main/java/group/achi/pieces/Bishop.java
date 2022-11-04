@@ -1,27 +1,27 @@
-package me.haiwei.pieces;
+package group.achi.pieces;
 
-import me.haiwei.ChessBoard;
+import group.achi.ChessBoard;
 
-public class Rook extends ChessPiece{
+public class Bishop extends ChessPiece{
 
-	public Rook(ChessBoard board, boolean isWhite) {
+	public Bishop(ChessBoard board, boolean isWhite) {
 		super(board, isWhite);
-		this.id = board.ROOK;
+		this.id = board.BISHOP;
 	}
 
 	@Override
 	public boolean isMoveValid(int to_x, int to_y, int from_x, int from_y) {
-		// Make sure that the rook is in positions from
+		// Make sure that the bishop is in positions from
 		if (board.getPiece(from_x, from_y).getId() != id) return false;
 
 		// Find the change in x and y
 		int dx = to_x - from_x;
 		int dy = to_y - from_y;
 
-		// make sure that the queen is moving in a straight line
-		if (!(dx == 0 || dy == 0)) return false;
+		// Make sure moving in diagonal line only
+		if (!(dx == dy || dx == -dy)) return false;
 
-		// Make sure the rook is not moving through any pieces
+		// Make sure that the bishop is not moving through any pieces
 		int i = from_x, j = from_y;
 		while (i != to_x || j != to_y){
 			if (i != from_x || j != from_y){
@@ -33,12 +33,14 @@ public class Rook extends ChessPiece{
 				j += dy > 0 ? 1 : -1;
 			} else if (dy == 0){
 				i += dx > 0 ? 1 : -1;
+			} else {
+				i += dx > 0 ? 1 : -1;
+				j += dy > 0 ? 1 : -1;
 			}
 		}
 
-		// Make sure that the rook is not moving to a position with a piece of the same color
+		// Make sure that the bishop is not moving to a position with a piece of the same color
 		if (board.getPiece(to_x, to_y).isWhite() == this.isWhite()) return false;
-
 		return true;
 	}
 

@@ -1,6 +1,6 @@
-package me.haiwei.pieces;
+package group.achi.pieces;
 
-import me.haiwei.ChessBoard;
+import group.achi.ChessBoard;
 
 public class Pawn extends ChessPiece {
 	boolean hasMoved = false;

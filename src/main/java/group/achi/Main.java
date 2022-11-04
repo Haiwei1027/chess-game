@@ -1,4 +1,4 @@
-package me.haiwei;
+package group.achi;
 import javax.swing.JFrame;
 
 public class Main extends JFrame implements Runnable{

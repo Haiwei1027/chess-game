@@ -1,8 +1,7 @@
-package me.haiwei;
+package group.achi;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
 
 public class ChessScreen extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 
