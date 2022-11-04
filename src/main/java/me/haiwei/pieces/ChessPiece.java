@@ -21,13 +21,13 @@ public abstract class ChessPiece {
 
     public abstract boolean isMoveValid(int to_x, int to_y, int from_x, int from_y);
 
-    public boolean movePiece(ChessPiece piece, int x, int y, int dx, int dy){
+    public boolean movePiece(ChessPiece piece, int to_x, int to_y, int from_x, int from_y){
         // Check if move is valid
-        if (!(piece.isMoveValid(x + dx, y + dy, x, y))) return false;
+        if (!(piece.isMoveValid(to_x, to_y, from_x, from_y))) return false;
 
         // Do move two cases taking piece and not
-        board.setPiece(x + dx, y + dy, piece);
-        board.setPiece(x, y, null);
+        board.setPiece(to_x, to_y, piece);
+        board.setPiece(from_x, from_y, null);
         return true;
     }
 

@@ -14,19 +14,12 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public BufferedImage image;
 
-	private ChessPiece[] pieceTypes;
-
 	private ChessPiece[][] board;
 
 	private Main main;
 	private Point selected;
 
 	private boolean nextSideToMove = true;
-	private int sideWon = -1;
-	private int enPassantFile = -1;
-	private int sideChecked = -1;
-
-	private int whiteCastleDir = 0, blackCastleDir = 0;
 
 	public ChessBoard(Main main) {
 		this.main = main;
@@ -44,23 +37,16 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			board[i][1] = new Pawn(this, true);
 			board[i][6] = new Pawn(this, false);
 		}
-		board[0][0] = new Rook(this, true);
-		board[7][0] = new Rook(this, true);
-		board[1][0] = new Knight(this, true);
-		board[6][0] = new Knight(this, true);
-		board[2][0] = new Bishop(this, true);
-		board[5][0] = new Bishop(this, true);
-		board[3][0] = new Queen(this, true);
-		board[4][0] = new King(this, true);
-
-		board[0][7] = new Rook(this, false);
-		board[7][7] = new Rook(this, false);
-		board[1][7] = new Knight(this, false);
-		board[6][7] = new Knight(this, false);
-		board[2][7] = new Bishop(this, false);
-		board[5][7] = new Bishop(this, false);
-		board[3][7] = new Queen(this, false);
-		board[4][7] = new King(this, false);
+		for (int i = 0; i < 2; i++) {
+			board[0][i*7] = new Rook(this, i==0);
+			board[7][i*7] = new Rook(this, i==0);
+			board[1][i*7] = new Knight(this, i==0);
+			board[6][i*7] = new Knight(this, i==0);
+			board[2][i*7] = new Bishop(this, i==0);
+			board[5][i*7] = new Bishop(this, i==0);
+			board[3][i*7] = new Queen(this, i==0);
+			board[4][i*7] = new King(this, i==0);
+		}
 
 	}
 
@@ -111,7 +97,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 						continue;
 					}
 				}
-				g.drawImage(sprite, x * 16 + 7, y * 16 + 7, null);
+				g.drawImage(sprite, x * 16 + 7, (7 - y) * 16 + 7, null);
 			}
 		}
 	}
