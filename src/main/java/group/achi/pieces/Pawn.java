@@ -20,16 +20,13 @@ public class Pawn extends ChessPiece {
 			xMoveLim = hasMoved? 1 : 2,
 			absdy = Math.abs(dy),
 			absdx = Math.abs(dx);
-		boolean meWhite = true;
 
 		if (board.getPiece(from_x, from_y).isWhite()) //If piece is white, move direction is up so dy must be greater than 0
 		{
 			if (dy < 0) {return false;}
-			meWhite = true;
 		} else
 		{
 			if (dy > 0) {return false; }
-			meWhite = false;
 		}
 
 		if (absdy > xMoveLim) {return false; } //check if the vert movement is within allowed bounds
