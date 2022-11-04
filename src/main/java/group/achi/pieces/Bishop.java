@@ -12,7 +12,9 @@ public class Bishop extends ChessPiece{
 	@Override
 	public boolean isMoveValid(int to_x, int to_y, int from_x, int from_y) {
 		// Make sure that the bishop is in positions from
-		if (board.getPiece(from_x, from_y).getId() != id) return false;
+		//if (board.getPiece(from_x, from_y).getId() != id) return false;
+
+		//i don't think that check is necessary and it could cause issues with the queen using the bishop isMoveValid;
 
 		// Find the change in x and y
 		int dx = to_x - from_x;
