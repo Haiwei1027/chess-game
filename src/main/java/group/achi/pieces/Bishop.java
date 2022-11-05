@@ -27,7 +27,7 @@ public class Bishop extends ChessPiece{
 		int i = from_x, j = from_y;
 		while (i != to_x || j != to_y){
 			if (i != from_x || j != from_y){
-				if (board.getPiece(i,j).getId() > -1){
+				if (board.getPiece(i,j) != null){
 					return false;
 				}
 			}
