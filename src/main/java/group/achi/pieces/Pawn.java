@@ -17,7 +17,6 @@ public class Pawn extends ChessPiece {
 
 		int dx = to_x - from_x,
 			dy = to_y - from_y,
-			xMoveLim = hasMoved? 1 : 2,
 			absdy = Math.abs(dy),
 			absdx = Math.abs(dx);
 
@@ -29,15 +28,18 @@ public class Pawn extends ChessPiece {
 			if (dy > 0) {return false; }
 		}
 
-		if (absdy > xMoveLim) {return false; } //check if the vert movement is within allowed bounds
-		if (absdx > 1 ) {return false; } //check if hori movement is not too far in either direction
-		if (absdx == 1 && absdy == 0) {return false; } //check if trying to move 1 block hori
+		if ( (absdy == 2 && hasMoved == false) && (absdx == 0) )
+		{
+			return true;
+		}
 
-		if ( (absdy == 1 && absdx == 1) && (board.getPiece(to_x, to_y) == null) ) {return false; }
+		if ( (absdy == 1 && absdx == 1) && (board.getPiece(to_x, to_y) != null) ) {return true; }
+
+		if (absdy > 1 || absdx > 0) {return false; } //NO moving more than 1 space away!
+
 		if (absdx == 0 && board.getPiece(to_x, to_y) != null) {return false; }
 
 		if( (absdy == 2 && absdx > 0)) {return false; }
-
 		return true;
 	}
 
