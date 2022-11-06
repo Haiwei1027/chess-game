@@ -1,9 +1,12 @@
 package group.achi;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Main extends JFrame implements Runnable{
 
     ChessScreen chessScreen;
+    BattleScreen battleScreen;
+
+    JPanel currentScreen;
     Thread mainLoop;
 
     public static void main(String[] args) {
@@ -22,7 +25,8 @@ public class Main extends JFrame implements Runnable{
         new ResourceLoader();
 
         chessScreen = new ChessScreen(this,142*5, 142*5);
-        setContentPane(chessScreen);
+        setCurrentScreen(chessScreen);
+
         setVisible(true);
 
 
@@ -31,10 +35,15 @@ public class Main extends JFrame implements Runnable{
         mainLoop.start();
     }
 
+    public void setCurrentScreen(JPanel panel){
+        currentScreen = panel;
+        setContentPane(panel);
+    }
+
 	public void run() {
 		while (true){
           long frameTime = System.currentTimeMillis();
-          chessScreen.repaint();
+          currentScreen.repaint();
           frameTime = System.currentTimeMillis() - frameTime;
           try{
               if (frameTime < 8) {

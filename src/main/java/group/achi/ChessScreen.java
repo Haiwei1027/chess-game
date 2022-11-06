@@ -3,7 +3,7 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;
 
-public class ChessScreen extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
+public class ChessScreen extends JPanel implements MouseListener, MouseMotionListener{
 
     Main main;
     ChessBoard board;
@@ -21,7 +21,6 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         setSize(width,height);
         addMouseListener(this);
         addMouseMotionListener(this);
-        main.addKeyListener(this);
 
         pieceWidth = (int)(width / 142f) * 16;
         pieceHeight = pieceWidth;
@@ -98,21 +97,6 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseExited(MouseEvent e) {
-
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
 
     }
 
