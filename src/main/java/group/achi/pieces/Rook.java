@@ -1,6 +1,6 @@
-package me.haiwei.pieces;
+package group.achi.pieces;
 
-import me.haiwei.ChessBoard;
+import group.achi.ChessBoard;
 
 public class Rook extends ChessPiece{
 
@@ -12,7 +12,9 @@ public class Rook extends ChessPiece{
 	@Override
 	public boolean isMoveValid(int to_x, int to_y, int from_x, int from_y) {
 		// Make sure that the rook is in positions from
-		if (board.getPiece(from_x, from_y).getId() != id) return false;
+		//if (board.getPiece(from_x, from_y).getId() != id) return false;
+
+		//i don't think that check is necessary and it could cause issues with the queen using the rook isMoveValid;
 
 		// Find the change in x and y
 		int dx = to_x - from_x;
@@ -25,7 +27,7 @@ public class Rook extends ChessPiece{
 		int i = from_x, j = from_y;
 		while (i != to_x || j != to_y){
 			if (i != from_x || j != from_y){
-				if (board.getPiece(i,j).getId() > -1){
+				if (board.getPiece(i,j) != null){
 					return false;
 				}
 			}
@@ -35,10 +37,6 @@ public class Rook extends ChessPiece{
 				i += dx > 0 ? 1 : -1;
 			}
 		}
-
-		// Make sure that the rook is not moving to a position with a piece of the same color
-		if (board.getPiece(to_x, to_y).isWhite() == this.isWhite()) return false;
-
 		return true;
 	}
 

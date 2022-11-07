@@ -1,14 +1,13 @@
-package me.haiwei;
-import javax.swing.JFrame;
+package group.achi;
+import javax.swing.*;
 
 public class Main extends JFrame implements Runnable{
 
-    BoardRenderer boardPanel;
-    InputHandler inputHandler;
+    ChessScreen chessScreen;
+    BattleScreen battleScreen;
 
+    JPanel currentScreen;
     Thread mainLoop;
-
-    ChessBoard board;
 
     public static void main(String[] args) {
         new Main();
@@ -24,13 +23,10 @@ public class Main extends JFrame implements Runnable{
         setResizable(true);
 
         new ResourceLoader();
-        board = new ChessBoard(this);
-        boardPanel = new BoardRenderer(this, 142*5, 142*5);
-        inputHandler = new InputHandler(this);
-        addKeyListener(inputHandler);
-        boardPanel.addMouseListener(inputHandler);
-        boardPanel.addMouseMotionListener(inputHandler);
-        setContentPane(boardPanel);
+
+        chessScreen = new ChessScreen(this,142*5, 142*5);
+        setCurrentScreen(chessScreen);
+
         setVisible(true);
 
 
@@ -39,10 +35,15 @@ public class Main extends JFrame implements Runnable{
         mainLoop.start();
     }
 
+    public void setCurrentScreen(JPanel panel){
+        currentScreen = panel;
+        setContentPane(panel);
+    }
+
 	public void run() {
 		while (true){
           long frameTime = System.currentTimeMillis();
-          boardPanel.repaint();
+          currentScreen.repaint();
           frameTime = System.currentTimeMillis() - frameTime;
           try{
               if (frameTime < 8) {
