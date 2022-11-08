@@ -32,7 +32,11 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 
 	public void mouseUp(Point location){
-		if (location.equals(selected) || selected == null) return;
+		if (selected == null) {return;}
+		if (location.equals(selected)){
+			//mouse up at the same location
+			//clicking mode
+		}
 		dropPiece(location);
 	}
 	public void mouseDown(Point location){
@@ -103,7 +107,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		return board[x][y];
 	}
 
-	public boolean hasSelected(){
+	public boolean isDragging(){
 		return selected != null;
 	}
 	public BufferedImage getSelectedSprite() {
@@ -129,8 +133,12 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 				ChessPiece piece = board[x][y];
 				BufferedImage sprite;
 				sprite = piece != null ? ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite()) : null;
+
+
 				if (selected != null) {
 					if (x == selected.x && y == selected.y) {
+						g.setColor(Color.YELLOW);
+						g.fillRect(x * 16 + 7, (7 - y) * 16 + 7, 16, 16);
 						continue;
 					}
 				}

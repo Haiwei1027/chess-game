@@ -47,7 +47,7 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         onResize();
 
         drawBoard(g, startX, startY);
-        if (board.hasSelected()) {
+        if (board.isDragging()) {
         	drawDraggedPiece(g);
         }
     }
