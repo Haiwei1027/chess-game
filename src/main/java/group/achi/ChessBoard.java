@@ -142,6 +142,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
     	return sprite;
     }
 
+    public Point getSelected(){
+		return selected;
+	}
+
 	public void paint() {
 		if (image == null) {
 			image = new BufferedImage(142, 142, BufferedImage.TYPE_INT_RGB);

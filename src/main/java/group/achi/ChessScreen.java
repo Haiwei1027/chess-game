@@ -54,15 +54,9 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
 
 
     public Point transformPoint(Point point) { //screen pos to chess coord
-        Point newPoint = new Point(point.x, point.y);
-        transformPointByRef(newPoint);
-        return newPoint;
+        return new Point(((int) ((point.x-startX) * (142f / width)) - 7) / 16, 7 - ((int) ((point.y-startY) * (142f / height)) - 7) / 16);
     }
 
-    public void transformPointByRef(Point point) {
-        point.x = ((int) ((point.x-startX) * (142f / width)) - 7) / 16;
-        point.y = 7 - ((int) ((point.y-startY) * (142f / height)) - 7) / 16;
-    }
 
     public void drawBoard(Graphics g, int x, int y) {
         g.drawImage(board.image, x, y, width, height, null);
@@ -103,8 +97,13 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (board.getSelected() != null){
+            if (!transformPoint(e.getPoint()).equals(board.getSelected())){
+                board.setDragging(true);
+            }
+        }
+
         mousePosition = e.getPoint();
-        board.setDragging(true);
     }
 
     @Override
