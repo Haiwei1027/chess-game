@@ -10,8 +10,10 @@ public abstract class ChessPiece {
     protected boolean isWhite;
 
     protected ChessBoard board;
-
     private String personalName;
+
+    public boolean whiteInCheck;
+    public boolean blackInCheck;
 
     public ChessPiece(ChessBoard board, boolean isWhite, String personalName ) {
         this.board = board;
@@ -40,6 +42,11 @@ public abstract class ChessPiece {
         // Do move two cases taking piece and not
         board.setPiece(toX, toY, this);
         board.setPiece(fromX, fromY, null);
+
+        //Set if in check
+        this.blackInCheck = checkCheck(false);
+        this.whiteInCheck = checkCheck(true);
+
         return true;
     }
 
@@ -59,5 +66,53 @@ public abstract class ChessPiece {
             }
         }
         return validMoves;
+    }
+
+    //Checks if in check, isWhite is the colour of the side being checked
+    public boolean checkCheck(boolean isWhite) {
+        int kingX;
+        int kingY;
+
+        Point kingPoint = findKing(isWhite);
+
+        if (kingPoint == null) {
+            return false;
+        }
+
+        kingX = (int) kingPoint.getX();
+        kingY = (int) kingPoint.getY();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ChessPiece pieceAtPosition = board.getPiece(i, j);
+                if (pieceAtPosition == null) {
+                    continue;
+                }
+
+                if (pieceAtPosition.isWhite() != isWhite) {
+                    if (pieceAtPosition.isMoveValid(kingX, kingY, i, j)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    //finds where the king is on the board
+    public Point findKing(boolean isWhite) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ChessPiece pieceAtPosition = board.getPiece(i, j);
+                if (pieceAtPosition == null) {
+                    continue;
+                }
+                if (pieceAtPosition.getId() == ChessBoard.KING && pieceAtPosition.isWhite() == isWhite) {
+                    return new Point(i, j);
+
+                }
+            }
+        }
+        return null;
     }
 }
