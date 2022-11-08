@@ -148,7 +148,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 							}
 						}
 
-
 						continue;
 					}
 				}
