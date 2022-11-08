@@ -81,18 +81,18 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public void resetBoard(){
 		for (int i = 0; i < 8; i++) {
-			board[i][1] = new Pawn(this, true, pawnPersonalNames[i+8]);
-			board[i][6] = new Pawn(this, false, pawnPersonalNames[i]);
+			board[i][1] = new Pawn(this, true, pawnPersonalNames[i]);
+			board[i][6] = new Pawn(this, false, pawnPersonalNames[i+8]);
 		}
 		for (int i = 0; i < 2; i++) {
-			board[0][i*7] = new Rook(this, i==0);
-			board[7][i*7] = new Rook(this, i==0);
-			board[1][i*7] = new Knight(this, i==0);
-			board[6][i*7] = new Knight(this, i==0);
-			board[2][i*7] = new Bishop(this, i==0);
-			board[5][i*7] = new Bishop(this, i==0);
-			board[3][i*7] = new Queen(this, i==0);
-			board[4][i*7] = new King(this, i==0);
+			board[0][i*7] = new Rook(this, i==0, rookPersonalNames[i]);
+			board[7][i*7] = new Rook(this, i==0, rookPersonalNames[i+2]);
+			board[1][i*7] = new Knight(this, i==0, knightPersonalNames[i]);
+			board[6][i*7] = new Knight(this, i==0, knightPersonalNames[i+2]);
+			board[2][i*7] = new Bishop(this, i==0, bishopPersonalNames[i]);
+			board[5][i*7] = new Bishop(this, i==0, bishopPersonalNames[i+2]);
+			board[3][i*7] = new Queen(this, i==0, monarchPersonalNames[i+2]);
+			board[4][i*7] = new King(this, i==0, monarchPersonalNames[i]);
 		}
 
 	}

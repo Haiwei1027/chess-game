@@ -4,8 +4,8 @@ import group.achi.ChessBoard;
 
 public class Rook extends ChessPiece{
 
-	public Rook(ChessBoard board, boolean isWhite) {
-		super(board, isWhite);
+	public Rook(ChessBoard board, boolean isWhite, String personalName) {
+		super(board, isWhite, personalName);
 		this.id = board.ROOK;
 	}
 
