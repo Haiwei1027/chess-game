@@ -21,22 +21,22 @@ public abstract class ChessPiece {
         return id;
     }
 
-    public abstract boolean isMoveValid(int to_x, int to_y, int from_x, int from_y);
+    public abstract boolean isMoveValid(int toX, int toY, int fromX, int fromY);
 
-    public boolean movePiece(int to_x, int to_y, int from_x, int from_y){
+    public boolean movePiece(int toX, int toY, int fromX, int fromY){
         // Check if move is valid
 
         // Make sure that the knight is not moving to a position with a piece of the same color
-        if (board.getPiece(to_x, to_y) != null) {
-            if (board.getPiece(to_x, to_y).isWhite() == this.isWhite()) return false;
+        if (board.getPiece(toX, toY) != null) {
+            if (board.getPiece(toX, toY).isWhite() == this.isWhite()) return false;
         }
 
         // Check the move fits the piece move pattern
-        if (!(isMoveValid(to_x, to_y, from_x, from_y)) || (to_x == from_x && to_y == from_y)) return false;
+        if (!(isMoveValid(toX, toY, fromX, fromY)) || (toX == fromX && toY == fromY)) return false;
 
         // Do move two cases taking piece and not
-        board.setPiece(to_x, to_y, this);
-        board.setPiece(from_x, from_y, null);
+        board.setPiece(toX, toY, this);
+        board.setPiece(fromX, fromY, null);
         return true;
     }
 

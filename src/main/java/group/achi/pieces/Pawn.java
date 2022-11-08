@@ -13,14 +13,14 @@ public class Pawn extends ChessPiece {
 	}
 
 	@Override
-	public boolean isMoveValid(int to_x, int to_y, int from_x, int from_y) {
+	public boolean isMoveValid(int toX, int toY, int fromX, int fromY) {
 
-		int dx = to_x - from_x,
-			dy = to_y - from_y,
+		int dx = toX - fromX,
+			dy = toY - fromY,
 			absdy = Math.abs(dy),
 			absdx = Math.abs(dx);
 
-		if (board.getPiece(from_x, from_y).isWhite()) //If piece is white, move direction is up so dy must be greater than 0
+		if (board.getPiece(fromX, fromY).isWhite()) //If piece is white, move direction is up so dy must be greater than 0
 		{
 			if (dy < 0) {return false;}
 		} else
@@ -33,20 +33,20 @@ public class Pawn extends ChessPiece {
 			return true;
 		}
 
-		if ( (absdy == 1 && absdx == 1) && (board.getPiece(to_x, to_y) != null) ) {return true; }
+		if ( (absdy == 1 && absdx == 1) && (board.getPiece(toX, toY) != null) ) {return true; }
 
 		if (absdy > 1 || absdx > 0) {return false; } //NO moving more than 1 space away!
 
-		if (absdx == 0 && board.getPiece(to_x, to_y) != null) {return false; }
+		if (absdx == 0 && board.getPiece(toX, toY) != null) {return false; }
 
 		if( (absdy == 2 && absdx > 0)) {return false; }
 		return true;
 	}
 
 	@Override
-	public boolean movePiece(int to_x, int to_y, int from_x, int from_y)
+	public boolean movePiece(int toX, int toY, int fromX, int fromY)
 	{
-		if (super.movePiece(to_x,to_y,from_x,from_y))
+		if (super.movePiece(toX,toY,fromX,fromY))
 		{
 			hasMoved = true;
 			return true;
