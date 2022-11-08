@@ -46,7 +46,6 @@ public abstract class ChessPiece {
         //Set if in check
         this.blackInCheck = checkCheck(false);
         this.whiteInCheck = checkCheck(true);
-
         return true;
     }
 
@@ -82,21 +81,7 @@ public abstract class ChessPiece {
         kingX = (int) kingPoint.getX();
         kingY = (int) kingPoint.getY();
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                ChessPiece pieceAtPosition = board.getPiece(i, j);
-                if (pieceAtPosition == null) {
-                    continue;
-                }
-
-                if (pieceAtPosition.isWhite() != isWhite) {
-                    if (pieceAtPosition.isMoveValid(kingX, kingY, i, j)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return checkIfValidEnemyMove(kingX, kingY, isWhite);
     }
 
     //finds where the king is on the board
@@ -109,10 +94,27 @@ public abstract class ChessPiece {
                 }
                 if (pieceAtPosition.getId() == ChessBoard.KING && pieceAtPosition.isWhite() == isWhite) {
                     return new Point(i, j);
-
                 }
             }
         }
         return null;
+    }
+
+    public boolean checkIfValidEnemyMove(int xPos, int yPos, boolean isWhite) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ChessPiece pieceAtPosition = board.getPiece(i, j);
+                if (pieceAtPosition == null) {
+                    continue;
+                }
+
+                if (pieceAtPosition.isWhite() != isWhite) {
+                    if (pieceAtPosition.isMoveValid(xPos, yPos, i, j)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
