@@ -25,7 +25,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public BufferedImage image;
 
-	private ChessPiece[][] board;
+	public ChessPiece[][] board;
 	private Point selected;
 	private boolean isDragging = false;
 
@@ -155,7 +155,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		Graphics g = image.getGraphics();
 		g.drawImage(ResourceLoader.instance.board, 0, 0, null);
 		g.setColor(Color.GREEN);
-		g.fillRect(7,(nextSideToMove?1:0)*141,8*16,1);
+		g.fillRect(7, (nextSideToMove ? 1 : 0) * 141, 8 * 16, 1);
 		for (int x = 0; x < getSize(); x++) {
 			for (int y = 0; y < getSize(); y++) {
 				ChessPiece piece = board[x][y];
