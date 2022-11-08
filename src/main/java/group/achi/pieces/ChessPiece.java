@@ -9,9 +9,12 @@ public abstract class ChessPiece {
 
     protected ChessBoard board;
 
-    public ChessPiece(ChessBoard board, boolean isWhite) {
+    private String personalName;
+
+    public ChessPiece(ChessBoard board, boolean isWhite, String personalName ) {
         this.board = board;
         this.isWhite = isWhite;
+        this.personalName = personalName;
     }
 
     // Get id
