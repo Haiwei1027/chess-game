@@ -13,19 +13,19 @@ public class King extends ChessPiece{
 
 	// Doesn't account for castling
 	@Override
-	public boolean isMoveValid(int to_x, int to_y, int from_x, int from_y) {
+	public boolean isMoveValid(int toX, int toY, int fromX, int fromY) {
 		// Make sure that the king is in positions from
-		if (board.getPiece(from_x, from_y).getId() != id) return false;
+		if (board.getPiece(fromX, fromY).getId() != id) return false;
 
 		// Find the change in x and y
-		int dx = to_x - from_x;
-		int dy = to_y - from_y;
+		int dx = toX - fromX;
+		int dy = toY - fromY;
 
 		// Make sure that the king is moving only one square
 		if (Math.abs(dx) > 1 || Math.abs(dy) > 1) return false;
 
 		// Make sure that the king is not moving to a position with a piece of the same color
-		if (board.getPiece(to_x, to_y).isWhite() == this.isWhite()) return false;
+		if (board.getPiece(toX, toY).isWhite() == this.isWhite()) return false;
 
 		return true;
 	}

@@ -10,23 +10,23 @@ public class Rook extends ChessPiece{
 	}
 
 	@Override
-	public boolean isMoveValid(int to_x, int to_y, int from_x, int from_y) {
+	public boolean isMoveValid(int toX, int toY, int fromX, int fromY) {
 		// Make sure that the rook is in positions from
-		//if (board.getPiece(from_x, from_y).getId() != id) return false;
+		//if (board.getPiece(fromX, fromY).getId() != id) return false;
 
 		//i don't think that check is necessary and it could cause issues with the queen using the rook isMoveValid;
 
 		// Find the change in x and y
-		int dx = to_x - from_x;
-		int dy = to_y - from_y;
+		int dx = toX - fromX;
+		int dy = toY - fromY;
 
 		// make sure that the queen is moving in a straight line
 		if (!(dx == 0 || dy == 0)) return false;
 
 		// Make sure the rook is not moving through any pieces
-		int i = from_x, j = from_y;
-		while (i != to_x || j != to_y){
-			if (i != from_x || j != from_y){
+		int i = fromX, j = fromY;
+		while (i != toX || j != toY){
+			if (i != fromX || j != fromY){
 				if (board.getPiece(i,j) != null){
 					return false;
 				}
