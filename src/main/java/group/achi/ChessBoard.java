@@ -60,7 +60,9 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			selectPiece(location);
 		}
 		else{
-			dropPiece(location);
+			if (!dropPiece(location)){
+				selectPiece(location);
+			}
 		}
 	}
 	private void selectPiece(Point location){
@@ -77,7 +79,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		if (changed) paint();
 	}
 
-	private void dropPiece(Point location){
+	private boolean dropPiece(Point location){
 
 		boolean moved = getPiece(selected.x,selected.y).movePiece(location.x,location.y,selected.x,selected.y);
 
@@ -87,6 +89,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		setDragging(false);
 
 		paint();
+
+		return moved;
 	}
 
 
