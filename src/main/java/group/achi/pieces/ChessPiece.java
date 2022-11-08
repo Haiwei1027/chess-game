@@ -2,6 +2,8 @@ package group.achi.pieces;
 
 import group.achi.ChessBoard;
 
+import java.awt.*;
+
 public abstract class ChessPiece {
 
     protected int id;
@@ -45,4 +47,17 @@ public abstract class ChessPiece {
         return isWhite;
     }
 
+    public Point[] getValidMoves(int x, int y) {
+        Point[] validMoves = new Point[64];
+        int index = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (isMoveValid(i, j, x, y) && (board.getPiece(i, j) == null || board.getPiece(i, j).isWhite() != this.isWhite())) {
+                    validMoves[index] = new Point(i, j);
+                    index++;
+                }
+            }
+        }
+        return validMoves;
+    }
 }
