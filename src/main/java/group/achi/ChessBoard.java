@@ -28,9 +28,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	private ChessPiece[][] board;
 	private Point selected;
 	private boolean isDragging = false;
-	public void setDragging(boolean dragging) {
-		isDragging = dragging;
-	}
+
 
 
 	private boolean nextSideToMove = true;
@@ -73,6 +71,12 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		paint();
 	}
 
+	public void setDragging(boolean dragging) {
+		boolean changed = isDragging != dragging;
+		isDragging = dragging;
+		if (changed) paint();
+	}
+
 	private void dropPiece(Point location){
 
 		boolean moved = getPiece(selected.x,selected.y).movePiece(location.x,location.y,selected.x,selected.y);
@@ -80,7 +84,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		if (moved) nextSideToMove = !nextSideToMove;
 
 		selected = null;
-		isDragging = false;
+		setDragging(false);
 
 		paint();
 	}

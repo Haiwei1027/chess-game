@@ -105,7 +105,6 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
     public void mouseDragged(MouseEvent e) {
         mousePosition = e.getPoint();
         board.setDragging(true);
-        board.paint();
     }
 
     @Override
