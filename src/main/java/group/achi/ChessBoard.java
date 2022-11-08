@@ -134,11 +134,21 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 				BufferedImage sprite;
 				sprite = piece != null ? ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite()) : null;
 
-
 				if (selected != null) {
 					if (x == selected.x && y == selected.y) {
-						g.setColor(Color.YELLOW);
+						g.setColor(new Color(255, 255, 0, 200));
 						g.fillRect(x * 16 + 7, (7 - y) * 16 + 7, 16, 16);
+
+						ChessPiece selectedPiece = board[selected.x][selected.y];
+						if(selectedPiece != null){
+							for (Point p : selectedPiece.getValidMoves(selected.x,selected.y)) {
+								if(p == null) continue;
+								g.setColor(new Color(255, 255, 0, 200));
+								g.fillRect(p.x * 16 + 11, (7 - p.y) * 16 + 11, 8, 8);
+							}
+						}
+
+
 						continue;
 					}
 				}
