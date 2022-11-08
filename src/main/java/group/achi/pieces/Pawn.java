@@ -7,8 +7,8 @@ import java.security.spec.RSAOtherPrimeInfo;
 public class Pawn extends ChessPiece {
 	boolean hasMoved = false;
 
-	public Pawn(ChessBoard board, boolean isWhite) {
-		super(board, isWhite);
+	public Pawn(ChessBoard board, boolean isWhite, String personalName) {
+		super(board, isWhite, personalName);
 		this.id = board.PAWN;
 	}
 

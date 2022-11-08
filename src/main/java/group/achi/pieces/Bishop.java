@@ -4,8 +4,8 @@ import group.achi.ChessBoard;
 
 public class Bishop extends ChessPiece{
 
-	public Bishop(ChessBoard board, boolean isWhite) {
-		super(board, isWhite);
+	public Bishop(ChessBoard board, boolean isWhite, String personalName) {
+		super(board, isWhite, personalName);
 		this.id = board.BISHOP;
 	}
 

@@ -11,7 +11,16 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public final static int PAWN=0,KNIGHT=1,ROOK=2,BISHOP=3,KING=4,QUEEN=5;
 	public final int WHITE=0,BLACK=1;
-
+	private final String[] pawnPersonalNames = new String[]{"Meslet", "Podrey", "Binman", "Narsi", "Kevin", "Amleia", "Sorson", "James", //white pawn
+															"Rory", "Carwyn", "Maisei", "Banned", "Vansyr", "Rerty", "Neysha", "Boris"}; //black pawn
+	private final String[] rookPersonalNames = new String[]{"Cassor", "Steve", //white rook names
+															"Tover", "Caer"}; //black rook names
+	private final String[] knightPersonalNames = new String[]{"Garry", "Haiwei", //white knight names
+																"Cami", "Isaac"};//black white names
+	private final String[] bishopPersonalNames = new String[]{"Shah", "Vivian",  //white bishop names
+																"Bethan", "Boi"};//black bishop names
+	private final String[] monarchPersonalNames = new String[]{"Micu", "Roman",  //white king queen names
+																"Xander", "Arian"};//black king queen names
 	private final int size = 8;
 
 	public BufferedImage image;
@@ -80,18 +89,18 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public void resetBoard(){
 		for (int i = 0; i < 8; i++) {
-			board[i][1] = new Pawn(this, true);
-			board[i][6] = new Pawn(this, false);
+			board[i][1] = new Pawn(this, true, pawnPersonalNames[i]);
+			board[i][6] = new Pawn(this, false, pawnPersonalNames[i+8]);
 		}
 		for (int i = 0; i < 2; i++) {
-			board[0][i*7] = new Rook(this, i==0);
-			board[7][i*7] = new Rook(this, i==0);
-			board[1][i*7] = new Knight(this, i==0);
-			board[6][i*7] = new Knight(this, i==0);
-			board[2][i*7] = new Bishop(this, i==0);
-			board[5][i*7] = new Bishop(this, i==0);
-			board[3][i*7] = new Queen(this, i==0);
-			board[4][i*7] = new King(this, i==0);
+			board[0][i*7] = new Rook(this, i==0, rookPersonalNames[i]);
+			board[7][i*7] = new Rook(this, i==0, rookPersonalNames[i+2]);
+			board[1][i*7] = new Knight(this, i==0, knightPersonalNames[i]);
+			board[6][i*7] = new Knight(this, i==0, knightPersonalNames[i+2]);
+			board[2][i*7] = new Bishop(this, i==0, bishopPersonalNames[i]);
+			board[5][i*7] = new Bishop(this, i==0, bishopPersonalNames[i+2]);
+			board[3][i*7] = new Queen(this, i==0, monarchPersonalNames[i+2]);
+			board[4][i*7] = new King(this, i==0, monarchPersonalNames[i]);
 		}
 
 	}

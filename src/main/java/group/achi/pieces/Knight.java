@@ -4,8 +4,8 @@ import group.achi.ChessBoard;
 
 public class Knight extends ChessPiece{
 
-	public Knight(ChessBoard board, boolean isWhite) {
-		super(board, isWhite);
+	public Knight(ChessBoard board, boolean isWhite, String personalName) {
+		super(board, isWhite, personalName);
 		this.id = board.KNIGHT;
 	}
 
