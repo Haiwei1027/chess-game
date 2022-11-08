@@ -6,7 +6,7 @@ import java.security.spec.RSAOtherPrimeInfo;
 
 public class Pawn extends ChessPiece {
 	boolean hasMoved = false;
-	boolean hasLeaped = false;
+	static int hasLeapedOnFile = -1;
 	boolean enPasant = false;
 
 	public Pawn(ChessBoard board, boolean isWhite, String personalName) {
@@ -58,7 +58,9 @@ public class Pawn extends ChessPiece {
 	{
 		if (super.movePiece(toX,toY,fromX,fromY))
 		{
-			hasLeaped =  Math.abs(fromY - toY) == 2;
+			if (Math.abs(fromY - toY) == 2){
+				hasLeapedOnFile = toX;
+			}
 			if (enPasant){
 				board.setPiece(toX,toY - (isWhite ? 1 : -1),null);
 			}
@@ -72,7 +74,7 @@ public class Pawn extends ChessPiece {
 		Pawn pawn = (Pawn)board.getPiece(x + dx,y);
 		if (pawn != null){
 			if (pawn.isWhite != isWhite){
-				if (pawn.hasLeaped){
+				if (hasLeapedOnFile == x + dx){
 					enPasant = true;
 					return true;
 				}
