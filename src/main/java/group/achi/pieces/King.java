@@ -24,9 +24,6 @@ public class King extends ChessPiece{
 		// Make sure that the king is moving only one square
 		if (Math.abs(dx) > 1 || Math.abs(dy) > 1) return false;
 
-		// Make sure that the king is not moving to a position with a piece of the same color
-		if (board.getPiece(toX, toY).isWhite() == this.isWhite()) return false;
-
 		return true;
 	}
 }
