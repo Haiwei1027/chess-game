@@ -88,6 +88,7 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
     @Override
     public void mouseReleased(MouseEvent e) {
         board.mouseUp(transformPoint(e.getPoint()));
+        board.setDragging(false);
     }
 
     @Override
@@ -102,8 +103,9 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        mousePosition.x = e.getX(); //this is needed as while the mouse is being held down and moved
-        mousePosition.y = e.getY(); //mouseMoved don't get called and calls this instead
+        mousePosition = e.getPoint();
+        board.setDragging(true);
+        board.paint();
     }
 
     @Override

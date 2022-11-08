@@ -18,6 +18,11 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	private ChessPiece[][] board;
 	private Point selected;
+	private boolean isDragging = false;
+	public void setDragging(boolean dragging) {
+		isDragging = dragging;
+	}
+
 
 	private boolean nextSideToMove = true;
 
@@ -33,9 +38,13 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public void mouseUp(Point location){
 		if (selected == null) {return;}
-		if (location.equals(selected)){
-			//mouse up at the same location
-			//clicking mode
+		if (location.equals(selected) && !isDragging) {
+			if (getPiece(location.x,location.y) != null){
+				selectPiece(location);
+			} else {
+				selected = null;
+			}
+			return;
 		}
 		dropPiece(location);
 	}
@@ -48,7 +57,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		}
 	}
 	private void selectPiece(Point location){
-		System.out.printf("pick up at %d, %d \n",location.x,location.y);
 		if (getPiece(location.x,location.y) == null) return;
 		if (getPiece(location.x,location.y).isWhite() != nextSideToMove) return; //cannot select the opponent pieces
 		selected = location;
@@ -57,13 +65,13 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 
 	private void dropPiece(Point location){
-		System.out.printf("dropped at %s %s \n",location.x,location.y);
 
 		boolean moved = getPiece(selected.x,selected.y).movePiece(location.x,location.y,selected.x,selected.y);
 
 		if (moved) nextSideToMove = !nextSideToMove;
 
 		selected = null;
+		isDragging = false;
 
 		paint();
 	}
@@ -108,7 +116,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 
 	public boolean isDragging(){
-		return selected != null;
+		return selected != null && isDragging;
 	}
 	public BufferedImage getSelectedSprite() {
 		ChessPiece piece = board[selected.x][selected.y];
@@ -134,22 +142,19 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 				BufferedImage sprite;
 				sprite = piece != null ? ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite()) : null;
 
-				if (selected != null) {
-					if (x == selected.x && y == selected.y) {
-						g.setColor(new Color(255, 255, 0, 200));
-						g.fillRect(x * 16 + 7, (7 - y) * 16 + 7, 16, 16);
+				if (selected != null && selected.equals(new Point(x, y))) {
+					g.setColor(new Color(255, 255, 0, 200));
+					g.fillRect(x * 16 + 7, (7 - y) * 16 + 7, 16, 16);
 
-						ChessPiece selectedPiece = board[selected.x][selected.y];
-						if(selectedPiece != null){
-							for (Point p : selectedPiece.getValidMoves(selected.x,selected.y)) {
-								if(p == null) continue;
-								g.setColor(new Color(255, 255, 0, 200));
-								g.fillRect(p.x * 16 + 11, (7 - p.y) * 16 + 11, 8, 8);
-							}
+					ChessPiece selectedPiece = board[selected.x][selected.y];
+					if (selectedPiece != null) {
+						for (Point p : selectedPiece.getValidMoves(selected.x, selected.y)) {
+							if (p == null) continue;
+							g.setColor(new Color(255, 255, 0, 200));
+							g.fillRect(p.x * 16 + 11, (7 - p.y) * 16 + 11, 8, 8);
 						}
-
-						continue;
 					}
+					if (isDragging) continue;
 				}
 				g.drawImage(sprite, x * 16 + 7, (7 - y) * 16 + 7, null);
 			}
