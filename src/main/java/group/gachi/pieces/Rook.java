@@ -8,7 +8,7 @@ public class Rook extends ChessPiece{
 
 	public Rook(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
-		this.id = board.ROOK;
+		this.id = ChessBoard.ROOK;
 	}
 
 	@Override

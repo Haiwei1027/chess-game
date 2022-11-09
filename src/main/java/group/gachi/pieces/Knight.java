@@ -6,7 +6,7 @@ public class Knight extends ChessPiece{
 
 	public Knight(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
-		this.id = board.KNIGHT;
+		this.id = ChessBoard.KNIGHT;
 	}
 
 	@Override

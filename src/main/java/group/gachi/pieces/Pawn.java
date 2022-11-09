@@ -9,7 +9,7 @@ public class Pawn extends ChessPiece {
 
 	public Pawn(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
-		this.id = board.PAWN;
+		this.id = ChessBoard.PAWN;
 		super.health = 8;
 	}
 
@@ -33,8 +33,7 @@ public class Pawn extends ChessPiece {
 			}
 		}
 		else if (dy == step * 2){
-			if (leapBlocked || absdx != 0 || hasMoved) return false;
-			return true;
+			return !(leapBlocked || absdx != 0 || hasMoved);
 		}
 
 		return false;
@@ -87,7 +86,7 @@ public class Pawn extends ChessPiece {
 		return false;
 	}
 
-	public ChessPiece promote(int x, int y){
+	public void promote(int x, int y){
 		//return user promotion type
 		//Glorious text inputs
 		Scanner scanner =  new Scanner(System.in);
@@ -111,7 +110,6 @@ public class Pawn extends ChessPiece {
 		}
 
 		board.setPiece(x, y, newPiece);
-		return null;
 	}
 
 	public boolean canPromote(int y) {

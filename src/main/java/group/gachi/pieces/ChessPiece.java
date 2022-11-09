@@ -57,7 +57,7 @@ public abstract class ChessPiece {
     }
 
     public ArrayList<Point> getValidMoves(int x, int y) {
-        ArrayList<Point> validMoves = new ArrayList<Point>();
+        ArrayList<Point> validMoves = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 ChessPiece pieceAtPosition  = board.getPiece(i, j);
@@ -84,7 +84,7 @@ public abstract class ChessPiece {
                     for (int k = 0; k < board.getSize(); k++)
                         for (int l = 0; l < board.getSize(); l++)
                             if (board.getPiece(i, j).isMoveValid(k, l, i, j))
-                                if (board.getPiece(k, l) != null && board.getPiece(k, l).getId() == board.KING && board.getPiece(k, l).isWhite() == isWhite)
+                                if (board.getPiece(k, l) != null && board.getPiece(k, l).getId() == ChessBoard.KING && board.getPiece(k, l).isWhite() == isWhite)
                                     return new Point(k, board.getSize() - l - 1);
         return null;
     }
@@ -94,6 +94,7 @@ public abstract class ChessPiece {
     public void damage(int damageValue)
     {
         health -= damageValue;
-        if (health > 0) {health = 0;}
+        if (health > 0) health = 0;
+
     }
 }
