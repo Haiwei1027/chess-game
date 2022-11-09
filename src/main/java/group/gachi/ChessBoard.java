@@ -37,7 +37,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	//HashMap to keep track and quickly access every non-empty point
 	//Key - co-ordinate, value - id
-	HashMap<Point, Integer> nonEmptySpaces = new HashMap<Point, Integer>();
+	public HashMap<Point, Integer> nonEmptySpaces = new HashMap<>();
 
 	public ChessBoard() {
 		board = new ChessPiece[getSize()][getSize()];

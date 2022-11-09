@@ -4,6 +4,7 @@ import group.gachi.ChessBoard;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class ChessPiece {
 
@@ -88,24 +89,34 @@ public abstract class ChessPiece {
     }
 
     public Point checkCheck() {
-        for (int i = 0; i < board.getSize(); i++)
-            for (int j = 0; j < board.getSize(); j++)
-                if (board.getPiece(i, j) != null && board.getPiece(i, j).isWhite() != isWhite)
-                    for (int k = 0; k < board.getSize(); k++)
-                        for (int l = 0; l < board.getSize(); l++)
-                            if (board.getPiece(i, j).isMoveValid(k, l, i, j))
-                                if (board.getPiece(k, l) != null && board.getPiece(k, l).getId() == ChessBoard.KING && board.getPiece(k, l).isWhite() == isWhite)
-                                    return new Point(k, board.getSize() - l - 1);
-        return null;
-    }
-    public boolean checkCheckMate(){
-        for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); j++) {
-                if (board.getPiece(i, j) != null && board.getPiece(i, j).isWhite() != isWhite) {
-                    if (board.getPiece(i, j).getValidMoves(i, j).size() > 0) {
-                        return false;
+        int boardSize = board.getSize();
+        for (int i = 0; i < boardSize; i++) {
+            for (int j = 0; j < boardSize; j++) {
+                ChessPiece pieceIJ = board.getPiece(i, j);
+                if (pieceIJ != null && pieceIJ.isWhite() != isWhite) {
+                    for (int k = 0; k < boardSize; k++) {
+                        for (int l = 0; l < boardSize; l++) {
+                            if (pieceIJ.isMoveValid(k, l, i, j)) {
+                                ChessPiece pieceKL = board.getPiece(k, l);
+                                if (pieceKL != null && pieceKL.getId() == ChessBoard.KING && pieceKL.isWhite() == isWhite) {
+                                    return new Point(k, boardSize - l - 1);
+                                }
+                            }
+                        }
                     }
                 }
+            }
+        }
+        return null;
+    }
+
+    public boolean checkCheckMate(){
+        ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
+
+        for (Point location : currentNonEmpty) {
+            ChessPiece piece = board.getPiece(location.x, location.y);
+            if (piece.isWhite != this.isWhite && piece.getValidMoves(location.x, location.y).size() > 0) {
+                return false;
             }
         }
         return true;
