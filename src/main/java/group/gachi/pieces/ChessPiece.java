@@ -12,7 +12,7 @@ public abstract class ChessPiece {
 
     protected ChessBoard board;
     //combat related variables
-    private String personalName;
+    protected String personalName;
     int health;
 
     public ChessPiece(ChessBoard board, boolean isWhite, String personalName ) {
