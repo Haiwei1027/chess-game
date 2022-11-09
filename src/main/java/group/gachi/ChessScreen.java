@@ -1,4 +1,4 @@
-package group.achi;
+package group.gachi;
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;

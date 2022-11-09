@@ -1,6 +1,6 @@
-package group.achi.pieces;
+package group.gachi.pieces;
 
-import group.achi.ChessBoard;
+import group.gachi.ChessBoard;
 
 import java.awt.*;
 import java.util.ArrayList;
