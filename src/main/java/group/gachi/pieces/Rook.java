@@ -4,9 +4,19 @@ import group.gachi.ChessBoard;
 
 public class Rook extends ChessPiece{
 
+	boolean hasMoved = false;
+
 	public Rook(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
 		this.id = board.ROOK;
+	}
+
+	@Override
+	public boolean movePiece(int toX, int toY, int fromX, int fromY) {
+		if (super.movePiece(toX,toY,fromX,fromY)){
+			return hasMoved = true;
+		}
+		return false;
 	}
 
 	@Override

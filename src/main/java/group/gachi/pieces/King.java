@@ -11,6 +11,13 @@ public class King extends ChessPiece{
 		this.id = board.KING;
 	}
 
+	public boolean movePiece(int toX, int toY, int fromX, int fromY) {
+		if (super.movePiece(toX,toY,fromX, fromY)){
+			return hasMoved = true;
+		}
+		return false;
+	}
+
 	// Doesn't account for castling
 	@Override
 	public boolean isMoveValid(int toX, int toY, int fromX, int fromY) {
