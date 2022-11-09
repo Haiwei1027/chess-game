@@ -170,6 +170,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 				g.drawImage(sprite, x * 16 + 7, (7 - y) * 16 + 7, null);
 			}
 		}
+		g.setColor(new Color(255, 0, 0, 128));
+		for (int i = 0; i < 2; i++) if(new King(this,i==0,"KK").checkCheck() != null){
+			g.fillRect(new King(this,i==0,"KK").checkCheck().x * 16 + 7, new King(this,i==0,"KK").checkCheck().y * 16 + 7, 16, 16);
+		}
 		if (selected == null) return;
 		ChessPiece selectedPiece = board[selected.x][selected.y];
 		if (selectedPiece != null) {

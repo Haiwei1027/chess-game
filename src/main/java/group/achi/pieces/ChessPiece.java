@@ -69,12 +69,12 @@ public abstract class ChessPiece {
 
     //Checks if in check, isWhite is the colour of the side being checked
     public Point checkCheck() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < board.getSize(); i++) {
+            for (int j = 0; j < board.getSize(); j++) {
                 if (board.getPiece(i, j) != null && board.getPiece(i, j).isWhite() != isWhite) {
                     for (Point point : board.getPiece(i, j).getValidMoves(i, j)) {
                         if (point != null && board.getPiece(point.x,point.y) != null  && board.getPiece(point.x, point.y).getId() == board.KING && board.getPiece(point.x, point.y).isWhite() == isWhite) {
-                            return new Point(point.x, point.y);
+                            return new Point(point.x, board.getSize()-point.y - 1);
                         }
                     }
                 }
