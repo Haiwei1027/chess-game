@@ -1,8 +1,6 @@
-package group.achi.pieces;
+package group.gachi.pieces;
 
-import group.achi.ChessBoard;
-
-import java.security.spec.RSAOtherPrimeInfo;
+import group.gachi.ChessBoard;
 
 public class Pawn extends ChessPiece {
 	boolean hasMoved = false;

@@ -1,4 +1,4 @@
-package group.achi;
+package group.gachi;
 
 import javax.swing.*;
 import java.awt.*;

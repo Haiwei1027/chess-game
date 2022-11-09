@@ -1,4 +1,4 @@
-package group.achi;
+package group.gachi;
 import javax.swing.*;
 
 public class Main extends JFrame implements Runnable{
