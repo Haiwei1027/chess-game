@@ -49,6 +49,16 @@ public abstract class ChessPiece {
             board.setPiece(fromX, fromY, this);
             return false;
         }
+
+        //checks for checkmate
+        if (checkCheckMate()) {
+            if (this.isWhite()) {
+                System.out.println("White wins");
+            } else {
+                System.out.println("Black wins");
+            }
+        }
+
         return true;
     }
 
@@ -87,6 +97,18 @@ public abstract class ChessPiece {
                                 if (board.getPiece(k, l) != null && board.getPiece(k, l).getId() == ChessBoard.KING && board.getPiece(k, l).isWhite() == isWhite)
                                     return new Point(k, board.getSize() - l - 1);
         return null;
+    }
+    public boolean checkCheckMate(){
+        for (int i = 0; i < board.getSize(); i++) {
+            for (int j = 0; j < board.getSize(); j++) {
+                if (board.getPiece(i, j) != null && board.getPiece(i, j).isWhite() != isWhite) {
+                    if (board.getPiece(i, j).getValidMoves(i, j).size() > 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     public String getName() {return personalName;}
