@@ -24,6 +24,7 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
         this.battle = new Battle(new Pawn(new ChessBoard(), true, "HAIWEI"), new Pawn(new ChessBoard(), false, "CAMI"));
         this.width = width;
         this.height = height;
+        this.bgColor = new Color(69,77,95);
 
         setSize(width, height);
         addMouseListener(this);
@@ -38,6 +39,8 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
     }
 
     public void paint(Graphics g){
+        g.setColor(bgColor);
+        g.fillRect(0,0,getWidth(),getHeight());
         onResize();
         g.drawImage(battle.image, startX, startY,width,height,null);
     }

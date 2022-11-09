@@ -17,6 +17,7 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         this.board = new ChessBoard();
         this.width = width;
         this.height = height;
+        this.bgColor = new Color(69,77,95);
 
         setSize(width,height);
         addMouseListener(this);
@@ -24,14 +25,6 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
 
         pieceWidth = (int)(width / 142f) * 16;
         pieceHeight = pieceWidth;
-
-
-
-        int color = ResourceLoader.instance.board.getRGB(0,0);
-        int b = color & 0xff;
-        int g = (color & 0xff00) >> 8;
-        int r = (color & 0xff0000) >> 16;
-        bgColor = new Color(r,g,b);
     }
 
     public void onResize(){
