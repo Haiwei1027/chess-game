@@ -121,7 +121,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			return;
 		}
 		board[x][y] = piece;
-		paint();
 	}
 
 	public ChessPiece getPiece(int x, int y) {

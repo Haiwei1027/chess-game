@@ -59,7 +59,16 @@ public abstract class ChessPiece {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (isMoveValid(i, j, x, y) && (board.getPiece(i, j) == null || board.getPiece(i, j).isWhite() != this.isWhite())) {
-                    validMoves.add(new Point(i, j));
+
+                    //check if move puts king in check
+                    ChessPiece chessP = board.getPiece(i, j);
+                    board.setPiece(i, j, this);
+                    board.setPiece(x, y, null);
+                    if (checkCheck() == null) {
+                        validMoves.add(new Point(i, j));
+                    }
+                    board.setPiece(i, j, chessP);
+                    board.setPiece(x, y, this);
                 }
             }
         }
@@ -67,17 +76,14 @@ public abstract class ChessPiece {
     }
 
     public Point checkCheck() {
-        for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); j++) {
-                if (board.getPiece(i, j) != null && board.getPiece(i, j).isWhite() != isWhite) {
-                    for (Point point : board.getPiece(i, j).getValidMoves(i, j)) {
-                        if (point != null && board.getPiece(point.x,point.y) != null  && board.getPiece(point.x, point.y).getId() == board.KING && board.getPiece(point.x, point.y).isWhite() == isWhite) {
-                            return new Point(point.x, board.getSize()-point.y - 1);
-                        }
-                    }
-                }
-            }
-        }
+        for (int i = 0; i < board.getSize(); i++)
+            for (int j = 0; j < board.getSize(); j++)
+                if (board.getPiece(i, j) != null && board.getPiece(i, j).isWhite() != isWhite)
+                    for (int k = 0; k < board.getSize(); k++)
+                        for (int l = 0; l < board.getSize(); l++)
+                            if (board.getPiece(i, j).isMoveValid(k, l, i, j))
+                                if (board.getPiece(k, l) != null && board.getPiece(k, l).getId() == board.KING && board.getPiece(k, l).isWhite() == isWhite)
+                                    return new Point(k, board.getSize() - l - 1);
         return null;
     }
 }
