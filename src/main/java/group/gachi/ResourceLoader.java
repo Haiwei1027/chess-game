@@ -13,8 +13,8 @@ public class ResourceLoader {
 
         try{
             try {
-                whitePieces = ImageIO.read(getClass().getResource("/WhitePieces.png"));
-                blackPieces = ImageIO.read(getClass().getResource("/BlackPieces.png"));
+                whitePieces = ImageIO.read(getClass().getResource("/WhitePiecesWithWeapons.png"));
+                blackPieces = ImageIO.read(getClass().getResource("/BlackPiecesWithWeapons.png"));
                 board = ImageIO.read(getClass().getResource("/board_plain_04.png"));
             } catch (IOException e) {
                 throw new RuntimeException("oops");
