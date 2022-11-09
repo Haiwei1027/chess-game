@@ -30,22 +30,22 @@ public abstract class ChessPiece {
 
     public boolean movePiece(int toX, int toY, int fromX, int fromY) {
         // Check if move is valid
+        ChessPiece toSpot = board.getPiece(toX, toY);
 
         // Make sure that the knight is not moving to a position with a piece of the same color
-        if (board.getPiece(toX, toY) != null) {
-            if (board.getPiece(toX, toY).isWhite() == this.isWhite()) return false;
+        if (toSpot != null) {
+            if (toSpot.isWhite() == this.isWhite()) return false;
         }
 
         // Check the move fits the piece move pattern
         if (!(isMoveValid(toX, toY, fromX, fromY)) || (toX == fromX && toY == fromY)) return false;
 
         // Do move two cases taking piece and not
-        ChessPiece chessP = board.getPiece(toX, toY);
         board.setPiece(toX, toY, this);
         board.setPiece(fromX, fromY, null);
 
         if (checkCheck() != null) {
-            board.setPiece(toX, toY, chessP);
+            board.setPiece(toX, toY, toSpot);
             board.setPiece(fromX, fromY, this);
             return false;
         }
@@ -60,16 +60,16 @@ public abstract class ChessPiece {
         ArrayList<Point> validMoves = new ArrayList<Point>();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (isMoveValid(i, j, x, y) && (board.getPiece(i, j) == null || board.getPiece(i, j).isWhite() != this.isWhite())) {
+                ChessPiece pieceAtPosition  = board.getPiece(i, j);
+                if (isMoveValid(i, j, x, y) && (pieceAtPosition == null || pieceAtPosition.isWhite() != this.isWhite())) {
 
                     //check if move puts king in check
-                    ChessPiece chessP = board.getPiece(i, j);
                     board.setPiece(i, j, this);
                     board.setPiece(x, y, null);
                     if (checkCheck() == null) {
                         validMoves.add(new Point(i, j));
                     }
-                    board.setPiece(i, j, chessP);
+                    board.setPiece(i, j, pieceAtPosition);
                     board.setPiece(x, y, this);
                 }
             }

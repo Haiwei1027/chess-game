@@ -182,5 +182,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 				g.fillRect(p.x * 16 + 11, (7 - p.y) * 16 + 11, 8, 8);
 			}
 		}
+		g.dispose();
 	}
 }

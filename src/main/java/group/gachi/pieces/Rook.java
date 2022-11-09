@@ -43,7 +43,7 @@ public class Rook extends ChessPiece{
 			}
 			if (dx == 0){
 				j += dy > 0 ? 1 : -1;
-			} else if (dy == 0){
+			} else {
 				i += dx > 0 ? 1 : -1;
 			}
 		}

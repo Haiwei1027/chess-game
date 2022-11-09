@@ -58,16 +58,17 @@ public class Pawn extends ChessPiece {
 	}
 
 	public boolean enPassant(int x, int y, int dx, int dy){
-		//get pawn beside
-		if (board.getPiece(x + dx, y) == null || board.getPiece(x +dx, y).getId() != board.PAWN) return false;
+		//Gets piece in adjacent spot
+		ChessPiece adjacentSpot = board.getPiece(x + dx, y);
 
-		Pawn pawn = (Pawn)board.getPiece(x + dx,y); // there is a bug when there is anything other than a pawn next to it
-		if (pawn != null){
-			if (pawn.isWhite != isWhite){
-				if (hasLeapedOnFile == x + dx){
-					enPassant = true;
-					return true;
-				}
+		if (adjacentSpot == null || adjacentSpot.getId() != board.PAWN) return false;
+
+		Pawn pawn = (Pawn)adjacentSpot;
+
+		if (pawn.isWhite != isWhite){
+			if (hasLeapedOnFile == x + dx){
+				enPassant = true;
+				return true;
 			}
 		}
 		return false;
