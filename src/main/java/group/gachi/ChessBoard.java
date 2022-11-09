@@ -34,6 +34,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 
 	private boolean nextSideToMove = true;
+
 	//HashMap to keep track and quickly access every non-empty point
 	//Key - co-ordinate, value - id
 	HashMap<Point, Integer> nonEmptySpaces = new HashMap<Point, Integer>();
@@ -127,6 +128,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			return;
 		}
 		board[x][y] = piece;
+
+		//Updates nonEmptySpaces hash map
+		if (piece != null) insertIntoNonEmpty(x, y);
+		else removeFromNonEmpty(x, y);
 	}
 
 	public ChessPiece getPiece(int x, int y) {
