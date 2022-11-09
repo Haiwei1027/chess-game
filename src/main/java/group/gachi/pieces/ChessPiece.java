@@ -28,22 +28,22 @@ public abstract class ChessPiece {
 
     public boolean movePiece(int toX, int toY, int fromX, int fromY) {
         // Check if move is valid
+        ChessPiece toSpot = board.getPiece(toX, toY);
 
         // Make sure that the knight is not moving to a position with a piece of the same color
-        if (board.getPiece(toX, toY) != null) {
-            if (board.getPiece(toX, toY).isWhite() == this.isWhite()) return false;
+        if (toSpot != null) {
+            if (toSpot.isWhite() == this.isWhite()) return false;
         }
 
         // Check the move fits the piece move pattern
         if (!(isMoveValid(toX, toY, fromX, fromY)) || (toX == fromX && toY == fromY)) return false;
 
         // Do move two cases taking piece and not
-        ChessPiece chessP = board.getPiece(toX, toY);
         board.setPiece(toX, toY, this);
         board.setPiece(fromX, fromY, null);
 
         if (checkCheck() != null) {
-            board.setPiece(toX, toY, chessP);
+            board.setPiece(toX, toY, toSpot);
             board.setPiece(fromX, fromY, this);
             return false;
         }
