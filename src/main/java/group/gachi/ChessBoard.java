@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import group.gachi.pieces.*;
 
@@ -32,11 +34,15 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 
 	private boolean nextSideToMove = true;
+	//HashMap to keep track and quickly access every non-empty point
+	//Key - co-ordinate, value - id
+	HashMap<Point, Integer> nonEmptySpaces = new HashMap<Point, Integer>();
 
 	public ChessBoard() {
 		board = new ChessPiece[getSize()][getSize()];
 		resetBoard();
 		paint();
+		setInitialNonEmptySpots();
 	}
 
 	public int getSize(){
@@ -183,5 +189,24 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			}
 		}
 		g.dispose();
+	}
+
+	public void setInitialNonEmptySpots() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 2; j++) {
+				insertIntoNonEmpty(i, j);
+			}
+			for (int j = 7; j > 5; j--) {
+				insertIntoNonEmpty(i, j);
+			}
+		}
+	}
+
+	public void insertIntoNonEmpty(int x, int y) {
+		nonEmptySpaces.put(new Point(x, y), getPiece(x, y).getId());
+	}
+
+	public void removeFromNonEmpty(int x, int y) {
+		nonEmptySpaces.remove(new Point(x, y));
 	}
 }
