@@ -1,11 +1,11 @@
-package group.achi;
+package group.gachi;
 
 import java.awt.Point;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import group.achi.pieces.*;
+import group.gachi.pieces.*;
 
 public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, black
 
@@ -25,8 +25,11 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public BufferedImage image;
 
-	private ChessPiece[][] board;
+	public ChessPiece[][] board;
 	private Point selected;
+	private boolean isDragging = false;
+
+
 
 	private boolean nextSideToMove = true;
 
@@ -42,9 +45,13 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public void mouseUp(Point location){
 		if (selected == null) {return;}
-		if (location.equals(selected)){
-			//mouse up at the same location
-			//clicking mode
+		if (location.equals(selected) && !isDragging) {
+			if (getPiece(location.x,location.y) != null){
+				selectPiece(location);
+			} else {
+				selected = null;
+			}
+			return;
 		}
 		dropPiece(location);
 	}
@@ -53,11 +60,12 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			selectPiece(location);
 		}
 		else{
-			dropPiece(location);
+			if (!dropPiece(location)){
+				selectPiece(location);
+			}
 		}
 	}
 	private void selectPiece(Point location){
-		System.out.printf("pick up at %d, %d \n",location.x,location.y);
 		if (getPiece(location.x,location.y) == null) return;
 		if (getPiece(location.x,location.y).isWhite() != nextSideToMove) return; //cannot select the opponent pieces
 		selected = location;
@@ -65,16 +73,23 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		paint();
 	}
 
-	private void dropPiece(Point location){
-		System.out.printf("dropped at %s %s \n",location.x,location.y);
+	public void setDragging(boolean dragging) {
+		boolean changed = isDragging != dragging;
+		isDragging = dragging;
+		if (changed) paint();
+	}
 
+	private boolean dropPiece(Point location){
 		boolean moved = getPiece(selected.x,selected.y).movePiece(location.x,location.y,selected.x,selected.y);
 
 		if (moved) nextSideToMove = !nextSideToMove;
 
 		selected = null;
+		setDragging(false);
 
 		paint();
+
+		return moved;
 	}
 
 
@@ -106,7 +121,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			return;
 		}
 		board[x][y] = piece;
-		paint();
 	}
 
 	public ChessPiece getPiece(int x, int y) {
@@ -117,7 +131,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 
 	public boolean isDragging(){
-		return selected != null;
+		return selected != null && isDragging;
 	}
 	public BufferedImage getSelectedSprite() {
 		ChessPiece piece = board[selected.x][selected.y];
@@ -126,6 +140,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		sprite = ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite());
     	return sprite;
     }
+
+    public Point getSelected(){
+		return selected;
+	}
 
 	public void paint() {
 		if (image == null) {
@@ -136,31 +154,32 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		Graphics g = image.getGraphics();
 		g.drawImage(ResourceLoader.instance.board, 0, 0, null);
 		g.setColor(Color.GREEN);
-		g.fillRect(7,(nextSideToMove?1:0)*141,8*16,1);
+		g.fillRect(7, (nextSideToMove ? 1 : 0) * 141, 8 * 16, 1);
 		for (int x = 0; x < getSize(); x++) {
 			for (int y = 0; y < getSize(); y++) {
 				ChessPiece piece = board[x][y];
 				BufferedImage sprite;
 				sprite = piece != null ? ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite()) : null;
 
-				if (selected != null) {
-					if (x == selected.x && y == selected.y) {
-						g.setColor(new Color(255, 255, 0, 200));
-						g.fillRect(x * 16 + 7, (7 - y) * 16 + 7, 16, 16);
-
-						ChessPiece selectedPiece = board[selected.x][selected.y];
-						if(selectedPiece != null){
-							for (Point p : selectedPiece.getValidMoves(selected.x,selected.y)) {
-								if(p == null) continue;
-								g.setColor(new Color(255, 255, 0, 200));
-								g.fillRect(p.x * 16 + 11, (7 - p.y) * 16 + 11, 8, 8);
-							}
-						}
-
-						continue;
-					}
+				if (selected != null && selected.equals(new Point(x, y))) {
+					g.setColor(new Color(255, 255, 0, 128));
+					g.fillRect(x * 16 + 7, (7 - y) * 16 + 7, 16, 16);
+					if (isDragging) continue;
 				}
 				g.drawImage(sprite, x * 16 + 7, (7 - y) * 16 + 7, null);
+			}
+		}
+		g.setColor(new Color(255, 0, 0, 128));
+		for (int i = 0; i < 2; i++) if(new King(this,i==0,"KK").checkCheck() != null){
+			g.fillRect(new King(this,i==0,"KK").checkCheck().x * 16 + 7, new King(this,i==0,"KK").checkCheck().y * 16 + 7, 16, 16);
+		}
+		if (selected == null) return;
+		ChessPiece selectedPiece = board[selected.x][selected.y];
+		if (selectedPiece != null) {
+			for (Point p : selectedPiece.getValidMoves(selected.x, selected.y)) {
+				if (p == null) continue;
+				g.setColor(new Color(255, 255, 0, 128));
+				g.fillRect(p.x * 16 + 11, (7 - p.y) * 16 + 11, 8, 8);
 			}
 		}
 	}

@@ -1,6 +1,6 @@
-package group.achi.pieces;
+package group.gachi.pieces;
 
-import group.achi.ChessBoard;
+import group.gachi.ChessBoard;
 
 public class King extends ChessPiece{
 
@@ -9,6 +9,13 @@ public class King extends ChessPiece{
 	public King(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
 		this.id = board.KING;
+	}
+
+	public boolean movePiece(int toX, int toY, int fromX, int fromY) {
+		if (super.movePiece(toX,toY,fromX, fromY)){
+			return hasMoved = true;
+		}
+		return false;
 	}
 
 	// Doesn't account for castling
@@ -23,9 +30,6 @@ public class King extends ChessPiece{
 
 		// Make sure that the king is moving only one square
 		if (Math.abs(dx) > 1 || Math.abs(dy) > 1) return false;
-
-		// Make sure that the king is not moving to a position with a piece of the same color
-		if (board.getPiece(toX, toY).isWhite() == this.isWhite()) return false;
 
 		return true;
 	}
