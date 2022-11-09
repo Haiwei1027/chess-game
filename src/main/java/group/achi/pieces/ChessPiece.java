@@ -37,7 +37,6 @@ public abstract class ChessPiece {
         // Check the move fits the piece move pattern
         if (!(isMoveValid(toX, toY, fromX, fromY)) || (toX == fromX && toY == fromY)) return false;
 
-
         // Do move two cases taking piece and not
         ChessPiece chessP = board.getPiece(toX, toY);
         board.setPiece(toX, toY, this);
@@ -67,7 +66,6 @@ public abstract class ChessPiece {
         return validMoves;
     }
 
-    //Checks if in check, isWhite is the colour of the side being checked
     public Point checkCheck() {
         for (int i = 0; i < board.getSize(); i++) {
             for (int j = 0; j < board.getSize(); j++) {
