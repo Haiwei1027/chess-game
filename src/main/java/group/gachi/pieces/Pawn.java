@@ -10,6 +10,7 @@ public class Pawn extends ChessPiece {
 	public Pawn(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
 		this.id = board.PAWN;
+		super.health = 8;
 	}
 
 	@Override
@@ -38,17 +39,6 @@ public class Pawn extends ChessPiece {
 
 		return false;
 
-//		if ( (absdy == 2 && hasMoved == false) && (absdx == 0))
-//		{
-//			return true;
-//		}
-//		if ( (absdy == 1 && absdx == 1) && (board.getPiece(toX, toY) != null) ) {return true; }
-//
-//		if (absdy > 1 || absdx > 0) {return false; } //NO moving more than 1 space away!
-//
-//		if (absdx == 0 && board.getPiece(toX, toY) != null) {return false; }
-//
-//		if( (absdy == 2 && absdx > 0)) {return false; }
 	}
 
 	@Override

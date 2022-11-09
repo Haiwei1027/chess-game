@@ -11,7 +11,9 @@ public abstract class ChessPiece {
     protected boolean isWhite;
 
     protected ChessBoard board;
+    //combat related variables
     private String personalName;
+    int health;
 
     public ChessPiece(ChessBoard board, boolean isWhite, String personalName ) {
         this.board = board;
@@ -85,5 +87,13 @@ public abstract class ChessPiece {
                                 if (board.getPiece(k, l) != null && board.getPiece(k, l).getId() == board.KING && board.getPiece(k, l).isWhite() == isWhite)
                                     return new Point(k, board.getSize() - l - 1);
         return null;
+    }
+
+    public String getName() {return personalName;}
+    public int getHealth() {return health;}
+    public void damage(int damageValue)
+    {
+        health -= damageValue;
+        if (health > 0) {health = 0;}
     }
 }
