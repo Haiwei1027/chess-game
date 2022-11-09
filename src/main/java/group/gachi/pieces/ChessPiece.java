@@ -58,16 +58,16 @@ public abstract class ChessPiece {
         ArrayList<Point> validMoves = new ArrayList<Point>();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (isMoveValid(i, j, x, y) && (board.getPiece(i, j) == null || board.getPiece(i, j).isWhite() != this.isWhite())) {
+                ChessPiece pieceAtPosition  = board.getPiece(i, j);
+                if (isMoveValid(i, j, x, y) && (pieceAtPosition == null || pieceAtPosition.isWhite() != this.isWhite())) {
 
                     //check if move puts king in check
-                    ChessPiece chessP = board.getPiece(i, j);
                     board.setPiece(i, j, this);
                     board.setPiece(x, y, null);
                     if (checkCheck() == null) {
                         validMoves.add(new Point(i, j));
                     }
-                    board.setPiece(i, j, chessP);
+                    board.setPiece(i, j, pieceAtPosition);
                     board.setPiece(x, y, this);
                 }
             }
