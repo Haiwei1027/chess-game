@@ -19,10 +19,7 @@ public class Knight extends ChessPiece{
 		int dy = toY - fromY;
 
 		// Make sure that the knight is moving in an L shape
-		if (!((dx == 2 && dy == 1) || (dx == 1 && dy == 2) || (dx == -2 && dy == 1) || (dx == -1 && dy == 2) || (dx == 2 && dy == -1) || (dx == 1 && dy == -2) || (dx == -2 && dy == -1) || (dx == -1 && dy == -2))) return false;
-
-
-		return true;
+		return Math.abs(dx) == 2 && Math.abs(dy) == 1 || Math.abs(dx) == 1 && Math.abs(dy) == 2;
 	}
 
 }

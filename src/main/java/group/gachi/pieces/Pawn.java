@@ -73,12 +73,12 @@ public class Pawn extends ChessPiece {
 		//Gets piece in adjacent spot
 		ChessPiece adjacentSpot = board.getPiece(x + dx, y);
 
-		if (adjacentSpot == null || adjacentSpot.getId() != board.PAWN) return false;
+		if (adjacentSpot == null || adjacentSpot.getId() != ChessBoard.PAWN) return false;
 
 		Pawn pawn = (Pawn)adjacentSpot;
 
 		if (pawn.isWhite != isWhite){
-			if (hasLeapedOnFile == x + dx){
+			if (hasLeapedOnFile == x + dx) {
 				enPassant = true;
 				return true;
 			}
