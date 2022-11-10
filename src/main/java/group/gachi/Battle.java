@@ -30,6 +30,7 @@ public class Battle
         g.drawImage(ResourceLoader.instance.emptyHealthBar, 12, 26, null);
         g.drawImage(ResourceLoader.instance.emptyHealthBar, 92, 104, null);
 
+
         g.drawImage(ResourceLoader.instance.picoString(piece2.getName()), 29, 20, null);
         g.drawImage(ResourceLoader.instance.picoString(piece1.getName()), 109, 98, null);
 

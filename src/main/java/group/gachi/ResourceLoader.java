@@ -3,13 +3,14 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class ResourceLoader {
 
     public static ResourceLoader instance;
     BufferedImage whitePieces, blackPieces, board, whitePiecesRaw, blackPiecesRaw, weapons;
     BufferedImage battleBackground, healthBarImg, blackBarIcon, whiteBarIcon, emptyHealthBar;
-    BufferedImage picoFont;
+    BufferedImage picoFont, buttonImage;
 
     public ResourceLoader(){
         instance = this;
@@ -31,6 +32,7 @@ public class ResourceLoader {
                 emptyHealthBar = ImageIO.read(getClass().getResource("/emptyHealthBar.png"));
 
                 picoFont = ImageIO.read(getClass().getResource("/picoFont.png"));
+                buttonImage = ImageIO.read(getClass().getResource("/Button.png"));
             } catch (IOException e) {
                 throw new RuntimeException("Error loading images");
             }

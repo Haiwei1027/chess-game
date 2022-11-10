@@ -26,7 +26,7 @@ public class Main extends JFrame implements Runnable{
 
         chessScreen = new ChessScreen(this,142*5, 142*5);
         battleScreen = new BattleScreen(this, 142*5, 142*5);
-        setCurrentScreen(chessScreen);
+        setCurrentScreen(battleScreen);
 
         setVisible(true);
 
