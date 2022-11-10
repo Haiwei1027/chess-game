@@ -95,17 +95,22 @@ public class Pawn extends ChessPiece {
 		ChessPiece newPiece = null;
 		while (numChoice == -1) {
 			numChoice = scanner.nextInt();
-			if (numChoice == 1) {
+			switch (numChoice) {
+				case 1:
 				newPiece = new Queen(board, this.isWhite, this.personalName);
-			} else if (numChoice == 2) {
+				break;
+				case 2:
 				newPiece = new Rook(board, this.isWhite, this.personalName);
-			} else if (numChoice == 3) {
+				break;
+				case 3:
 				newPiece = new Bishop(board, this.isWhite, this.personalName);
-			} else if (numChoice == 4) {
-				newPiece = new Knight(board, this.isWhite, this.personalName) ;
-			} else {
-				numChoice = -1;
-				System.out.println("Invalid input, re-enter input:");
+				break;
+				case 4:
+				newPiece = new Knight(board, this.isWhite, this.personalName);
+				break;
+				default:
+					numChoice = -1;
+					System.out.println("Invalid choice, try again");
 			}
 		}
 
