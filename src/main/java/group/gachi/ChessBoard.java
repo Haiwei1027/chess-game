@@ -85,10 +85,18 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 
 	private boolean dropPiece(Point location){
-		boolean moved = getPiece(selected.x,selected.y).movePiece(location.x,location.y,selected.x,selected.y);
+		ChessPiece attacker = getPiece(selected);
+		ChessPiece defender = getPiece(location);
 
-		if (moved)
+		boolean moved = getPiece(selected.x,selected.y).movePiece(location.x,location.y,selected.x,selected.y);
+		if (moved) {
 			nextSideToMove = !nextSideToMove;
+			if (defender != null) {
+				if (defender.isEnemy(attacker)){
+					Main.enterBattle(new Battle(attacker,defender));
+				}
+			}
+		}
 
 		selected = null;
 		setDragging(false);

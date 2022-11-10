@@ -27,7 +27,7 @@ public class Main extends JFrame implements Runnable{
         new ResourceLoader();
 
         chessScreen = new ChessScreen(this,142*5, 142*5);
-
+        battleScreen = new BattleScreen(this, 142*5, 142*5, null);
         setCurrentScreen(chessScreen);
 
         setVisible(true);
@@ -40,20 +40,24 @@ public class Main extends JFrame implements Runnable{
 
     public static void enterBattle(Battle battle){
         instance.inBattle = true;
-        instance.battleScreen = new BattleScreen(instance, 142*5, 142*5, battle);
+        instance.battleScreen.setBattle(battle);
         instance.setCurrentScreen(instance.battleScreen);
+        instance.repaint();
     }
 
     public void setCurrentScreen(JPanel panel){
         currentScreen = panel;
         setContentPane(panel);
+        setVisible(true);
     }
 
-	public void run() {
+
+    public void run() {
 		while (true){
           long frameTime = System.currentTimeMillis();
 
           currentScreen.repaint();
+
           frameTime = System.currentTimeMillis() - frameTime;
           try{
               if (frameTime < 8) {

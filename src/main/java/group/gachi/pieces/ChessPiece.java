@@ -35,11 +35,6 @@ public abstract class ChessPiece {
         // Check if move is valid
         ChessPiece toSpot = board.getPiece(toX, toY);
 
-        if (toSpot != null) {
-            if (toSpot.isWhite() == this.isWhite()) return false;
-            //Main.enterBattle(new Battle(this, toSpot));
-        }
-
         // Check the move fits the piece move pattern
         if (!(isMoveValid(toX, toY, fromX, fromY)) || (toX == fromX && toY == fromY)) return false;
 
@@ -127,6 +122,10 @@ public abstract class ChessPiece {
             }
         }
         return true;
+    }
+
+    public boolean isEnemy(ChessPiece piece){
+        return isWhite != piece.isWhite;
     }
 
     public String getName() {return personalName;}

@@ -36,7 +36,6 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void paint(Graphics g) {
-        super.paint(g);
         g.setColor(bgColor);
         g.fillRect(0,0,main.getWidth(),main.getHeight());
         onResize();
