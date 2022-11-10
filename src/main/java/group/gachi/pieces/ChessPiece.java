@@ -52,13 +52,13 @@ public abstract class ChessPiece {
         }
 
         //checks for checkmate
-        if (checkCheckMate()) {
-            if (this.isWhite()) {
-                System.out.println("White wins");
-            } else {
-                System.out.println("Black wins");
-            }
-        }
+        if (!checkStaleMate() && checkCheckMate() && this.isWhite())
+            System.out.println("White wins");
+        else if (!checkStaleMate() && checkCheckMate() && !this.isWhite())
+            System.out.println("Black wins");
+        else if (checkStaleMate())
+            System.out.println("Stalemate");
+
 
         return true;
     }
@@ -107,6 +107,18 @@ public abstract class ChessPiece {
     }
 
     public boolean checkCheckMate(){
+        ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
+
+        for (Point location : currentNonEmpty) {
+            ChessPiece piece = board.getPiece(location.x, location.y);
+            if (piece.isWhite != this.isWhite && piece.getValidMoves(location.x, location.y).size() > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkStaleMate(){
         ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
 
         for (Point location : currentNonEmpty) {
