@@ -37,7 +37,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	//HashMap to keep track and quickly access every non-empty point
 	//Key - co-ordinate, value - id
-	public HashMap<Point, Integer> nonEmptySpaces = new HashMap<>();
+	public HashMap<Point, ChessPiece> nonEmptySpaces = new HashMap<>();
 
 	public ChessBoard() {
 		board = new ChessPiece[getSize()][getSize()];
@@ -196,6 +196,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 
 	public void setInitialNonEmptySpots() {
+		for (Point point : nonEmptySpaces.keySet()) {
+			nonEmptySpaces.remove(point);
+		}
+
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 2; j++) {
 				insertIntoNonEmpty(i, j);
@@ -207,7 +211,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 
 	public void insertIntoNonEmpty(int x, int y) {
-		nonEmptySpaces.put(new Point(x, y), getPiece(x, y).getId());
+		nonEmptySpaces.put(new Point(x, y), getPiece(x, y));
 	}
 
 	public void removeFromNonEmpty(int x, int y) {

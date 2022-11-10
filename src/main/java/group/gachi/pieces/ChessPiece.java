@@ -95,11 +95,11 @@ public abstract class ChessPiece {
         ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
 
         for (Point location : currentNonEmpty) {
-            ChessPiece pieceOne = board.getPiece(location.x, location.y);
-            if (pieceOne != null && pieceOne.isWhite() != this.isWhite) {
+            ChessPiece pieceOne = board.nonEmptySpaces.get(location);
+            if (pieceOne.isWhite() != this.isWhite) {
                 for (Point locationTwo : currentNonEmpty) {
-                    ChessPiece pieceTwo = board.getPiece(locationTwo.x, locationTwo.y);
-                    if (pieceTwo != null && pieceOne.isMoveValid(locationTwo.x, locationTwo.y, location.x, location.y) && pieceTwo.getId() == ChessBoard.KING && pieceTwo.isWhite() == this.isWhite) {
+                    ChessPiece pieceTwo = board.nonEmptySpaces.get(locationTwo);
+                    if (pieceOne.isMoveValid(locationTwo.x, locationTwo.y, location.x, location.y) && pieceTwo.getId() == ChessBoard.KING && pieceTwo.isWhite() == this.isWhite) {
                         return new Point(locationTwo.x, board.getSize() - locationTwo.y - 1);
                     }
                 }
@@ -112,7 +112,7 @@ public abstract class ChessPiece {
         ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
 
         for (Point location : currentNonEmpty) {
-            ChessPiece piece = board.getPiece(location.x, location.y);
+            ChessPiece piece = board.nonEmptySpaces.get(location);
             if (piece.isWhite != this.isWhite && piece.getValidMoves(location.x, location.y).size() > 0) {
                 return false;
             }
