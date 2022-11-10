@@ -89,7 +89,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	private boolean dropPiece(Point location){
 		boolean moved = getPiece(selected.x,selected.y).movePiece(location.x,location.y,selected.x,selected.y);
 
-		if (moved) nextSideToMove = !nextSideToMove;
+		if (moved)
+			nextSideToMove = !nextSideToMove;
 
 		selected = null;
 		setDragging(false);
@@ -98,10 +99,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 		return moved;
 	}
-
-
-
 	public void resetBoard(){
+		board = new ChessPiece[getSize()][getSize()];
 		for (int i = 0; i < 8; i++) {
 			board[i][1] = new Pawn(this, true, pawnPersonalNames[i]);
 			board[i][6] = new Pawn(this, false, pawnPersonalNames[i+8]);
@@ -116,7 +115,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			board[3][i*7] = new Queen(this, i==0, monarchPersonalNames[i+2]);
 			board[4][i*7] = new King(this, i==0, monarchPersonalNames[i]);
 		}
-
+		paint();
 	}
 
 	public boolean onBoard(int x, int y) {
