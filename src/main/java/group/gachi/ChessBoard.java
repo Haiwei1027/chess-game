@@ -13,16 +13,16 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public final static int PAWN=0,KNIGHT=1,ROOK=2,BISHOP=3,KING=4,QUEEN=5;
 	public final int WHITE=0,BLACK=1;
-	private final String[] pawnPersonalNames = new String[]{"Meslet", "Podrey", "Binman", "Narsi", "Kevin", "Amleia", "Sorson", "James", //white pawn
-															"Rory", "Carwyn", "Maisei", "Banned", "Vansyr", "Rerty", "Neysha", "Boris"}; //black pawn
-	private final String[] rookPersonalNames = new String[]{"Cassor", "Steve", //white rook names
-															"Tover", "Caer"}; //black rook names
-	private final String[] knightPersonalNames = new String[]{"Garry", "Haiwei", //white knight names
-																"Cami", "Isaac"};//black white names
-	private final String[] bishopPersonalNames = new String[]{"Shah", "Vivian",  //white bishop names
-																"Bethan", "Boi"};//black bishop names
-	private final String[] monarchPersonalNames = new String[]{"Micu", "Roman",  //white king queen names
-																"Xander", "Arian"};//black king queen names
+	private final String[] pawnPersonalNames = new String[]{"MESLET", "PODREY", "BINMAN", "NARSI", "KEVIN", "AMLEIA", "SORSON", "JAMES", //white pawn
+															"RORY", "CARWYN", "MAISEI", "BANNED", "VANSYR", "RERTY", "NEYSHA", "BORIS"}; //black pawn
+	private final String[] rookPersonalNames = new String[]{"CASSOR", "STEVE", //white rook names
+															"TOVER", "CAER"}; //black rook names
+	private final String[] knightPersonalNames = new String[]{"GARRY", "HAIWEI", //white knight names
+																"CAMI", "ISAAC"};//black white names
+	private final String[] bishopPersonalNames = new String[]{"SHAH", "VIVIAN",  //white bishop names
+																"BETHAN", "BOI"};//black bishop names
+	private final String[] monarchPersonalNames = new String[]{"MICU", "ROMAN",  //white king queen names
+																"XANDER", "ARIAN"};//black king queen names
 	private final int size = 8;
 
 	public BufferedImage image;

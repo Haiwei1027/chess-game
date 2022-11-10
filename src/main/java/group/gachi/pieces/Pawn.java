@@ -10,7 +10,7 @@ public class Pawn extends ChessPiece {
 	public Pawn(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
 		this.id = ChessBoard.PAWN;
-		super.health = 8;
+		super.health = 20;
 	}
 
 	@Override

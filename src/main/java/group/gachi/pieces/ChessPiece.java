@@ -1,6 +1,8 @@
 package group.gachi.pieces;
 
+import group.gachi.Battle;
 import group.gachi.ChessBoard;
+import group.gachi.Main;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -33,9 +35,9 @@ public abstract class ChessPiece {
         // Check if move is valid
         ChessPiece toSpot = board.getPiece(toX, toY);
 
-        // Make sure that the knight is not moving to a position with a piece of the same color
         if (toSpot != null) {
             if (toSpot.isWhite() == this.isWhite()) return false;
+            Main.enterBattle(new Battle(this, toSpot));
         }
 
         // Check the move fits the piece move pattern

@@ -3,14 +3,16 @@ import javax.swing.*;
 
 public class Main extends JFrame implements Runnable{
 
+    static Main instance;
     ChessScreen chessScreen;
     BattleScreen battleScreen;
-
+    public Battle battle;
     JPanel currentScreen;
     Thread mainLoop;
+    public Boolean inBattle;
 
     public static void main(String[] args) {
-        new Main();
+        instance = new Main();
     }
 
     public Main(){
@@ -25,8 +27,8 @@ public class Main extends JFrame implements Runnable{
         new ResourceLoader();
 
         chessScreen = new ChessScreen(this,142*5, 142*5);
-        battleScreen = new BattleScreen(this, 142*5, 142*5);
-        setCurrentScreen(battleScreen);
+
+        setCurrentScreen(chessScreen);
 
         setVisible(true);
 
@@ -34,6 +36,12 @@ public class Main extends JFrame implements Runnable{
 
         mainLoop = new Thread(this);
         mainLoop.start();
+    }
+
+    public static void enterBattle(Battle battle){
+        instance.inBattle = true;
+        instance.battleScreen = new BattleScreen(instance, 142*5, 142*5, battle);
+        instance.setCurrentScreen(instance.battleScreen);
     }
 
     public void setCurrentScreen(JPanel panel){
@@ -44,6 +52,7 @@ public class Main extends JFrame implements Runnable{
 	public void run() {
 		while (true){
           long frameTime = System.currentTimeMillis();
+
           currentScreen.repaint();
           frameTime = System.currentTimeMillis() - frameTime;
           try{

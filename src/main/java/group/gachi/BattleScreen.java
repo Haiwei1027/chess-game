@@ -20,11 +20,11 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
     private Point mousePosition = new Point();
     private Color bgColor;
 
-    public BattleScreen(Main main, int width, int height)
+    public BattleScreen(Main main, int width, int height, Battle battle)
     {
         super();
         this.main = main;
-        this.battle = new Battle(new Pawn(new ChessBoard(), true, "HAIWEI"), new Pawn(new ChessBoard(), false, "CAMI"));
+        this.battle = battle;
         this.width = width;
         this.height = height;
         this.bgColor = new Color(230,234,215);
