@@ -127,6 +127,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		return x >= 0 && x < getSize() && y >= 0 && y < getSize();
 	}
 
+	public void setPiece(Point point, ChessPiece piece) {
+		setPiece(point.x, point.y, piece);
+	}
+
 	public void setPiece(int x, int y, ChessPiece piece) {
 		if (!onBoard(x, y)) {
 			return;
@@ -137,6 +141,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		//Updates nonEmptySpaces hash map
 		if (piece != null) insertIntoNonEmpty(x, y);
 		else removeFromNonEmpty(x, y);
+	}
+
+	public ChessPiece getPiece(Point point){
+		return board.get(point);
 	}
 
 	public ChessPiece getPiece(int x, int y) {

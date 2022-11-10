@@ -37,7 +37,7 @@ public abstract class ChessPiece {
 
         if (toSpot != null) {
             if (toSpot.isWhite() == this.isWhite()) return false;
-            Main.enterBattle(new Battle(this, toSpot));
+            //Main.enterBattle(new Battle(this, toSpot));
         }
 
         // Check the move fits the piece move pattern
@@ -71,20 +71,17 @@ public abstract class ChessPiece {
 
     public ArrayList<Point> getValidMoves(int x, int y) {
         ArrayList<Point> validMoves = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                ChessPiece pieceAtPosition  = board.getPiece(i, j);
-                if (isMoveValid(i, j, x, y) && (pieceAtPosition == null || pieceAtPosition.isWhite() != this.isWhite())) {
 
-                    //check if move puts king in check
-                    board.setPiece(i, j, this);
-                    board.setPiece(x, y, null);
-                    if (checkCheck() == null) {
-                        validMoves.add(new Point(i, j));
-                    }
-                    board.setPiece(i, j, pieceAtPosition);
-                    board.setPiece(x, y, this);
+        for (Point point : board.board.keySet()) {
+            ChessPiece pieceAtPosition = board.getPiece(point);
+            if (isMoveValid(point.x, point.y, x, y) && (pieceAtPosition == null || pieceAtPosition.isWhite() != this.isWhite())) {
+                board.setPiece(point, this);
+                board.setPiece(x, y, null);
+                if (checkCheck() == null) {
+                    validMoves.add(point);
                 }
+                board.setPiece(point, pieceAtPosition);
+                board.setPiece(x, y, this);
             }
         }
         return validMoves;
