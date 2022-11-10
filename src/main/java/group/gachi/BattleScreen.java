@@ -24,7 +24,7 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
         this.battle = new Battle(new Pawn(new ChessBoard(), true, "HAIWEI"), new Pawn(new ChessBoard(), false, "CAMI"));
         this.width = width;
         this.height = height;
-        this.bgColor = new Color(69,77,95);
+        this.bgColor = new Color(230,234,215);
 
         setSize(width, height);
         addMouseListener(this);
@@ -43,6 +43,12 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
         g.fillRect(0,0,getWidth(),getHeight());
         onResize();
         g.drawImage(battle.image, startX, startY,width,height,null);
+
+        g.drawImage(ResourceLoader.instance.getPieceRaw(battle.getPiece2().getId(), battle.getPiece2().isWhite()), (startX + 72 * 5) + 45, (startY + 18 * 5) + 23,16*3*4,16*3*4, null);
+        g.drawImage(ResourceLoader.instance.getWeaponImage(battle.getPiece2().getId()), (startX + 72 * 5) + 45, (startY + 18 * 5) + 23,16*3*4,16*3*4, null);
+
+        g.drawImage(ResourceLoader.instance.getPieceRaw(battle.getPiece1().getId(), battle.getPiece1().isWhite()), (startX + (17 * 5)) + 16*3*5, startY + 60 * 5, -16*3*5, 16*3*5, null);
+        g.drawImage(ResourceLoader.instance.getWeaponImage(battle.getPiece1().getId()), (startX + (17 * 5)) + 16*3*5, startY + 60 * 5, -16*3*5, 16*3*5, null);
     }
 
     @Override

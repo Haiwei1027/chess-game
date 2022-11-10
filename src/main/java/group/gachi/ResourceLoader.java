@@ -49,6 +49,20 @@ public class ResourceLoader {
         }
         return blackPieces.getSubimage(id * 16,0,16,16);
     }
+    public BufferedImage getPieceRaw(int id, boolean side)
+    {
+        if (id < 0){
+            return null;
+        }
+        if (side){
+            return whitePiecesRaw.getSubimage(id * 16,0,16,16);
+        }
+        return blackPiecesRaw.getSubimage(id * 16,0,16,16);
+    }
+    public BufferedImage getWeaponImage(int id)
+    {
+        return weapons.getSubimage(id * 16,0,16,16);
+    }
     public BufferedImage getPieceIcon(int id, boolean side) {
         if (id < 0){
             return null;

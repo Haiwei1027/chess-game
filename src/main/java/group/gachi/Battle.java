@@ -14,6 +14,8 @@ public class Battle
         this.piece1 = piece1;
         this.piece2 = piece2;
     }
+    public ChessPiece getPiece1() {return piece1;}
+    public ChessPiece getPiece2() {return piece2;}
 
     public void paint()
     { //buffers the background, the bars, and the names.
