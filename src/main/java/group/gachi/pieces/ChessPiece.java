@@ -97,7 +97,7 @@ public abstract class ChessPiece {
             if (pieceOne != null && pieceOne.isWhite() != this.isWhite) {
                 for (Point locationTwo : currentNonEmpty) {
                     ChessPiece pieceTwo = board.getPiece(locationTwo.x, locationTwo.y);
-                    if (pieceOne.isMoveValid(locationTwo.x, locationTwo.y, location.x, location.y) && pieceTwo.getId() == ChessBoard.KING && pieceTwo.isWhite() == this.isWhite) {
+                    if (pieceTwo != null && pieceOne.isMoveValid(locationTwo.x, locationTwo.y, location.x, location.y) && pieceTwo.getId() == ChessBoard.KING && pieceTwo.isWhite() == this.isWhite) {
                         return new Point(locationTwo.x, board.getSize() - locationTwo.y - 1);
                     }
                 }

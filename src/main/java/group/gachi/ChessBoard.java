@@ -43,7 +43,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		board = new ChessPiece[getSize()][getSize()];
 		resetBoard();
 		paint();
-		setInitialNonEmptySpots();
 	}
 
 	public int getSize(){
@@ -115,6 +114,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			board[3][i*7] = new Queen(this, i==0, monarchPersonalNames[i+2]);
 			board[4][i*7] = new King(this, i==0, monarchPersonalNames[i]);
 		}
+		setInitialNonEmptySpots();
 		paint();
 	}
 
