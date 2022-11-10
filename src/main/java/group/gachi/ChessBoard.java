@@ -26,8 +26,6 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	private final int size = 8;
 
 	public BufferedImage image;
-
-	public ChessPiece[][] board;
 	private Point selected;
 	private boolean isDragging = false;
 
@@ -39,8 +37,9 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	//Key - co-ordinate, value - id
 	public HashMap<Point, ChessPiece> nonEmptySpaces = new HashMap<>();
 
+	public HashMap<Point, ChessPiece> board = new HashMap<>();
+
 	public ChessBoard() {
-		board = new ChessPiece[getSize()][getSize()];
 		resetBoard();
 		paint();
 	}
@@ -99,21 +98,27 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		return moved;
 	}
 	public void resetBoard(){
-		board = new ChessPiece[getSize()][getSize()];
 		for (int i = 0; i < 8; i++) {
-			board[i][1] = new Pawn(this, true, pawnPersonalNames[i]);
-			board[i][6] = new Pawn(this, false, pawnPersonalNames[i+8]);
+			board.put(new Point(i, 1), new Pawn(this, true, pawnPersonalNames[i]));
+			board.put(new Point(i, 6), new Pawn(this, false, pawnPersonalNames[i + 8]));
 		}
 		for (int i = 0; i < 2; i++) {
-			board[0][i*7] = new Rook(this, i==0, rookPersonalNames[i]);
-			board[7][i*7] = new Rook(this, i==0, rookPersonalNames[i+2]);
-			board[1][i*7] = new Knight(this, i==0, knightPersonalNames[i]);
-			board[6][i*7] = new Knight(this, i==0, knightPersonalNames[i+2]);
-			board[2][i*7] = new Bishop(this, i==0, bishopPersonalNames[i]);
-			board[5][i*7] = new Bishop(this, i==0, bishopPersonalNames[i+2]);
-			board[3][i*7] = new Queen(this, i==0, monarchPersonalNames[i+2]);
-			board[4][i*7] = new King(this, i==0, monarchPersonalNames[i]);
+			board.put(new Point(0, i*7), new Rook(this, i==0, rookPersonalNames[i]));
+			board.put(new Point(1, i*7), new Knight(this, i==0, knightPersonalNames[i]));
+			board.put(new Point(2, i*7), new Bishop(this, i==0, bishopPersonalNames[i]));
+			board.put(new Point(3, i*7), new Queen(this, i==0, monarchPersonalNames[i+2]));
+			board.put(new Point(4, i*7), new King(this, i==0, monarchPersonalNames[i]));
+			board.put(new Point(5, i*7), new Bishop(this, i==0, bishopPersonalNames[i+2]));
+			board.put(new Point(6, i*7), new Knight(this, i==0, knightPersonalNames[i+2]));
+			board.put(new Point(7, i*7), new Rook(this, i==0, rookPersonalNames[i+2]));
 		}
+
+		for (int i = 0; i < 8; i ++) {
+			for (int j = 2; j < 6; j ++) {
+				board.put(new Point(i, j), null);
+			}
+		}
+
 		setInitialNonEmptySpots();
 		paint();
 	}
@@ -126,7 +131,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		if (!onBoard(x, y)) {
 			return;
 		}
-		board[x][y] = piece;
+
+		board.put(new Point(x, y), piece);
 
 		//Updates nonEmptySpaces hash map
 		if (piece != null) insertIntoNonEmpty(x, y);
@@ -137,14 +143,15 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		if (!onBoard(x, y)) {
 			return null;
 		}
-		return board[x][y];
+
+		return board.get(new Point(x, y));
 	}
 
 	public boolean isDragging(){
 		return selected != null && isDragging;
 	}
 	public BufferedImage getSelectedSprite() {
-		ChessPiece piece = board[selected.x][selected.y];
+		ChessPiece piece = board.get(selected);
 		if (piece == null) return null;
 		BufferedImage sprite;
 		sprite = ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite());
@@ -167,7 +174,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		g.fillRect(7, (nextSideToMove ? 1 : 0) * 141, 8 * 16, 1);
 		for (int x = 0; x < getSize(); x++) {
 			for (int y = 0; y < getSize(); y++) {
-				ChessPiece piece = board[x][y];
+				ChessPiece piece = board.get(new Point(x, y));
 				BufferedImage sprite;
 				sprite = piece != null ? ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite()) : null;
 
@@ -184,7 +191,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			g.fillRect(new King(this,i==0,"KK").checkCheck().x * 16 + 7, new King(this,i==0,"KK").checkCheck().y * 16 + 7, 16, 16);
 		}
 		if (selected == null) return;
-		ChessPiece selectedPiece = board[selected.x][selected.y];
+		ChessPiece selectedPiece = board.get(selected);
 		if (selectedPiece != null) {
 			for (Point p : selectedPiece.getValidMoves(selected.x, selected.y)) {
 				if (p == null) continue;
