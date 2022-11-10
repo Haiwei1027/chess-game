@@ -52,13 +52,13 @@ public abstract class ChessPiece {
         }
 
         //checks for checkmate
-        if (checkCheckMate()) {
-            if (this.isWhite()) {
-                System.out.println("White wins");
-            } else {
-                System.out.println("Black wins");
-            }
-        }
+        if (!checkStaleMate() && checkCheckMate() && this.isWhite())
+            System.out.println("White wins");
+        else if (!checkStaleMate() && checkCheckMate() && !this.isWhite())
+            System.out.println("Black wins");
+        else if (checkStaleMate())
+            System.out.println("Stalemate");
+
 
         return true;
     }
@@ -97,7 +97,7 @@ public abstract class ChessPiece {
             if (pieceOne != null && pieceOne.isWhite() != this.isWhite) {
                 for (Point locationTwo : currentNonEmpty) {
                     ChessPiece pieceTwo = board.getPiece(locationTwo.x, locationTwo.y);
-                    if (pieceOne.isMoveValid(locationTwo.x, locationTwo.y, location.x, location.y) && pieceTwo.getId() == ChessBoard.KING && pieceTwo.isWhite() == this.isWhite) {
+                    if (pieceTwo != null && pieceOne.isMoveValid(locationTwo.x, locationTwo.y, location.x, location.y) && pieceTwo.getId() == ChessBoard.KING && pieceTwo.isWhite() == this.isWhite) {
                         return new Point(locationTwo.x, board.getSize() - locationTwo.y - 1);
                     }
                 }
@@ -107,6 +107,18 @@ public abstract class ChessPiece {
     }
 
     public boolean checkCheckMate(){
+        ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
+
+        for (Point location : currentNonEmpty) {
+            ChessPiece piece = board.getPiece(location.x, location.y);
+            if (piece.isWhite != this.isWhite && piece.getValidMoves(location.x, location.y).size() > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkStaleMate(){
         ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
 
         for (Point location : currentNonEmpty) {
