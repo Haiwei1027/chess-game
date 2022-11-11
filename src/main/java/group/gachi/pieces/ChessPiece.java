@@ -129,7 +129,7 @@ public abstract class ChessPiece {
         ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
 
         for (Point location : currentNonEmpty) {
-            ChessPiece piece = board.getPiece(location.x, location.y);
+            ChessPiece piece = board.getPiece(location);
             if (piece.isWhite != this.isWhite && piece.getValidMoves(location.x, location.y).size() > 0) {
                 return false;
             }
@@ -143,8 +143,7 @@ public abstract class ChessPiece {
 
     public String getName() {return personalName;}
     public int getHealth() {return health;}
-    public void damage(int damageValue)
-    {
+    public void damage(int damageValue) {
         health -= damageValue;
         if (health > 0) health = 0;
 

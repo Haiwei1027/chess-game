@@ -5,7 +5,7 @@ import group.gachi.ChessBoard;
 public class Pawn extends ChessPiece {
 	boolean hasMoved = false;
 	static int hasLeapedOnFile = -1;
-	boolean enPassant = false;
+	public boolean enPassant = false;
 
 	public Pawn(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
@@ -29,7 +29,7 @@ public class Pawn extends ChessPiece {
 				//capture
 				if (canCapture) return true;
 				else return enPassant(fromX, fromY, dx, dy);
-				//enpassant
+				//en passant
 			}
 		}
 		else if (dy == step * 2){
@@ -61,6 +61,7 @@ public class Pawn extends ChessPiece {
 			}
 			if (enPassant){
 				board.setPiece(toX,toY - (isWhite ? 1 : -1),null);
+				enPassant = false;
 			}
 
 			if (canPromote(toY)) this.promote(toX, toY);
@@ -96,21 +97,14 @@ public class Pawn extends ChessPiece {
 		while (numChoice == -1) {
 			numChoice = scanner.nextInt();
 			switch (numChoice) {
-				case 1:
-				newPiece = new Queen(board, this.isWhite, this.personalName);
-				break;
-				case 2:
-				newPiece = new Rook(board, this.isWhite, this.personalName);
-				break;
-				case 3:
-				newPiece = new Bishop(board, this.isWhite, this.personalName);
-				break;
-				case 4:
-				newPiece = new Knight(board, this.isWhite, this.personalName);
-				break;
-				default:
+				case 1 -> newPiece = new Queen(board, this.isWhite, this.personalName);
+				case 2 -> newPiece = new Rook(board, this.isWhite, this.personalName);
+				case 3 -> newPiece = new Bishop(board, this.isWhite, this.personalName);
+				case 4 -> newPiece = new Knight(board, this.isWhite, this.personalName);
+				default -> {
 					numChoice = -1;
 					System.out.println("Invalid choice, try again");
+				}
 			}
 		}
 
