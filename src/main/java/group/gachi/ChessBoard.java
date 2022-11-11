@@ -71,8 +71,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		}
 	}
 	private void selectPiece(Point location){
-		if (getPiece(location.x,location.y) == null) return;
-		if (getPiece(location.x,location.y).isWhite() != nextSideToMove) return; //cannot select the opponent pieces
+		if (getPiece(location) == null) return;
+		if (getPiece(location).isWhite() != nextSideToMove) return; //cannot select the opponent pieces
 		selected = location;
 
 		paint();
@@ -84,11 +84,19 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		if (changed) paint();
 	}
 
-	private boolean dropPiece(Point location){
+	private boolean dropPiece(Point location) {
 		ChessPiece attacker = getPiece(selected);
-		ChessPiece defender = getPiece(location);
+		Point enemyLocation = location;
 
-		boolean moved = getPiece(selected.x,selected.y).movePiece(location.x,location.y,selected.x,selected.y);
+		if (attacker.getId() == ChessBoard.PAWN) {
+			if (((Pawn) attacker).enPassant) {
+				System.out.println("hello");
+				enemyLocation = new Point(location.x, attacker.isWhite() ? location.y - 1 : location.y + 1);
+			}
+		}
+		ChessPiece defender = getPiece(enemyLocation);
+
+		boolean moved = getPiece(selected).movePiece(location.x,location.y,selected.x,selected.y);
 		if (moved) {
 			nextSideToMove = !nextSideToMove;
 			if (defender != null) {
