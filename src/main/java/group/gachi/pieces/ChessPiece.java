@@ -35,6 +35,9 @@ public abstract class ChessPiece {
         // Check if move is valid
         ChessPiece toSpot = board.getPiece(toX, toY);
 
+        //check if it's the same colour
+        if (toSpot != null && toSpot.isWhite() == isWhite()) return false;
+
         // Check the move fits the piece move pattern
         if (!(isMoveValid(toX, toY, fromX, fromY)) || (toX == fromX && toY == fromY)) return false;
 
