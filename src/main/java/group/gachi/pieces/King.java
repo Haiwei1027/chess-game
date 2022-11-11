@@ -1,14 +1,44 @@
 package group.gachi.pieces;
 import group.gachi.ChessBoard;
 
+import java.awt.*;
+
 public class King extends ChessPiece{
 
 	private boolean hasMoved = false;
+	private static King whiteKing;
+	private static King blackKing;
+	private int x, y;
 
 	public King(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
 		this.id = ChessBoard.KING;
 		super.health = 120;
+		this.x = 4;
+		this.y = isWhite ? 0 : 7;
+		if (isWhite) {
+			whiteKing = this;
+		}
+		else blackKing = this;
+	}
+
+	public static King getKing(boolean isWhite){
+		return isWhite ? whiteKing : blackKing;
+	}
+
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
+
+	public void setPos(Point point){
+		setPos(point.x, point.y);
+	}
+	public void setPos(int x, int y){
+		this.x = x;
+		this.y = y;
 	}
 
 	public boolean movePiece(int toX, int toY, int fromX, int fromY) {

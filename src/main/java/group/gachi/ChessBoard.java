@@ -30,7 +30,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	private boolean isDragging = false;
 
 
-
+	private int sideInCheck = -1;
 	private boolean nextSideToMove = true;
 
 	//HashMap to keep track and quickly access every non-empty point
@@ -131,6 +131,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		paint();
 	}
 
+	public void setCheck(int sideChecked){
+		sideInCheck = sideChecked;
+	}
+
 	public boolean onBoard(int x, int y) {
 		return x >= 0 && x < getSize() && y >= 0 && y < getSize();
 	}
@@ -203,8 +207,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			}
 		}
 		g.setColor(new Color(255, 0, 0, 128));
-		for (int i = 0; i < 2; i++) if(new King(this,i==0,"KK").checkCheck() != null){
-			g.fillRect(new King(this,i==0,"KK").checkCheck().x * 16 + 7, new King(this,i==0,"KK").checkCheck().y * 16 + 7, 16, 16);
+		if (sideInCheck != -1){
+			g.fillRect(King.getKing(sideInCheck == 1).getX() * 16 + 7, (7 - King.getKing(sideInCheck == 1).getY()) * 16 + 7, 16, 16);
 		}
 		if (selected == null) return;
 		ChessPiece selectedPiece = board.get(selected);
