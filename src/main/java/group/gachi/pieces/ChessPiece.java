@@ -61,7 +61,6 @@ public abstract class ChessPiece {
         if (checkStaleMate()) {
             if (checkCheckMate()) System.out.printf("%s Wins by checkmate", isWhite ? "White" : "Black");
             else System.out.println("Stalemate");
-            System.out.println(King.getKing(!isWhite).getY());
         }
 
         checkCheck(!isWhite,true);
@@ -123,7 +122,7 @@ public abstract class ChessPiece {
     }
 
     public boolean checkCheckMate(){
-        return checkCheck(!isWhite);
+        return checkCheck(!isWhite, false);
     }
 
     public boolean checkStaleMate(){
