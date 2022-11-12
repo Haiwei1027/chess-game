@@ -49,6 +49,7 @@ public class King extends ChessPiece{
 				board.setPiece(rookX,fromY,null);
 				board.setPiece((fromX+toX)/2,fromY,rook);
 			}
+			setPos(toX, toY);
 			return hasMoved = true;
 		}
 		return false;

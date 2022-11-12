@@ -44,10 +44,16 @@ public abstract class ChessPiece {
         // Do move two cases taking piece and not
         board.setPiece(toX, toY, this);
         board.setPiece(fromX, fromY, null);
+        if (this.id == ChessBoard.KING){
+            ((King)this).setPos(toX, toY);
+        }
 
-        if (checkCheck()) {
+        if (checkCheck(false)) {
             board.setPiece(toX, toY, toSpot);
             board.setPiece(fromX, fromY, this);
+            if (this.id == ChessBoard.KING){
+                ((King)this).setPos(fromX, fromY);
+            }
             return false;
         }
 
@@ -56,7 +62,7 @@ public abstract class ChessPiece {
             if (checkCheckMate()) System.out.printf("%s Wins by checkmate", isWhite ? "White":"Black");
             else System.out.println("Stalemate");
         }
-
+        checkCheck(!isWhite,true);
         return true;
     }
 
@@ -77,7 +83,7 @@ public abstract class ChessPiece {
                 }
                 board.setPiece(point, this);
                 board.setPiece(x, y, null);
-                if (!checkCheck()) {
+                if (!checkCheck(false)) {
                     validMoves.add(point);
                 }
                 if (isKing){
@@ -90,7 +96,7 @@ public abstract class ChessPiece {
         return validMoves;
     }
 
-    public boolean checkCheck(boolean asSide) {
+    public boolean checkCheck(boolean asSide, boolean updateBoard) {
         //Needed to prevent ConcurrentModificationException
         ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
 
@@ -101,7 +107,7 @@ public abstract class ChessPiece {
             if (king.isEnemy(enemyPiece)) {
                 if (enemyPiece.isMoveValid(king.getX(), king.getY(), location.x, location.y)) {
                     int checked = asSide ? 1 : 0;
-                    board.setCheck(checked);
+                    if (updateBoard) board.setCheck(checked);
                     return true;
                 }
             }
@@ -109,8 +115,8 @@ public abstract class ChessPiece {
         return false;
     }
 
-    public boolean checkCheck(){
-        return checkCheck(isWhite);
+    public boolean checkCheck(boolean updateBoard){
+        return checkCheck(isWhite, updateBoard);
     }
 
     public boolean checkCheckMate(){
