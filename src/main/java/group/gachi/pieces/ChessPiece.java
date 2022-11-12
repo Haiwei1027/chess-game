@@ -45,20 +45,17 @@ public abstract class ChessPiece {
         board.setPiece(toX, toY, this);
         board.setPiece(fromX, fromY, null);
 
-        if (checkCheck() == (isWhite ? 1 : 0)) {
+        if (checkCheck()) {
             board.setPiece(toX, toY, toSpot);
             board.setPiece(fromX, fromY, this);
             return false;
         }
 
         //checks for checkmate
-        if (!checkStaleMate() && checkCheckMate() && this.isWhite())
-            System.out.println("White wins");
-        else if (!checkStaleMate() && checkCheckMate() && !this.isWhite())
-            System.out.println("Black wins");
-        else if (checkStaleMate())
-            System.out.println("Stalemate");
-
+        if (checkStaleMate()){
+            if (checkCheckMate()) System.out.printf("%s Wins by checkmate", isWhite ? "White":"Black");
+            else System.out.println("Stalemate");
+        }
 
         return true;
     }
@@ -80,8 +77,7 @@ public abstract class ChessPiece {
                 }
                 board.setPiece(point, this);
                 board.setPiece(x, y, null);
-                int sideChecked = checkCheck();
-                if (sideChecked != (isWhite ? 1 : 0)) {
+                if (!checkCheck()) {
                     validMoves.add(point);
                 }
                 if (isKing){
@@ -94,35 +90,31 @@ public abstract class ChessPiece {
         return validMoves;
     }
 
-    public int checkCheck() {
+    public boolean checkCheck(boolean asSide) {
         //Needed to prevent ConcurrentModificationException
         ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
 
-        King king = King.getKing(this.isWhite);
+        King king = King.getKing(asSide);
         for (Point location : currentNonEmpty) {
             ChessPiece enemyPiece = board.nonEmptySpaces.get(location);
 
             if (king.isEnemy(enemyPiece)) {
                 if (enemyPiece.isMoveValid(king.getX(), king.getY(), location.x, location.y)) {
-                    int checked = this.isWhite ? 1 : 0;
+                    int checked = asSide ? 1 : 0;
                     board.setCheck(checked);
-                    return checked;
+                    return true;
                 }
             }
         }
-        return -1;
+        return false;
+    }
+
+    public boolean checkCheck(){
+        return checkCheck(isWhite);
     }
 
     public boolean checkCheckMate(){
-        ArrayList<Point> currentNonEmpty = new ArrayList<>(board.nonEmptySpaces.keySet());
-
-        for (Point location : currentNonEmpty) {
-            ChessPiece piece = board.nonEmptySpaces.get(location);
-            if (piece.isWhite != this.isWhite && piece.getValidMoves(location.x, location.y).size() > 0) {
-                return false;
-            }
-        }
-        return true;
+        return checkCheck(!isWhite);
     }
 
     public boolean checkStaleMate(){
@@ -130,7 +122,7 @@ public abstract class ChessPiece {
 
         for (Point location : currentNonEmpty) {
             ChessPiece piece = board.getPiece(location);
-            if (piece.isWhite != this.isWhite && piece.getValidMoves(location.x, location.y).size() > 0) {
+            if (isEnemy(piece) && piece.getValidMoves(location.x, location.y).size() > 0) {
                 return false;
             }
         }
