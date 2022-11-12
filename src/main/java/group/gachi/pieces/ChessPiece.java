@@ -48,7 +48,7 @@ public abstract class ChessPiece {
             ((King)this).setPos(toX, toY);
         }
 
-        if (checkCheck(false)) {
+        if (checkCheck(true)) {
             board.setPiece(toX, toY, toSpot);
             board.setPiece(fromX, fromY, this);
             if (this.id == ChessBoard.KING){
@@ -58,10 +58,12 @@ public abstract class ChessPiece {
         }
 
         //checks for checkmate
-        if (checkStaleMate()){
-            if (checkCheckMate()) System.out.printf("%s Wins by checkmate", isWhite ? "White":"Black");
+        if (checkStaleMate()) {
+            if (checkCheckMate()) System.out.printf("%s Wins by checkmate", isWhite ? "White" : "Black");
             else System.out.println("Stalemate");
+            System.out.println(King.getKing(!isWhite).getY());
         }
+
         checkCheck(!isWhite,true);
         return true;
     }
@@ -112,6 +114,7 @@ public abstract class ChessPiece {
                 }
             }
         }
+        if (updateBoard) board.setCheck(-1);
         return false;
     }
 
