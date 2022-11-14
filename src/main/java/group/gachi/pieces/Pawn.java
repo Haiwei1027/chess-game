@@ -78,7 +78,7 @@ public class Pawn extends ChessPiece {
 
 		Pawn pawn = (Pawn)adjacentSpot;
 
-		if (pawn.isWhite != isWhite){
+		if (pawn.isWhite != isWhite && ((isWhite && y == 4) || (!isWhite && y == 3))) {
 			if (hasLeapedOnFile == x + dx) {
 				enPassant = true;
 				return true;
