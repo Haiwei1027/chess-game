@@ -90,8 +90,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		Point enemyLocation = location;
 
 		if (attacker.getId() == ChessBoard.PAWN) {
-			if (((Pawn) attacker).enPassant) {
-				System.out.println("hello");
+			if (((Pawn) attacker).enPassant && Math.abs(selected.x - location.x) == 1) {
 				enemyLocation = new Point(location.x, attacker.isWhite() ? location.y - 1 : location.y + 1);
 			}
 		}
