@@ -134,7 +134,9 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         checkPromotionClicked(e.getPoint());
         boolean wasPromoting = board.isPromoting();
         board.mouseDown(transformPoint(e.getPoint()));
-        if (board.isPromoting() && !wasPromoting){
+        if (board.isPromoting() != wasPromoting){
+            //doesn't run during the first promotion
+            //Also bug where can't reselect the same piece
             updateButtonSide();
         }
     }

@@ -27,6 +27,8 @@ class Button {
         int x = startX + rect.x;
         int y = startY + rect.y;
 
+        unClick();
+
         if (background != null) {
             g.drawImage(background, x, y, rect.width, rect.height, null);
         }
