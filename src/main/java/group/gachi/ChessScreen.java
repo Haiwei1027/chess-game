@@ -1,7 +1,10 @@
 package group.gachi;
+import group.gachi.pieces.Pawn;
+
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 
 public class ChessScreen extends JPanel implements MouseListener, MouseMotionListener, KeyListener{
 
@@ -10,6 +13,29 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
     private int width, height, pieceWidth, pieceHeight, startX, startY;
     private Point mousePosition = new Point();
     private Color bgColor;
+
+    private Button[] promoteButtons = {
+            new Button("",new Rectangle(0, 0, 64, 48),
+                    () -> {
+                        System.out.println("queen");
+                        board.promotionDecided(1);
+                    }, ResourceLoader.instance.buttonImage),
+            new Button("",new Rectangle(64, 0, 64, 48),
+                    () -> {
+                        System.out.println("rook");
+                        board.promotionDecided(2);
+                    }, ResourceLoader.instance.buttonImage),
+            new Button("",new Rectangle(0, 48, 64, 48),
+                    () -> {
+                        System.out.println("biship");
+                        board.promotionDecided(3);
+                    }, ResourceLoader.instance.buttonImage),
+            new Button("",new Rectangle(64, 48, 64, 48),
+                    () -> {
+                        System.out.println("night");
+                        board.promotionDecided(4);
+                    }, ResourceLoader.instance.buttonImage)
+    };
 
     public ChessScreen(Main main, int width, int height) {
         super();
@@ -41,7 +67,10 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         onResize();
 
         drawBoard(g, startX, startY);
-        if (board.isDragging()) {
+        if (board.isPromoting()){
+            drawPromotion(g, board.getPromotion());
+        }
+        else if (board.isDragging()) {
         	drawDraggedPiece(g);
         }
     }
@@ -51,15 +80,47 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         return new Point(((int) ((point.x-startX) * (142f / width)) - 7) / 16, 7 - ((int) ((point.y-startY) * (142f / height)) - 7) / 16);
     }
 
+    public Point inverseTransformPoint(Point point) { //chess coord to screen pos
+        return new Point((int)((point.x * 16 + 7) / (142f / width) + startX), (int)(((7-point.y) * 16 + 7) / (142f / width) + startY));
+    }
 
-    public void drawBoard(Graphics g, int x, int y) {
+    private void drawBoard(Graphics g, int x, int y) {
         g.drawImage(board.image, x, y, width, height, null);
     }
-    
-    public void drawDraggedPiece(Graphics g) {
+
+    private void drawDraggedPiece(Graphics g) {
     	//System.out.printf("%d, %d \n", InputHandler.getMousePoint().x, InputHandler.getMousePoint().y);
         int draggedSize = (int)(pieceHeight * 1.3);
     	g.drawImage(board.getSelectedSprite(), mousePosition.x - draggedSize / 2, mousePosition.y - draggedSize / 2, draggedSize, draggedSize, null);
+    }
+
+    private void drawPromotion(Graphics g, Point location) {
+        location = inverseTransformPoint(location);
+
+        for (Button button : promoteButtons) {
+            button.drawButton(location.x, location.y, g);
+        }
+    }
+
+    private void updateButtonSide(){
+        boolean side = board.getPromotion().y == 7;
+        promoteButtons[0].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.QUEEN,side));
+        promoteButtons[1].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.ROOK,side));
+        promoteButtons[2].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.BISHOP,side));
+        promoteButtons[3].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.KNIGHT,side));
+    }
+
+    private void checkPromotionClicked(Point mouse){
+        if (board.isPromoting()){
+            Point location = board.getPromotion();
+            Point screenLocation = inverseTransformPoint(location);
+            mouse.x -= screenLocation.x;
+            mouse.y -= screenLocation.y;
+            for (Button button :
+                    promoteButtons) {
+                button.tryClick(mouse);
+            }
+        }
     }
 
     //input handlers
@@ -70,7 +131,12 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mousePressed(MouseEvent e) {
+        checkPromotionClicked(e.getPoint());
+        boolean wasPromoting = board.isPromoting();
         board.mouseDown(transformPoint(e.getPoint()));
+        if (board.isPromoting() && !wasPromoting){
+            updateButtonSide();
+        }
     }
 
     @Override
@@ -104,6 +170,17 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
     public void mouseMoved(MouseEvent e) {
         mousePosition.x = e.getX();
         mousePosition.y = e.getY();
+
+        if (board.isPromoting()){
+            Point mouse = e.getPoint();
+            Point screenLocation = inverseTransformPoint(board.getPromotion());
+            mouse.x -= screenLocation.x; //map mouse coords to buttons coords
+            mouse.y -= screenLocation.y;
+            for (Button button :
+                    promoteButtons) {
+                button.checkHover(mouse);
+            }
+        }
     }
 
     @Override

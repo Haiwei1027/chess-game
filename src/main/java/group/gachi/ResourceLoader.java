@@ -83,7 +83,7 @@ public class ResourceLoader {
 
     public BufferedImage picoString(String string)
     {
-
+        if (string.length() == 0) return null;
         int x = string.length() * 4;
         BufferedImage picoString = new BufferedImage(x, 5, BufferedImage.TYPE_INT_ARGB);
         Graphics g = picoString.getGraphics();

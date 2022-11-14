@@ -29,7 +29,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	private Point selected;
 	private boolean isDragging = false;
 
-
+	private Point pawnToBePromoted = null;
 	private int sideInCheck = -1;
 	private boolean nextSideToMove = true;
 
@@ -72,6 +72,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	}
 	private void selectPiece(Point location){
 		if (getPiece(location) == null) return;
+		if (pawnToBePromoted != null) return;
 		if (getPiece(location).isWhite() != nextSideToMove) return; //cannot select the opponent pieces
 		selected = location;
 
@@ -97,6 +98,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		ChessPiece defender = getPiece(enemyLocation);
 
 		boolean moved = getPiece(selected).movePiece(location.x,location.y,selected.x,selected.y);
+
 		if (moved) {
 			nextSideToMove = !nextSideToMove;
 			if (defender != null) {
@@ -147,6 +149,17 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		return x >= 0 && x < getSize() && y >= 0 && y < getSize();
 	}
 
+	public void awaitPromotion(int x, int y){
+		pawnToBePromoted = new Point(x,y);
+	}
+
+	public void promotionDecided(int choice){
+		if (((Pawn)getPiece(pawnToBePromoted)).promote(pawnToBePromoted.x, pawnToBePromoted.y , choice)){
+			pawnToBePromoted = null;
+		}
+		paint();
+	}
+
 	public void setPiece(Point point, ChessPiece piece) {
 		setPiece(point.x, point.y, piece);
 	}
@@ -178,6 +191,15 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	public boolean isDragging(){
 		return selected != null && isDragging;
 	}
+
+	public boolean isPromoting(){
+		return pawnToBePromoted != null;
+	}
+
+	public Point getPromotion(){
+		return pawnToBePromoted;
+	}
+
 	public BufferedImage getSelectedSprite() {
 		ChessPiece piece = board.get(selected);
 		if (piece == null) return null;

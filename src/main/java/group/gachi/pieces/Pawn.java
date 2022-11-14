@@ -64,7 +64,7 @@ public class Pawn extends ChessPiece {
 				enPassant = false;
 			}
 
-			if (canPromote(toY)) this.promote(toX, toY);
+			if (canPromote(toY)) board.awaitPromotion(toX, toY);
 			return hasMoved = true;
 		}
 		return false;
@@ -87,28 +87,17 @@ public class Pawn extends ChessPiece {
 		return false;
 	}
 
-	public void promote(int x, int y){
-		//return user promotion type
-		//Glorious text inputs
-		Scanner scanner =  new Scanner(System.in);
-		int numChoice = -1;
-		System.out.println("1: Queen\n2: Rook\n3: Bishop\n4: Knight");
-		ChessPiece newPiece = null;
-		while (numChoice == -1) {
-			numChoice = scanner.nextInt();
-			switch (numChoice) {
-				case 1 -> newPiece = new Queen(board, this.isWhite, this.personalName);
-				case 2 -> newPiece = new Rook(board, this.isWhite, this.personalName);
-				case 3 -> newPiece = new Bishop(board, this.isWhite, this.personalName);
-				case 4 -> newPiece = new Knight(board, this.isWhite, this.personalName);
-				default -> {
-					numChoice = -1;
-					System.out.println("Invalid choice, try again");
-				}
-			}
+	public boolean promote(int x, int y, int choice){
+		ChessPiece newPiece;
+		switch (choice) {
+			case 1: newPiece = new Queen(board, this.isWhite, this.personalName); break;
+			case 2: newPiece = new Rook(board, this.isWhite, this.personalName); break;
+			case 3: newPiece = new Bishop(board, this.isWhite, this.personalName); break;
+			case 4: newPiece = new Knight(board, this.isWhite, this.personalName); break;
+			default: return false;
 		}
-
 		board.setPiece(x, y, newPiece);
+		return true;
 	}
 
 	public boolean canPromote(int y) {

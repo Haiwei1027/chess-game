@@ -1,7 +1,5 @@
 package group.gachi;
 
-import group.gachi.pieces.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -41,51 +39,6 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
 
     interface ButtonAction{
         void run();
-    }
-
-    class Button{
-        private String label;
-        private Rectangle rect;
-        private ButtonAction action;
-        private boolean clicked;
-        private boolean hovered;
-
-        public Button(String label, Rectangle rect, ButtonAction action){
-            this.label = label;
-            this.rect = rect;
-            this.action = action;
-        }
-        public void drawButton(int startX, int startY, Graphics g){
-            int x = startX + rect.x;
-            int y = startY + rect.y;
-            if (clicked){
-                g.setColor(Color.GREEN);
-                g.fillRect(x,y,rect.width,rect.height);
-            }
-            else if (hovered){
-                g.setColor(Color.ORANGE);
-                g.fillRect(x,y,rect.width,rect.height);
-            }
-            g.drawImage(ResourceLoader.instance.picoString(label), x, y, rect.width, rect.height, null);
-        }
-        public boolean hovered(){
-            return hovered;
-        }
-        private boolean isInside(Point point){
-            return rect.contains(point);
-        }
-        public void checkHover(Point mouse){
-            hovered = isInside(mouse);
-        }
-        public void tryClick(Point mouse){
-            if (isInside(mouse) && !clicked){
-                clicked = true;
-                action.run();
-            }
-        }
-        public void unClick(){
-            clicked = false;
-        }
     }
 
     public BattleScreen(Main main, int width, int height, Battle battle)
