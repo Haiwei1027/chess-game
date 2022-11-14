@@ -100,7 +100,9 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		boolean moved = getPiece(selected).movePiece(location.x,location.y,selected.x,selected.y);
 
 		if (moved) {
-			nextSideToMove = !nextSideToMove;
+			if (!isPromoting()) {
+				nextSideToMove = !nextSideToMove;
+			}
 			if (defender != null) {
 				if (defender.isEnemy(attacker)){
 					//Main.enterBattle(new Battle(attacker,defender));
@@ -156,6 +158,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	public void promotionDecided(int choice){
 		if (((Pawn)getPiece(pawnToBePromoted)).promote(pawnToBePromoted.x, pawnToBePromoted.y , choice)){
 			pawnToBePromoted = null;
+			nextSideToMove = !nextSideToMove;
 		}
 		paint();
 	}
