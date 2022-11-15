@@ -32,15 +32,13 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
                     }),
             new Button(buttonTexts[2], new Rectangle(74 * ss, 114 * ss, buttonTexts[2].length() * 4 * ss, 5 * ss),
                     () -> {
-                        if (checkEnoughHeals()) {
-                            battle.heal();
-                            if (battle.getPiece1().isWhite()) {
-                                whiteHeals--;
-                                System.out.println(whiteHeals);
-                            } else {
-                                blackHeals--;
-                                System.out.println(blackHeals);
-                            }
+                        battle.heal();
+                        if (battle.getPiece1().isWhite()) {
+                            whiteHeals--;
+                            System.out.println(whiteHeals);
+                        } else {
+                            blackHeals--;
+                            System.out.println(blackHeals);
                         }
                         nextBattle(false);
                     }),
@@ -78,6 +76,9 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
         return (currentPiece.isWhite() && whiteHeals > 0) || (!currentPiece.isWhite() && blackHeals > 0);
     }
 
+    public boolean checkIfCanWound() {
+        return battle.getPiece2().getWoundLevel() != 3;
+    }
 
     public Point transformPoint(Point point) {
         return new Point(((point.x - startX)), ((point.y - startY)));
@@ -97,6 +98,7 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
             b.unClick();
         }
         buttons[2].setInteractable(checkEnoughHeals());
+        buttons[1].setInteractable(checkIfCanWound());
         battle.paint();
     }
 
