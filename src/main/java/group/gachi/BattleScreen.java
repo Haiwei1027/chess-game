@@ -84,7 +84,7 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
         return new Point(((point.x - startX)), ((point.y - startY)));
     }
 
-    public void newBattle(Battle battle){
+    public void newBattle(Battle battle) {
         initiatorPiece = battle.getPiece1();
         otherPiece = battle.getPiece2();
         setBattle(battle);
@@ -102,15 +102,28 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
         battle.paint();
     }
 
-    public void nextBattle(boolean lastBattle) {
+    private void checkKingDeath(ChessPiece defeatedPiece){
+        if (defeatedPiece.getId() == ChessBoard.KING){
+            System.out.printf("%s won \n", !defeatedPiece.isWhite() ? "White" : "Black");
+        }
+    }
+
+    private void nextBattle(boolean lastBattle) {
         if (otherPiece.getHealth() <= 0) {
             main.exitBattle(initiatorPiece);
+            checkKingDeath(otherPiece);
+            return;
 
         }
         if (initiatorPiece.getHealth() <= 0) {
             main.exitBattle(otherPiece);
+            checkKingDeath(initiatorPiece);
+            return;
         }
-        if (battle.isLastTurn()) main.exitBattle(otherPiece, initiatorPiece);
+        if (battle.isLastTurn()) {
+            main.exitBattle(otherPiece, initiatorPiece);
+            return;
+        }
         setBattle(new Battle(battle.getPiece2(), battle.getPiece1(), lastBattle));
         battle.paint();
     }
