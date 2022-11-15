@@ -8,8 +8,8 @@ public class Queen extends ChessPiece{
 	public Queen(ChessBoard board, boolean white, String personalName) {
 		super(board, white, personalName);
 		this.id = ChessBoard.QUEEN;
-		super.maxHealth = 180;
-		super.health = 180;
+		super.maxHealth = 80;
+		super.health = super.maxHealth;
 	}
 	@Override
 	public boolean isMoveValid(int toX, int toY, int fromX, int fromY) {

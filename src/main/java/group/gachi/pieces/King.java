@@ -13,8 +13,8 @@ public class King extends ChessPiece{
 	public King(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
 		this.id = ChessBoard.KING;
-		super.maxHealth = 120;
-		super.health = 120;
+		super.maxHealth = 80;
+		super.health = maxHealth;
 		this.x = 4;
 		this.y = isWhite ? 0 : 7;
 		if (isWhite) {

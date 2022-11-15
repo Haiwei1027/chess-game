@@ -17,7 +17,7 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
     private int maxAnimFrame = 120, animFrame = maxAnimFrame, weaponBop = 0, dWeaponBop = ss * ps;
     final private String[] buttonTexts = {"ATTACK", "WEAKEN", "HEAL", "LEAVE"};
 
-    private int whiteHeals = 20, blackHeals = 20;
+    private int whiteHeals = 5, blackHeals = 5;
 
     private Button[] buttons = {
             new Button(buttonTexts[0], new Rectangle(12 * ss, 114 * ss, buttonTexts[0].length() * 4 * ss, 5 * ss),

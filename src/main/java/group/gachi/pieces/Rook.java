@@ -9,7 +9,7 @@ public class Rook extends ChessPiece{
 	public Rook(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
 		this.id = ChessBoard.ROOK;
-		super.maxHealth = 100;
+		super.maxHealth = 6;
 		super.health = super.maxHealth;
 	}
 
