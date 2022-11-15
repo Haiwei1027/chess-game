@@ -3,16 +3,31 @@ import group.gachi.pieces.ChessPiece;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Battle
 {
     private ChessPiece piece1, piece2;
+    private int damageMean = 10, damageSigma = 3;
     public BufferedImage image;
 
     public Battle(ChessPiece piece1, ChessPiece piece2)
     {
         this.piece1 = piece1;
         this.piece2 = piece2;
+    }
+
+    public void Attack()
+    {
+        int damage;
+        Random roll = new Random();
+        damage = (int)(roll.nextGaussian()*damageSigma + damageMean);
+        System.out.println(damage);
+        piece2.damage(damage);
+    }
+    public void Wound()
+    {
+        piece2.wound();
     }
     public ChessPiece getPiece1() {return piece1;}
     public ChessPiece getPiece2() {return piece2;}
@@ -29,6 +44,10 @@ public class Battle
         g.drawImage(ResourceLoader.instance.healthBarImg, 87, 85, null);
         g.drawImage(ResourceLoader.instance.emptyHealthBar, 12, 26, null);
         g.drawImage(ResourceLoader.instance.emptyHealthBar, 92, 104, null);
+
+        g.setColor(Color.BLACK);
+        g.fillRect(12, 26, (int)(40*(piece2.getHealthPercentage())), 2);
+        g.fillRect(92, 104, (int)(40*(piece1.getHealthPercentage())), 2);
 
 
         g.drawImage(ResourceLoader.instance.picoString(piece2.getName()), 29, 20, null);

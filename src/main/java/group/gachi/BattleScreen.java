@@ -17,11 +17,13 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
     private Button[] buttons = {
             new Button(buttonTexts[0],new Rectangle( 12*ss,  114*ss, buttonTexts[0].length()*4*ss, 5*ss),
                     () -> {
-                        System.out.println("attack");
+                        battle.Attack();
+                        nextBattle();
                     }),
             new Button(buttonTexts[1],new Rectangle( 43*ss, 114*ss, buttonTexts[1].length()*4*ss, 5*ss),
                     () -> {
-                        System.out.println("wound");
+                        battle.Wound();
+                        nextBattle();
                     }),
             new Button(buttonTexts[2],new Rectangle( 74*ss, 114*ss, buttonTexts[2].length()*4*ss, 5*ss),
                     () -> {
@@ -65,6 +67,11 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
         this.battle = battle;
         battle.paint();
     }
+     private void nextBattle()
+     {
+         this.battle = new Battle(battle.getPiece2(), battle.getPiece1());
+         battle.paint();
+     }
 
     public void onResize(){
         startX = (main.getWidth()-16)/2-width/2;

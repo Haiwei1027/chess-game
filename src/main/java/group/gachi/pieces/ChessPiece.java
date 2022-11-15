@@ -16,7 +16,7 @@ public abstract class ChessPiece {
     protected ChessBoard board;
     //combat related variables
     protected String personalName;
-    int health;
+    int maxHealth, health, woundLevel;
 
     public ChessPiece(ChessBoard board, boolean isWhite, String personalName ) {
         this.board = board;
@@ -145,7 +145,15 @@ public abstract class ChessPiece {
     public int getHealth() {return health;}
     public void damage(int damageValue) {
         health -= damageValue;
-        if (health > 0) health = 0;
+        if (health < 0) health = 0;
+    }
+    public void wound()
+    {
+        if (woundLevel < 3) woundLevel += 1;
+    }
 
+    public double getHealthPercentage()
+    {
+        return (double)health / (double)maxHealth;
     }
 }

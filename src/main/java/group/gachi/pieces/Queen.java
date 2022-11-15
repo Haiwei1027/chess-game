@@ -8,6 +8,7 @@ public class Queen extends ChessPiece{
 	public Queen(ChessBoard board, boolean white, String personalName) {
 		super(board, white, personalName);
 		this.id = ChessBoard.QUEEN;
+		super.maxHealth = 180;
 		super.health = 180;
 	}
 	@Override

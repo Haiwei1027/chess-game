@@ -104,7 +104,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			}
 			if (defender != null) {
 				if (defender.isEnemy(attacker)){
-					//Main.enterBattle(new Battle(attacker,defender));
+					Main.enterBattle(new Battle(attacker,defender));
 				}
 			}
 		}
