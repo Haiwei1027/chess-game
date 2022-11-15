@@ -63,6 +63,7 @@ public abstract class ChessPiece {
             else System.out.println("Stalemate");
         }
 
+        Pawn.hasLeapedOnFile = -1;
         checkCheck(!isWhite,true);
         return true;
     }
@@ -141,19 +142,23 @@ public abstract class ChessPiece {
         return isWhite != piece.isWhite;
     }
 
-    public String getName() {return personalName;}
-    public int getHealth() {return health;}
+    public String getName() {
+        return personalName;
+
+    }
+    public int getHealth() {
+        return health;
+    }
+
     public void damage(int damageValue) {
         if (damageValue < 0) return;
         health -= damageValue;
     }
-    public void wound()
-    {
+    public void wound() {
         if (woundLevel < 3) woundLevel += 1;
     }
 
-    public double getHealthPercentage()
-    {
+    public double getHealthPercentage() {
         return (double)health / (double)maxHealth;
     }
 }
