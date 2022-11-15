@@ -108,6 +108,10 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         promoteButtons[1].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.ROOK,side));
         promoteButtons[2].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.BISHOP,side));
         promoteButtons[3].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.KNIGHT,side));
+        for (Button button : promoteButtons) {
+            button.unClick();
+            button.checkHover(new Point(-69,-69));
+        }
         System.out.println("hi");
     }
 
@@ -132,8 +136,13 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mousePressed(MouseEvent e) {
-        checkPromotionClicked(e.getPoint());
-        board.mouseDown(transformPoint(e.getPoint()));
+
+        if (board.isPromoting()){
+            checkPromotionClicked(e.getPoint());
+        }
+        else{
+            board.mouseDown(transformPoint(e.getPoint()));
+        }
     }
 
     @Override
