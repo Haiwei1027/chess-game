@@ -42,7 +42,7 @@ public class Main extends JFrame implements Runnable{
 
     public static void enterBattle(Battle battle) {
         instance.inBattle = true;
-        instance.battleScreen.setBattle(battle);
+        instance.battleScreen.newBattle(battle);
         instance.setCurrentScreen(instance.battleScreen);
         instance.repaint();
     }

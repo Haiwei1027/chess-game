@@ -17,20 +17,32 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
     private int maxAnimFrame = 120, animFrame = maxAnimFrame, weaponBop = 0, dWeaponBop = ss * ps;
     final private String[] buttonTexts = {"ATTACK", "WEAKEN", "HEAL", "LEAVE"};
 
+    private int whiteHeals = 20, blackHeals = 20;
+
     private Button[] buttons = {
             new Button(buttonTexts[0], new Rectangle(12 * ss, 114 * ss, buttonTexts[0].length() * 4 * ss, 5 * ss),
                     () -> {
-                        battle.Attack();
+                        battle.attack();
                         nextBattle(false);
                     }),
             new Button(buttonTexts[1], new Rectangle(43 * ss, 114 * ss, buttonTexts[1].length() * 4 * ss, 5 * ss),
                     () -> {
-                        battle.Wound();
+                        battle.wound();
                         nextBattle(false);
                     }),
             new Button(buttonTexts[2], new Rectangle(74 * ss, 114 * ss, buttonTexts[2].length() * 4 * ss, 5 * ss),
                     () -> {
-                        System.out.println("heal");
+                        if (checkEnoughHeals()) {
+                            battle.heal();
+                            if (battle.getPiece1().isWhite()) {
+                                whiteHeals--;
+                                System.out.println(whiteHeals);
+                            } else {
+                                blackHeals--;
+                                System.out.println(blackHeals);
+                            }
+                        }
+                        nextBattle(false);
                     }),
             new Button(buttonTexts[3], new Rectangle(105 * ss, 114 * ss, buttonTexts[3].length() * 4 * ss, 5 * ss),
                     () -> {
@@ -61,20 +73,30 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
 
     }
 
+    public boolean checkEnoughHeals() {
+        ChessPiece currentPiece = battle.getPiece1();
+        return (currentPiece.isWhite() && whiteHeals > 0) || (!currentPiece.isWhite() && blackHeals > 0);
+    }
+
+
     public Point transformPoint(Point point) {
         return new Point(((point.x - startX)), ((point.y - startY)));
     }
 
-    public void setBattle(Battle battle) {
-        this.battle = battle;
+    public void newBattle(Battle battle){
         initiatorPiece = battle.getPiece1();
         otherPiece = battle.getPiece2();
+        setBattle(battle);
+    }
+
+    public void setBattle(Battle battle) {
+        this.battle = battle;
 
         for (Button b : buttons) {
             b.checkHover(new Point(-69, 69));
             b.unClick();
         }
-
+        buttons[2].setInteractable(checkEnoughHeals());
         battle.paint();
     }
 
@@ -87,7 +109,7 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
             main.exitBattle(otherPiece);
         }
         if (battle.isLastTurn()) main.exitBattle(otherPiece, initiatorPiece);
-        this.battle = new Battle(battle.getPiece2(), battle.getPiece1(), lastBattle);
+        setBattle(new Battle(battle.getPiece2(), battle.getPiece1(), lastBattle));
         battle.paint();
     }
 

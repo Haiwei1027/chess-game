@@ -12,7 +12,6 @@ import group.gachi.pieces.*;
 public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, black
 
 	public final static int PAWN=0,KNIGHT=1,ROOK=2,BISHOP=3,KING=4,QUEEN=5;
-	public final int WHITE=0,BLACK=1;
 	private final String[] pawnPersonalNames = new String[]{"MESLET", "PODREY", "BINMAN", "NARSI", "KEVIN", "AMLEIA", "SORSON", "JAMES", //white pawn
 															"RORY", "CARWYN", "MAISEI", "BANNED", "VANSYR", "RERTY", "NEYSHA", "BORIS"}; //black pawn
 	private final String[] rookPersonalNames = new String[]{"CASSOR", "STEVE", //white rook names
