@@ -1,7 +1,8 @@
 package group.gachi;
 import group.gachi.pieces.ChessPiece;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Main extends JFrame implements Runnable{
 

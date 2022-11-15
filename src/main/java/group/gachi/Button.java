@@ -8,16 +8,20 @@ class Button {
     private Rectangle rect;
     private BufferedImage background;
     private BufferedImage foreground;
-    private BattleScreen.ButtonAction action;
+    private ButtonAction action;
     private boolean clicked;
     private boolean interactable;
     private boolean hovered;
 
-    public Button(String label, Rectangle rect, BattleScreen.ButtonAction action) {
+    interface ButtonAction {
+        void run();
+    }
+
+    public Button(String label, Rectangle rect, ButtonAction action) {
         this(label, rect, action, null);
     }
 
-    public Button(String label, Rectangle rect, BattleScreen.ButtonAction action, BufferedImage background) {
+    public Button(String label, Rectangle rect, ButtonAction action, BufferedImage background) {
         this.label = ResourceLoader.instance.picoString(label);
         this.rect = rect;
         this.action = action;

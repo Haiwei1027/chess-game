@@ -2,7 +2,8 @@ package group.gachi;
 
 import group.gachi.pieces.ChessPiece;
 
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 

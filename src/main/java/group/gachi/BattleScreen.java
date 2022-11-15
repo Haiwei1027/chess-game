@@ -2,8 +2,11 @@ package group.gachi;
 
 import group.gachi.pieces.ChessPiece;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -52,9 +55,7 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
     private Point mousePosition = new Point();
     private Color bgColor;
 
-    interface ButtonAction {
-        void run();
-    }
+
 
     public BattleScreen(Main main, int width, int height, Battle battle) {
         super();

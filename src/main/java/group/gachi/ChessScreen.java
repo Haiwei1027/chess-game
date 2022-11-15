@@ -1,10 +1,16 @@
 package group.gachi;
-import group.gachi.pieces.Pawn;
+
 
 import javax.swing.JPanel;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
+import java.awt.Point;
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.Graphics;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.KeyEvent;
 
 public class ChessScreen extends JPanel implements MouseListener, MouseMotionListener, KeyListener{
 
