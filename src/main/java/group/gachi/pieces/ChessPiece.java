@@ -51,23 +51,23 @@ public abstract class ChessPiece {
             ((King)this).setPos(toX, toY);
         }
 
-        if (checkCheck(true)) {
-            board.setPiece(toX, toY, toSpot);
-            board.setPiece(fromX, fromY, this);
-            if (this.id == ChessBoard.KING){
-                ((King)this).setPos(fromX, fromY);
-            }
-            return false;
-        }
+//        if (checkCheck(true)) {
+//            board.setPiece(toX, toY, toSpot);
+//            board.setPiece(fromX, fromY, this);
+//            if (this.id == ChessBoard.KING){
+//                ((King)this).setPos(fromX, fromY);
+//            }
+//            return false;
+//        }
 
         //checks for checkmate
-        if (checkStaleMate()) {
-            if (checkCheckMate()) System.out.printf("%s Wins by checkmate", isWhite ? "White" : "Black");
-            else System.out.println("Stalemate");
-        }
+//        if (checkStaleMate()) {
+//            if (checkCheckMate()) System.out.printf("%s Wins by checkmate", isWhite ? "White" : "Black");
+//            else System.out.println("Stalemate");
+//        }
 
         Pawn.hasLeapedOnFile = -1;
-        checkCheck(!isWhite,true);
+//        checkCheck(!isWhite,true);
         return true;
     }
 
