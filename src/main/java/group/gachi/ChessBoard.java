@@ -30,6 +30,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 	private Point selected;
 	private boolean isDragging = false;
 
+	private Point defenderSpot, attackerSpot;
+
 	private Point pawnToBePromoted = null;
 	private int sideInCheck = -1;
 	private boolean nextSideToMove = true;
@@ -87,6 +89,14 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 		if (changed) paint();
 	}
 
+	public void battleFinished(ChessPiece defenderPiece, ChessPiece attackerPiece){
+		setPiece(defenderSpot,defenderPiece);
+		setPiece(attackerSpot, attackerPiece);
+		defenderSpot = null;
+		attackerSpot = null;
+		paint();
+	}
+
 	private boolean dropPiece(Point location) {
 		ChessPiece attacker = getPiece(selected);
 		Point enemyLocation = location;
@@ -107,6 +117,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 			if (defender != null) {
 				if (defender.isEnemy(attacker)){
 					Main.enterBattle(new Battle(attacker,defender));
+					defenderSpot = location;
+					attackerSpot = selected;
 				}
 			}
 		}

@@ -134,6 +134,10 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
 
     }
 
+    public ChessBoard getBoard(){
+        return board;
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
 

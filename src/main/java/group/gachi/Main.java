@@ -1,4 +1,6 @@
 package group.gachi;
+import group.gachi.pieces.ChessPiece;
+
 import javax.swing.*;
 
 public class Main extends JFrame implements Runnable{
@@ -38,19 +40,24 @@ public class Main extends JFrame implements Runnable{
         mainLoop.start();
     }
 
-    public static void enterBattle(Battle battle){
+    public static void enterBattle(Battle battle) {
         instance.inBattle = true;
         instance.battleScreen.setBattle(battle);
         instance.setCurrentScreen(instance.battleScreen);
         instance.repaint();
     }
-    public static void exitBattle()
-    {
+
+    public static void exitBattle(ChessPiece winner) {
+        exitBattle(winner, null);
+    }
+
+    public static void exitBattle(ChessPiece defender, ChessPiece attacker) {
+        instance.chessScreen.getBoard().battleFinished(defender,attacker);
         instance.setCurrentScreen(instance.chessScreen);
         instance.repaint();
     }
 
-    public void setCurrentScreen(JPanel panel){
+    public void setCurrentScreen(JPanel panel) {
         currentScreen = panel;
         setContentPane(panel);
         setVisible(true);
@@ -73,6 +80,6 @@ public class Main extends JFrame implements Runnable{
 
           }
       }
-		
+
 	}
 }
