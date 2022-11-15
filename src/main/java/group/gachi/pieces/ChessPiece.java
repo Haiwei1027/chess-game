@@ -83,19 +83,22 @@ public abstract class ChessPiece {
         for (Point point : board.board.keySet()) {
             ChessPiece pieceAtPosition = board.getPiece(point);
             if (isMoveValid(point.x, point.y, x, y) && (pieceAtPosition == null || isEnemy(pieceAtPosition))) {
-                if (isKing){
-                    ((King)this).setPos(point);
-                }
-                board.setPiece(point, this);
-                board.setPiece(x, y, null);
-                if (!checkCheck(false)) {
-                    validMoves.add(point);
-                }
-                if (isKing){
-                    ((King)this).setPos(x,y);
-                }
-                board.setPiece(point, pieceAtPosition);
-                board.setPiece(x, y, this);
+
+                validMoves.add(point);
+
+//                if (isKing){
+//                    ((King)this).setPos(point);
+//                }
+//                board.setPiece(point, this);
+//                board.setPiece(x, y, null);
+//                if (!checkCheck(false)) {
+//                    validMoves.add(point);
+//                }
+//                if (isKing){
+//                    ((King)this).setPos(x,y);
+//                }
+//                board.setPiece(point, pieceAtPosition);
+//                board.setPiece(x, y, this);
             }
         }
         return validMoves;
