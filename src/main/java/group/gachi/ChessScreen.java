@@ -40,7 +40,7 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
     public ChessScreen(Main main, int width, int height) {
         super();
         this.main = main;
-        this.board = new ChessBoard();
+        this.board = new ChessBoard(this);
         this.width = width;
         this.height = height;
         this.bgColor = new Color(69,77,95);
@@ -102,12 +102,13 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
-    private void updateButtonSide(){
+    public void updatePromotionButtons(){
         boolean side = board.getPromotion().y == 7;
         promoteButtons[0].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.QUEEN,side));
         promoteButtons[1].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.ROOK,side));
         promoteButtons[2].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.BISHOP,side));
         promoteButtons[3].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.KNIGHT,side));
+        System.out.println("hi");
     }
 
     private void checkPromotionClicked(Point mouse){
@@ -132,13 +133,7 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
     @Override
     public void mousePressed(MouseEvent e) {
         checkPromotionClicked(e.getPoint());
-        boolean wasPromoting = board.isPromoting();
         board.mouseDown(transformPoint(e.getPoint()));
-        if (board.isPromoting() != wasPromoting){
-            //doesn't run during the first promotion
-            //Also bug where can't reselect the same piece
-            updateButtonSide();
-        }
     }
 
     @Override

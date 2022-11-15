@@ -25,6 +25,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 																"XANDER", "ARIAN"};//black king queen names
 	private final int size = 8;
 
+	private ChessScreen screen;
 	public BufferedImage image;
 	private Point selected;
 	private boolean isDragging = false;
@@ -39,7 +40,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public HashMap<Point, ChessPiece> board = new HashMap<>();
 
-	public ChessBoard() {
+	public ChessBoard(ChessScreen screen) {
+		this.screen = screen;
 		resetBoard();
 		paint();
 	}
@@ -152,6 +154,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen //white, bl
 
 	public void awaitPromotion(int x, int y){
 		pawnToBePromoted = new Point(x,y);
+		screen.updatePromotionButtons();
 	}
 
 	public void promotionDecided(int choice){
