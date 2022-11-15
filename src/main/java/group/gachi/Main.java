@@ -44,6 +44,11 @@ public class Main extends JFrame implements Runnable{
         instance.setCurrentScreen(instance.battleScreen);
         instance.repaint();
     }
+    public static void exitBattle()
+    {
+        instance.setCurrentScreen(instance.chessScreen);
+        instance.repaint();
+    }
 
     public void setCurrentScreen(JPanel panel){
         currentScreen = panel;

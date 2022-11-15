@@ -9,12 +9,19 @@ public class Battle
 {
     private ChessPiece piece1, piece2;
     private int damageMean = 10, damageSigma = 3;
+    private boolean lastTurn;
     public BufferedImage image;
 
     public Battle(ChessPiece piece1, ChessPiece piece2)
     {
         this.piece1 = piece1;
         this.piece2 = piece2;
+    }
+    public Battle(ChessPiece piece1, ChessPiece piece2, boolean lastTurn)
+    {
+        this.piece1 = piece1;
+        this.piece2 = piece2;
+        this.lastTurn = lastTurn;
     }
 
     public void Attack()
@@ -59,4 +66,6 @@ public class Battle
 
         g.dispose();
     }
+
+    public boolean isLastTurn() { return lastTurn;}
 }

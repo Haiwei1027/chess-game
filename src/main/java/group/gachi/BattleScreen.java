@@ -1,5 +1,7 @@
 package group.gachi;
 
+import group.gachi.pieces.ChessPiece;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -10,20 +12,21 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
 
     private Main main;
     private Battle battle;
+    private ChessPiece initiatorPiece, otherPiece;
     private int ps = 3, ss = 5; //pawn scale and piece scale
     private int maxAnimFrame = 120, animFrame = maxAnimFrame, weaponBop = 0, dWeaponBop = ss*ps;
-    final private String[] buttonTexts = {"ATTACK","WOUND","HEAL","LEAVE"};
+    final private String[] buttonTexts = {"ATTACK","WEAKEN","HEAL","LEAVE"};
 
     private Button[] buttons = {
             new Button(buttonTexts[0],new Rectangle( 12*ss,  114*ss, buttonTexts[0].length()*4*ss, 5*ss),
                     () -> {
                         battle.Attack();
-                        nextBattle();
+                        nextBattle(false);
                     }),
             new Button(buttonTexts[1],new Rectangle( 43*ss, 114*ss, buttonTexts[1].length()*4*ss, 5*ss),
                     () -> {
                         battle.Wound();
-                        nextBattle();
+                        nextBattle(false);
                     }),
             new Button(buttonTexts[2],new Rectangle( 74*ss, 114*ss, buttonTexts[2].length()*4*ss, 5*ss),
                     () -> {
@@ -31,7 +34,7 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
                     }),
             new Button(buttonTexts[3],new Rectangle( 105*ss,  114*ss, buttonTexts[3].length()*4*ss, 5*ss),
                     () -> {
-                        System.out.println("leave");
+                        nextBattle(true);
                     })
     };
 
@@ -65,13 +68,26 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
 
     public void setBattle(Battle battle){
         this.battle = battle;
+        initiatorPiece = battle.getPiece1();
+        otherPiece = battle.getPiece2();
         battle.paint();
     }
-     private void nextBattle()
-     {
-         this.battle = new Battle(battle.getPiece2(), battle.getPiece1());
-         battle.paint();
-     }
+
+    public void nextBattle(boolean lastBattle)
+    {
+        if (otherPiece.getHealth() <= 0)
+        {
+            main.exitBattle();
+
+        }
+        if (initiatorPiece.getHealth() <= 0)
+        {
+            main.exitBattle();
+        }
+        if (battle.isLastTurn()) main.exitBattle();
+        this.battle = new Battle(battle.getPiece2(), battle.getPiece1(), lastBattle);
+        battle.paint();
+    }
 
     public void onResize(){
         startX = (main.getWidth()-16)/2-width/2;

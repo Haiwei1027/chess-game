@@ -144,8 +144,8 @@ public abstract class ChessPiece {
     public String getName() {return personalName;}
     public int getHealth() {return health;}
     public void damage(int damageValue) {
+        if (damageValue < 0) return;
         health -= damageValue;
-        if (health < 0) health = 0;
     }
     public void wound()
     {

@@ -7,7 +7,8 @@ public class Bishop extends ChessPiece{
 	public Bishop(ChessBoard board, boolean isWhite, String personalName) {
 		super(board, isWhite, personalName);
 		this.id = ChessBoard.BISHOP;
-		super.health = 60;
+		super.maxHealth = 60;
+		super.health = super.maxHealth;
 	}
 
 	@Override
