@@ -1,6 +1,8 @@
 package group.gachi;
 
 
+import group.gachi.pieces.ChessPiece;
+
 import javax.swing.JPanel;
 import java.awt.Point;
 import java.awt.Color;
@@ -72,12 +74,16 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         g.fillRect(0,0,main.getWidth(),main.getHeight());
         onResize();
 
+        ChessPiece hoveredPiece = board.getPiece(transformPoint(mousePosition));
+
         drawBoard(g, startX, startY);
         if (board.isPromoting()){
             drawPromotion(g, board.getPromotion());
         }
         else if (board.isDragging()) {
         	drawDraggedPiece(g);
+        } else if (hoveredPiece != null) {
+            drawName(g, hoveredPiece);
         }
     }
 
@@ -114,10 +120,12 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         promoteButtons[1].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.ROOK,side));
         promoteButtons[2].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.BISHOP,side));
         promoteButtons[3].setForeground(ResourceLoader.instance.getPieceRaw(ChessBoard.KNIGHT,side));
+
         for (Button button : promoteButtons) {
             button.unClick();
             button.checkHover(new Point(-69,-69));
         }
+
         System.out.println("hi");
     }
 
@@ -199,6 +207,14 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
+    public void drawName(Graphics g, ChessPiece hoveredPiece) {
+        String name = hoveredPiece.getName();
+        int unscaledHeight = 7;
+        int unscaledWidth = (name.length()*4) + 1;
+        Point topCornerOfSquare = inverseTransformPoint(transformPoint(mousePosition));
+        g.drawImage(ResourceLoader.instance.borderedPicoString(name), topCornerOfSquare.x, topCornerOfSquare.y + 59, unscaledWidth*3, unscaledHeight*3, null);
+
+    }
     @Override
     public void keyTyped(KeyEvent e) {
 
