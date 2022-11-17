@@ -152,9 +152,9 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
 
     public void resetBoard() {
         shuffleNames(); // Randomising the names about to be used
-        for (int i = 0; i < 8; i += 8) {
-            board.put(new Point(i, 1), new Pawn(this, true, personalNames[i]));
-            board.put(new Point(i, 6), new Pawn(this, false, personalNames[i + 8]));
+        for (int i = 0; i < 8; i++) {
+            board.put(new Point(i, 1), new Pawn(this, true, personalNames[i * 2]));
+            board.put(new Point(i, 6), new Pawn(this, false, personalNames[i * 2 + 1]));
         }
         for (int i = 16; i <= 24; i+=8) {
             board.put(new Point(0, i * 7), new Rook(this, i == 0, personalNames[i]));
