@@ -156,15 +156,15 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
             board.put(new Point(i, 1), new Pawn(this, true, personalNames[i * 2]));
             board.put(new Point(i, 6), new Pawn(this, false, personalNames[i * 2 + 1]));
         }
-        for (int i = 16; i <= 24; i+=8) {
-            board.put(new Point(0, i * 7), new Rook(this, i == 0, personalNames[i]));
-            board.put(new Point(1, i * 7), new Knight(this, i == 0, personalNames[i+1]));
-            board.put(new Point(2, i * 7), new Bishop(this, i == 0, personalNames[i+2]));
-            board.put(new Point(3, i * 7), new Queen(this, i == 0, personalNames[i+3]));
-            board.put(new Point(4, i * 7), new King(this, i == 0, personalNames[i+5]));
-            board.put(new Point(5, i * 7), new Bishop(this, i == 0, personalNames[i+6]));
-            board.put(new Point(6, i * 7), new Knight(this, i == 0, personalNames[i+7]));
-            board.put(new Point(7, i * 7), new Rook(this, i == 0, personalNames[i+8]));
+        for (int i = 0; i < 2; i++) {
+            board.put(new Point(0, i * 7), new Rook(this, i == 0, personalNames[i * 8]));
+            board.put(new Point(1, i * 7), new Knight(this, i == 0, personalNames[i * 8 + 1]));
+            board.put(new Point(2, i * 7), new Bishop(this, i == 0, personalNames[i * 8 + 2]));
+            board.put(new Point(3, i * 7), new Queen(this, i == 0, personalNames[i * 8 + 3]));
+            board.put(new Point(4, i * 7), new King(this, i == 0, personalNames[i * 8 + 5]));
+            board.put(new Point(5, i * 7), new Bishop(this, i == 0, personalNames[i * 8 + 6]));
+            board.put(new Point(6, i * 7), new Knight(this, i == 0, personalNames[i * 8 + 7]));
+            board.put(new Point(7, i * 7), new Rook(this, i == 0, personalNames[i * 8 + 8]));
         }
 
         for (int i = 0; i < 8; i++) {
