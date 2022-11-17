@@ -1,8 +1,6 @@
 package group.gachi;
 
-import java.awt.Point;
-import java.awt.Graphics;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -272,7 +270,18 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
                     g.fillRect(x * 16 + 7, (7 - y) * 16 + 7, 16, 16);
                     if (isDragging) continue;
                 }
+
+
                 g.drawImage(sprite, x * 16 + 7, (7 - y) * 16 + 7, null);
+
+                // Health Bars
+                if (piece != null) {
+                    g.setColor(Color.RED);
+                    g.fillRect(x * 16 + 8, (7 - y) * 16 + 7, 14, 1);
+                    g.setColor(Color.GREEN);
+                    g.fillRect(x * 16 + 8, (7 - y) * 16 + 7, (int) (14 * piece.getHealth() / piece.getMaxHealth()), 1);
+                }
+
             }
         }
         g.setColor(new Color(255, 0, 0, 128));
