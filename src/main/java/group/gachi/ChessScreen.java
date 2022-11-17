@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 public class ChessScreen extends JPanel implements MouseListener, MouseMotionListener, KeyListener{
 
@@ -21,6 +22,8 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
     private int width, height, pieceWidth, pieceHeight, startX, startY;
     private Point mousePosition = new Point();
     private Color bgColor;
+
+    private BufferedImage moveArrow;
 
     private Button[] promoteButtons = {
             new Button("",new Rectangle(0, 0, 64, 48),
@@ -61,6 +64,12 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
 
         pieceWidth = (int)(width / 142f) * 16;
         pieceHeight = pieceWidth;
+
+        moveArrow = new BufferedImage(142,8,BufferedImage.TYPE_INT_ARGB);
+        Graphics g = moveArrow.getGraphics();
+        g.setColor(new Color(150, 162, 179));
+        g.fillPolygon(new int[]{0,71,142}, new int[]{8,0,8},3);
+
     }
 
     public void onResize(){
@@ -85,6 +94,7 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         } else if (hoveredPiece != null) {
             drawName(g, hoveredPiece);
         }
+        g.drawImage(moveArrow,startX,startY+(board.isWhiteNextToMove() ? height : 0),width,(board.isWhiteNextToMove() ? 48 : -48),null);
     }
 
 

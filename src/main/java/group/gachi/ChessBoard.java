@@ -12,7 +12,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
     public final static int PAWN = 0, KNIGHT = 1, ROOK = 2, BISHOP = 3, KING = 4, QUEEN = 5;
 
     private String[] personalNames = new String[]{"MESLET", "PODREY", "BINMAN", "NARSI", "KEVIN", "AMLEIA", "SORSON",
-            "JAMES", "RORY", "CARWYN", "MAISEI", "BANNED", "VANSYR", "RERTY", "NEYSHA", "BORIS", "JEOFF","CASSOR",
+            "JAMES", "RORY", "CARWYN", "MAISEI", "BANNED", "VANSYR", "RERTY", "NEYSHA", "BORIS", "JEOFF", "CASSOR",
             "STEVE", "TOVER", "CAER", "GARRY", "HAIWEI", "CAMI", "ISAAC", "SHAH", "VIVIAN", "BETHAN", "BOI", "MICU",
             "ROMAN", "XANDER", "ARIAN", "DERK", "POEL", "GOLEM", "DREW", "CLAUDE", "CLEO"};
     private final int size = 8;
@@ -36,6 +36,13 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
     //Key - co-ordinate, value - id
     public HashMap<Point, ChessPiece> nonEmptySpaces = new HashMap<>();
     public HashMap<Point, ChessPiece> board = new HashMap<>();
+
+    private final Color highlightColor = new Color(255, 255, 0, 128);
+    private final Color dangerColor = new Color(255, 0, 0, 128);
+    private final Color whiteBackgroundHPColor = new Color(193, 102, 107);
+    private final Color blackBackgroundHPColor = new Color(177, 182, 149);
+    private final Color whiteHPColor = new Color(103, 148, 54);
+    private final Color blackHPColor = new Color(241, 115, 0);
 
     public ChessBoard(ChessScreen screen) {
         this.screen = screen;
@@ -250,6 +257,10 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
         return selected;
     }
 
+    public boolean isWhiteNextToMove() {
+        return nextSideToMove;
+    }
+
     public void paint() {
         if (image == null) {
             image = new BufferedImage(142, 142, BufferedImage.TYPE_INT_RGB);
@@ -259,8 +270,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
 
         Graphics g = image.getGraphics();
         g.drawImage(ResourceLoader.instance.board, 0, 0, null);
-        g.setColor(Color.GREEN);
-        g.fillRect(7, (nextSideToMove ? 1 : 0) * 141, 8 * 16, 1);
+
+
         for (int x = 0; x < getSize(); x++) {
             for (int y = 0; y < getSize(); y++) {
                 ChessPiece piece = board.get(new Point(x, y));
@@ -268,7 +279,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
                 sprite = piece != null ? ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite()) : null;
 
                 if (selected != null && selected.equals(new Point(x, y))) {
-                    g.setColor(new Color(255, 255, 0, 128));
+                    g.setColor(highlightColor);
                     g.fillRect(x * 16 + 7, (7 - y) * 16 + 7, 16, 16);
                     if (isDragging) continue;
                 }
@@ -278,15 +289,16 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
 
                 // Health Bars
                 if (piece != null) {
-                    g.setColor(Color.RED);
+                    g.setColor(piece.isWhite() ? whiteBackgroundHPColor : blackBackgroundHPColor);
                     g.fillRect(x * 16 + 8, (7 - y) * 16 + 7, 14, 1);
-                    g.setColor(Color.GREEN);
+
+                    g.setColor(piece.isWhite() ? whiteHPColor : blackHPColor);
                     g.fillRect(x * 16 + 8, (7 - y) * 16 + 7, (int) (14 * piece.getHealth() / piece.getMaxHealth()), 1);
                 }
 
             }
         }
-        g.setColor(new Color(255, 0, 0, 128));
+        g.setColor(dangerColor);
 
         if (sideInCheck != -1) {
             g.fillRect(King.getKing(sideInCheck == 1).getX() * 16 + 7, (7 - King.getKing(sideInCheck == 1).getY()) * 16 + 7, 16, 16);
@@ -298,7 +310,7 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
         if (selectedPiece != null) {
             for (Point p : selectedPiece.getValidMoves(selected.x, selected.y)) {
                 if (p == null) continue;
-                g.setColor(new Color(255, 255, 0, 128));
+                g.setColor(highlightColor);
                 g.fillRect(p.x * 16 + 11, (7 - p.y) * 16 + 11, 8, 8);
             }
         }
