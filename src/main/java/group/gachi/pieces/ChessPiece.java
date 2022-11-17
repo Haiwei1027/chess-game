@@ -12,13 +12,11 @@ public abstract class ChessPiece {
 
     protected int id;
     protected boolean isWhite;
-
     protected ChessBoard board;
     //combat related variables
     protected String personalName;
     int maxHealth;
     int health;
-
     int woundLevel;
 
     public ChessPiece(ChessBoard board, boolean isWhite, String personalName ) {

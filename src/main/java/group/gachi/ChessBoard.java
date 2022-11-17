@@ -11,16 +11,11 @@ import group.gachi.pieces.*;
 public class ChessBoard { // pawn, knight, rook, bishop, king, queen
 
     public final static int PAWN = 0, KNIGHT = 1, ROOK = 2, BISHOP = 3, KING = 4, QUEEN = 5;
-    private final String[] pawnPersonalNames = new String[]{"MESLET", "PODREY", "BINMAN", "NARSI", "KEVIN", "AMLEIA", "SORSON", "JAMES", //white pawn
-            "RORY", "CARWYN", "MAISEI", "BANNED", "VANSYR", "RERTY", "NEYSHA", "BORIS"}; //black pawn
-    private final String[] rookPersonalNames = new String[]{"CASSOR", "STEVE", //white rook names
-            "TOVER", "CAER"}; //black rook names
-    private final String[] knightPersonalNames = new String[]{"GARRY", "HAIWEI", //white knight names
-            "CAMI", "ISAAC"};//black white names
-    private final String[] bishopPersonalNames = new String[]{"SHAH", "VIVIAN",  //white bishop names
-            "BETHAN", "BOI"};//black bishop names
-    private final String[] monarchPersonalNames = new String[]{"MICU", "ROMAN",  //white king queen names
-            "XANDER", "ARIAN"};//black king queen names
+
+    private String[] personalNames = new String[]{"MESLET", "PODREY", "BINMAN", "NARSI", "KEVIN", "AMLEIA", "SORSON",
+            "JAMES", "RORY", "CARWYN", "MAISEI", "BANNED", "VANSYR", "RERTY", "NEYSHA", "BORIS", "JEOFF","CASSOR",
+            "STEVE", "TOVER", "CAER", "GARRY", "HAIWEI", "CAMI", "ISAAC", "SHAH", "VIVIAN", "BETHAN", "BOI", "MICU",
+            "ROMAN", "XANDER", "ARIAN", "DERK", "POEL", "GOLEM", "DREW", "CLAUDE", "CLEO"};
     private final int size = 8;
 
     private ChessScreen screen;
@@ -145,20 +140,31 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
         return moved;
     }
 
-    public void resetBoard() {
-        for (int i = 0; i < 8; i++) {
-            board.put(new Point(i, 1), new Pawn(this, true, pawnPersonalNames[i]));
-            board.put(new Point(i, 6), new Pawn(this, false, pawnPersonalNames[i + 8]));
+    private void shuffleNames() {
+        // Shuffles the names in arrays to randomize the names of the pieces
+        for (int i = 0; i < personalNames.length; i++) {
+            int randomIndex = (int) (Math.random() * personalNames.length);
+            String temp = personalNames[i];
+            personalNames[i] = personalNames[randomIndex];
+            personalNames[randomIndex] = temp;
         }
-        for (int i = 0; i < 2; i++) {
-            board.put(new Point(0, i * 7), new Rook(this, i == 0, rookPersonalNames[i]));
-            board.put(new Point(1, i * 7), new Knight(this, i == 0, knightPersonalNames[i]));
-            board.put(new Point(2, i * 7), new Bishop(this, i == 0, bishopPersonalNames[i]));
-            board.put(new Point(3, i * 7), new Queen(this, i == 0, monarchPersonalNames[i + 2]));
-            board.put(new Point(4, i * 7), new King(this, i == 0, monarchPersonalNames[i]));
-            board.put(new Point(5, i * 7), new Bishop(this, i == 0, bishopPersonalNames[i + 2]));
-            board.put(new Point(6, i * 7), new Knight(this, i == 0, knightPersonalNames[i + 2]));
-            board.put(new Point(7, i * 7), new Rook(this, i == 0, rookPersonalNames[i + 2]));
+    }
+
+    public void resetBoard() {
+        shuffleNames(); // Randomising the names about to be used
+        for (int i = 0; i < 8; i += 8) {
+            board.put(new Point(i, 1), new Pawn(this, true, personalNames[i]));
+            board.put(new Point(i, 6), new Pawn(this, false, personalNames[i + 8]));
+        }
+        for (int i = 16; i <= 24; i+=8) {
+            board.put(new Point(0, i * 7), new Rook(this, i == 0, personalNames[i]));
+            board.put(new Point(1, i * 7), new Knight(this, i == 0, personalNames[i+1]));
+            board.put(new Point(2, i * 7), new Bishop(this, i == 0, personalNames[i+2]));
+            board.put(new Point(3, i * 7), new Queen(this, i == 0, personalNames[i+3]));
+            board.put(new Point(4, i * 7), new King(this, i == 0, personalNames[i+5]));
+            board.put(new Point(5, i * 7), new Bishop(this, i == 0, personalNames[i+6]));
+            board.put(new Point(6, i * 7), new Knight(this, i == 0, personalNames[i+7]));
+            board.put(new Point(7, i * 7), new Rook(this, i == 0, personalNames[i+8]));
         }
 
         for (int i = 0; i < 8; i++) {
