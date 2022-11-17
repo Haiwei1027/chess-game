@@ -142,6 +142,15 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
+    public void drawName(Graphics g, ChessPiece hoveredPiece) {
+        String name = hoveredPiece.getName();
+        int unscaledHeight = 7;
+        int unscaledWidth = (name.length()*4) + 1;
+        Point topCornerOfSquare = inverseTransformPoint(transformPoint(mousePosition));
+        g.drawImage(ResourceLoader.instance.borderedPicoString(name), topCornerOfSquare.x, topCornerOfSquare.y + 59, unscaledWidth*3, unscaledHeight*3, null);
+
+    }
+
     //input handlers
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -207,14 +216,6 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
-    public void drawName(Graphics g, ChessPiece hoveredPiece) {
-        String name = hoveredPiece.getName();
-        int unscaledHeight = 7;
-        int unscaledWidth = (name.length()*4) + 1;
-        Point topCornerOfSquare = inverseTransformPoint(transformPoint(mousePosition));
-        g.drawImage(ResourceLoader.instance.borderedPicoString(name), topCornerOfSquare.x, topCornerOfSquare.y + 59, unscaledWidth*3, unscaledHeight*3, null);
-
-    }
     @Override
     public void keyTyped(KeyEvent e) {
 
