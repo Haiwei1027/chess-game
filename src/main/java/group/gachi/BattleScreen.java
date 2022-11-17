@@ -20,9 +20,6 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
     private int maxAnimFrame = 120, animFrame = maxAnimFrame, weaponBop = 0, dWeaponBop = ss * ps;
     final private String[] buttonTexts = {"ATTACK", "WEAKEN", "HEAL", "LEAVE"};
 
-    private ChessPiece piece1;
-    private ChessScreen piece2;
-
     private int whiteHeals = 5, blackHeals = 5;
 
     private Button[] buttons = {
@@ -46,6 +43,7 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
                             blackHeals--;
                             System.out.println(blackHeals);
                         }
+                        battle.getPiece1().timesHealed++;
                         nextBattle(false);
                     }),
             new Button(buttonTexts[3], new Rectangle(105 * ss, 114 * ss, buttonTexts[3].length() * 4 * ss, 5 * ss),
@@ -72,11 +70,12 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
         addMouseListener(this);
         addMouseMotionListener(this);
         setFocusable(true);
+
     }
 
-    public boolean checkEnoughHeals() {
+    public boolean checkIfCanHeal() {
         ChessPiece currentPiece = battle.getPiece1();
-        return (currentPiece.isWhite() && whiteHeals > 0) || (!currentPiece.isWhite() && blackHeals > 0);
+        return (((currentPiece.isWhite() && whiteHeals > 0) || (!currentPiece.isWhite() && blackHeals > 0)) && currentPiece.timesHealed < 1);
     }
 
     public boolean checkIfCanWound() {
@@ -100,8 +99,8 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
             b.checkHover(new Point(-69, 69));
             b.unClick();
         }
-        buttons[2].setInteractable(checkEnoughHeals());
         buttons[1].setInteractable(checkIfCanWound());
+        buttons[2].setInteractable(checkIfCanHeal());
         battle.paint();
     }
 

@@ -18,6 +18,7 @@ public abstract class ChessPiece {
     int maxHealth;
     int health;
     int woundLevel;
+    public int timesHealed = 0;
 
     public ChessPiece(ChessBoard board, boolean isWhite, String personalName ) {
         this.board = board;
