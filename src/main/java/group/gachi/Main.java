@@ -35,8 +35,6 @@ public class Main extends JFrame implements Runnable{
 
         setVisible(true);
 
-
-
         mainLoop = new Thread(this);
         mainLoop.start();
     }

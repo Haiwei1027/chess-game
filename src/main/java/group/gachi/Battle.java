@@ -31,9 +31,6 @@ public class Battle {
         piece2.damage(damage);
     }
 
-    public void wound() {
-        piece2.wound();
-    }
 
     public void heal() {
         int maxHealth = piece1.getMaxHealth();
@@ -56,6 +53,7 @@ public class Battle {
         } else {
             image.flush();
         }
+
         Graphics g = image.getGraphics();
         g.drawImage(ResourceLoader.instance.battleBackground, 0, 0, null);
         g.drawImage(ResourceLoader.instance.healthBarImg, 7, 7, null);
@@ -73,7 +71,6 @@ public class Battle {
 
         g.drawImage(ResourceLoader.instance.getPieceIcon(piece2.getId(), piece2.isWhite()), 12, 10, null);
         g.drawImage(ResourceLoader.instance.getPieceIcon(piece1.getId(), piece1.isWhite()), 92, 88, null);
-
 
         g.dispose();
     }

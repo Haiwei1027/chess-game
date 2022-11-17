@@ -20,6 +20,9 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
     private int maxAnimFrame = 120, animFrame = maxAnimFrame, weaponBop = 0, dWeaponBop = ss * ps;
     final private String[] buttonTexts = {"ATTACK", "WEAKEN", "HEAL", "LEAVE"};
 
+    private ChessPiece piece1;
+    private ChessScreen piece2;
+
     private int whiteHeals = 5, blackHeals = 5;
 
     private Button[] buttons = {
@@ -30,7 +33,7 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
                     }),
             new Button(buttonTexts[1], new Rectangle(43 * ss, 114 * ss, buttonTexts[1].length() * 4 * ss, 5 * ss),
                     () -> {
-                        battle.wound();
+                        battle.getPiece2().wound();
                         nextBattle(false);
                     }),
             new Button(buttonTexts[2], new Rectangle(74 * ss, 114 * ss, buttonTexts[2].length() * 4 * ss, 5 * ss),
@@ -69,7 +72,6 @@ public class BattleScreen extends JPanel implements MouseListener, MouseMotionLi
         addMouseListener(this);
         addMouseMotionListener(this);
         setFocusable(true);
-
     }
 
     public boolean checkEnoughHeals() {
