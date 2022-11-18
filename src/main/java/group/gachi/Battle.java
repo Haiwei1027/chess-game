@@ -56,6 +56,10 @@ public class Battle {
 
         Graphics g = image.getGraphics();
         g.drawImage(ResourceLoader.instance.battleBackground, 0, 0, null);
+
+        g.setColor(new Color(230,234,215));
+        g.drawRect(3, 3, 135, 135);
+
         g.drawImage(ResourceLoader.instance.healthBarImg, 7, 7, null);
         g.drawImage(ResourceLoader.instance.healthBarImg, 87, 85, null);
         g.drawImage(ResourceLoader.instance.emptyHealthBar, 12, 26, null);
