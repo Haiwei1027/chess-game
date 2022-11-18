@@ -65,11 +65,6 @@ public class ChessScreen extends JPanel implements MouseListener, MouseMotionLis
         pieceWidth = (int) (width / 142f) * 16;
         pieceHeight = pieceWidth;
 
-        moveArrow = new BufferedImage(142, 8, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = moveArrow.getGraphics();
-        g.setColor(new Color(150, 162, 179));
-        g.fillPolygon(new int[]{0, 71, 142}, new int[]{8, 0, 8}, 3);
-
     }
 
     public void onResize() {

@@ -271,6 +271,8 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
         Graphics g = image.getGraphics();
         g.drawImage(ResourceLoader.instance.board, 0, 0, null);
 
+        g.setColor(new Color(150,162,179));
+        g.fillRect(7,(nextSideToMove ? 141 : 1),8*16,1);
 
         for (int x = 0; x < getSize(); x++) {
             for (int y = 0; y < getSize(); y++) {
@@ -278,23 +280,17 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
                 BufferedImage sprite;
                 sprite = piece != null ? ResourceLoader.instance.getPiece(piece.getId(), piece.isWhite()) : null;
 
+
+
                 if (selected != null && selected.equals(new Point(x, y))) {
                     g.setColor(highlightColor);
                     g.fillRect(x * 16 + 7, (7 - y) * 16 + 7, 16, 16);
+
                     if (isDragging) continue;
                 }
 
 
                 g.drawImage(sprite, x * 16 + 7, (7 - y) * 16 + 7, null);
-
-                // Health Bars
-                if (piece != null) {
-                    g.setColor(piece.isWhite() ? whiteBackgroundHPColor : blackBackgroundHPColor);
-                    g.fillRect(x * 16 + 8, (7 - y) * 16 + 7, 14, 1);
-
-                    g.setColor(piece.isWhite() ? whiteHPColor : blackHPColor);
-                    g.fillRect(x * 16 + 8, (7 - y) * 16 + 7, (int) (14 * piece.getHealth() / piece.getMaxHealth()), 1);
-                }
 
             }
         }
@@ -308,6 +304,13 @@ public class ChessBoard { // pawn, knight, rook, bishop, king, queen
 
         ChessPiece selectedPiece = board.get(selected);
         if (selectedPiece != null) {
+            int x = selected.x, y = selected.y;
+            g.setColor(selectedPiece.isWhite() ? whiteBackgroundHPColor : blackBackgroundHPColor);
+            g.fillRect(x * 16 + 8, (7 - y) * 16 + 7, 14, 1);
+
+            g.setColor(selectedPiece.isWhite() ? whiteHPColor : blackHPColor);
+            g.fillRect(x * 16 + 8, (7 - y) * 16 + 7, (int) (14 * selectedPiece.getHealth() / selectedPiece.getMaxHealth()), 1);
+
             for (Point p : selectedPiece.getValidMoves(selected.x, selected.y)) {
                 if (p == null) continue;
                 g.setColor(highlightColor);
